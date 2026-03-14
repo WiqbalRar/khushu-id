@@ -9,6 +9,7 @@ description: |
 license: GPL-3.0-or-later
 website: https://github.com/sniper1720/khushu
 issues: https://github.com/sniper1720/khushu/issues
+contact: sniper1720@linuxtechmore.com
 source-code: https://github.com/sniper1720/khushu
 donation: https://github.com/sponsors/sniper1720
 
@@ -55,6 +56,7 @@ parts:
       - gettext
       - build-essential
       - pkg-config
+      - libssl-dev
       - libgtk-4-dev
       - libadwaita-1-dev
       - libgeoclue-2-dev
