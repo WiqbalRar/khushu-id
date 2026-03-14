@@ -47,12 +47,14 @@ jobs:
         run: |
           ln -s packaging/debian debian
           dpkg-buildpackage -us -uc -b
+          mkdir -p output
+          mv ../*.deb output/
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
         with:
           name: deb-package
-          path: ../*.deb
+          path: output/*.deb
 
   # -------------------------------------------------------------------------
   # Build RPM Package
@@ -108,16 +110,19 @@ jobs:
   release:
     name: Attach Packages to Release
     needs: [build-deb, build-rpm]
+    if: always()
     runs-on: ubuntu-24.04
     steps:
       - name: Download .deb artifact
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: deb-package
           path: packages/
 
       - name: Download .rpm artifact
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: rpm-package
           path: packages/
