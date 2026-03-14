@@ -33,8 +33,6 @@ apps:
     plugs:
       - network
       - audio-playback
-      - desktop
-      - desktop-legacy
       - unity7
       - location-observe
     slots:
@@ -54,12 +52,12 @@ parts:
     source: .
     build-packages:
       - gettext
-      - cargo
-      - rustc
+      - build-essential
       - pkg-config
       - libgtk-4-dev
       - libadwaita-1-dev
       - libgeoclue-2-dev
+      - curl
     stage-packages:
       - ca-certificates
       - libasound2t64
@@ -68,6 +66,12 @@ parts:
       - libasound2-plugins
       - libayatana-appindicator3-1
     override-build: |
+      if ! command -v cargo &> /dev/null || ! cargo --version | grep -q "1\.\(8[5-9]\|9[0-9]\)"; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+        export PATH="$HOME/.cargo/bin:$PATH"
+      fi
+      export PATH="$HOME/.cargo/bin:$PATH"
+
       craftctl default
       
       # --- Fix GNOME Library Conflicts ---
