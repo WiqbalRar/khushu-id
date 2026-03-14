@@ -11,6 +11,7 @@ Build-Depends: debhelper-compat (= 13),
                libadwaita-1-dev,
                libgeoclue-2-dev,
                libasound2-dev,
+               libssl-dev,
                pkg-config,
                gettext
 Standards-Version: 4.6.2

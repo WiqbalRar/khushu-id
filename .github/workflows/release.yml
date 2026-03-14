@@ -30,6 +30,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             debhelper \
+            build-essential \
+            cargo \
+            rustc \
             meson \
             ninja-build \
             pkg-config \
@@ -37,7 +40,8 @@ jobs:
             libgtk-4-dev \
             libadwaita-1-dev \
             libgeoclue-2-dev \
-            libasound2-dev
+            libasound2-dev \
+            libssl-dev
 
       - name: Build .deb
         run: |
@@ -75,6 +79,7 @@ jobs:
             pkgconf-pkg-config \
             geoclue2-devel \
             alsa-lib-devel \
+            openssl-devel \
             gettext \
             rpm-build \
             rpmdevtools

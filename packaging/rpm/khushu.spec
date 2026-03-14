@@ -17,6 +17,7 @@ BuildRequires:  libadwaita-devel
 BuildRequires:  pkgconf-pkg-config
 BuildRequires:  geoclue2-devel
 BuildRequires:  alsa-lib-devel
+BuildRequires:  openssl-devel
 BuildRequires:  gettext
 
 Requires:       hicolor-icon-theme

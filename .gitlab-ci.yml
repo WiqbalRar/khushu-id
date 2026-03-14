@@ -42,6 +42,9 @@ build-deb:
     - export PATH="$HOME/.cargo/bin:$PATH"
     - apt-get install -y
         debhelper
+        build-essential
+        cargo
+        rustc
         meson
         ninja-build
         pkg-config
@@ -50,6 +53,7 @@ build-deb:
         libadwaita-1-dev
         libgeoclue-2-dev
         libasound2-dev
+        libssl-dev
   script:
     - export PATH="$HOME/.cargo/bin:$PATH"
     - ln -s packaging/debian debian
@@ -79,6 +83,7 @@ build-rpm:
         pkgconf-pkg-config
         geoclue2-devel
         alsa-lib-devel
+        openssl-devel
         gettext
         rpm-build
         rpmdevtools
