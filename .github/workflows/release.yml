@@ -119,6 +119,8 @@ jobs:
       - name: Download .deb artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: deb-package
           path: packages/
@@ -126,6 +128,8 @@ jobs:
       - name: Download .rpm artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           name: rpm-package
           path: packages/
@@ -138,11 +142,20 @@ jobs:
           TAG="${GITHUB_REF_NAME}"
           echo "Attaching packages to release ${TAG}..."
 
-          # Wait for the release to exist (it may still be creating)
           for i in $(seq 1 10); do
             gh release view "${TAG}" && break
             echo "Waiting for release to appear... (attempt ${i})"
             sleep 5
           done
 
-          gh release upload "${TAG}" packages/**/*.deb packages/**/*.rpm --clobber
+          FILES=()
+          while IFS=  read -r -d $'\0'; do
+              FILES+=("$REPLY")
+          done < <(find packages -type f \( -name "*.deb" -o -name "*.rpm" \) -print0)
+
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "No packages found to upload!"
+            exit 1
+          fi
+
+          gh release upload "${TAG}" "${FILES[@]}" --clobber

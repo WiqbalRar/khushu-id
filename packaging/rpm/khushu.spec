@@ -7,6 +7,8 @@ License:        GPLv3+
 URL:            https://github.com/sniper1720/khushu
 Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 
+%define debug_package %{nil}
+
 BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  gcc

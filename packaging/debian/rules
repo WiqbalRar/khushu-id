@@ -3,6 +3,7 @@
 export PATH := $(HOME)/.cargo/bin:$(PATH)
 export CARGO_HOME ?= $(HOME)/.cargo
 export RUSTUP_HOME ?= $(HOME)/.rustup
+export DEB_BUILD_OPTIONS=nodbg
 
 %:
 	dh $@ --buildsystem=meson
