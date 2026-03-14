@@ -9,7 +9,6 @@ description: |
 license: GPL-3.0-or-later
 website: https://github.com/sniper1720/khushu
 issues: https://github.com/sniper1720/khushu/issues
-contact: https://github.com/sniper1720/khushu
 source-code: https://github.com/sniper1720/khushu
 donation: https://github.com/sponsors/sniper1720
 
@@ -50,6 +49,8 @@ parts:
     meson-parameters:
       - --prefix=/usr
     source: .
+    build-snaps:
+      - rustup
     build-packages:
       - gettext
       - build-essential
@@ -57,7 +58,6 @@ parts:
       - libgtk-4-dev
       - libadwaita-1-dev
       - libgeoclue-2-dev
-      - curl
     stage-packages:
       - ca-certificates
       - libasound2t64
@@ -66,10 +66,7 @@ parts:
       - libasound2-plugins
       - libayatana-appindicator3-1
     override-build: |
-      if ! command -v cargo &> /dev/null || ! cargo --version | grep -q "1\.\(8[5-9]\|9[0-9]\)"; then
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
-        export PATH="$HOME/.cargo/bin:$PATH"
-      fi
+      rustup default stable
       export PATH="$HOME/.cargo/bin:$PATH"
 
       craftctl default
