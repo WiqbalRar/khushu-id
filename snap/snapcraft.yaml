@@ -57,6 +57,7 @@ parts:
       - build-essential
       - pkg-config
       - libssl-dev
+      - libasound2-dev
       - libgtk-4-dev
       - libadwaita-1-dev
       - libgeoclue-2-dev
