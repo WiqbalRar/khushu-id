@@ -28,9 +28,9 @@ check:
     - cargo test
 
 # ---------------------------------------------------------------------------
-# Build Debian Package
+# Base Templates for Package Builds
 # ---------------------------------------------------------------------------
-build-deb:
+.build-deb-base:
   stage: build
   rules:
     - if: $CI_COMMIT_TAG =~ /^v.*/
@@ -63,10 +63,7 @@ build-deb:
     paths:
       - output/*.deb
 
-# ---------------------------------------------------------------------------
-# Build RPM Package
-# ---------------------------------------------------------------------------
-build-rpm:
+.build-rpm-base:
   stage: build
   rules:
     - if: $CI_COMMIT_TAG =~ /^v.*/
@@ -93,11 +90,30 @@ build-rpm:
     - tar czf ~/rpmbuild/SOURCES/v${VERSION}.tar.gz
         --transform="s,^\.,khushu-${VERSION},"
         --exclude='.git' .
-    - rpmbuild -bb packaging/rpm/khushu.spec
+    - rpmbuild --define 'dist %{nil}' -bb packaging/rpm/khushu.spec
     - mkdir -p output && cp ~/rpmbuild/RPMS/**/*.rpm output/
   artifacts:
     paths:
       - output/*.rpm
+
+# ---------------------------------------------------------------------------
+# Architecture Specific Builds
+# ---------------------------------------------------------------------------
+build-deb-amd64:
+  extends: .build-deb-base
+
+build-deb-arm64:
+  extends: .build-deb-base
+  tags:
+    - saas-linux-medium-arm64
+
+build-rpm-amd64:
+  extends: .build-rpm-base
+
+build-rpm-arm64:
+  extends: .build-rpm-base
+  tags:
+    - saas-linux-medium-arm64
 
 # ---------------------------------------------------------------------------
 # Create GitLab Release and attach packages
@@ -108,15 +124,18 @@ create-release:
     - if: $CI_COMMIT_TAG =~ /^v.*/
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
-    - job: build-deb
+    - job: build-deb-amd64
       artifacts: true
-    - job: build-rpm
+    - job: build-deb-arm64
+      artifacts: true
+    - job: build-rpm-amd64
+      artifacts: true
+    - job: build-rpm-arm64
       artifacts: true
   before_script:
     - apk add --no-cache curl
   script:
     - |
-      # Upload .deb to GitLab Package Registry
       for f in output/*.deb; do
         FILENAME=$(basename "$f")
         curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
@@ -124,7 +143,6 @@ create-release:
              "${PACKAGE_REGISTRY_URL}/${FILENAME}"
       done
     - |
-      # Upload .rpm to GitLab Package Registry
       for f in output/*.rpm; do
         FILENAME=$(basename "$f")
         curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
@@ -134,12 +152,18 @@ create-release:
   release:
     tag_name: $CI_COMMIT_TAG
     name: "$CI_COMMIT_TAG"
-    description: "Release $CI_COMMIT_TAG — .deb and .rpm packages attached below."
+    description: "Release $CI_COMMIT_TAG — Packages attached below."
     assets:
       links:
         - name: "khushu_amd64.deb"
           url: "${PACKAGE_REGISTRY_URL}/khushu_${CI_COMMIT_TAG#v}_amd64.deb"
           link_type: package
+        - name: "khushu_arm64.deb"
+          url: "${PACKAGE_REGISTRY_URL}/khushu_${CI_COMMIT_TAG#v}_arm64.deb"
+          link_type: package
         - name: "khushu_amd64.rpm"
-          url: "${PACKAGE_REGISTRY_URL}/khushu-${CI_COMMIT_TAG#v}-1.fc41.x86_64.rpm"
+          url: "${PACKAGE_REGISTRY_URL}/khushu-${CI_COMMIT_TAG#v}-1.x86_64.rpm"
+          link_type: package
+        - name: "khushu_aarch64.rpm"
+          url: "${PACKAGE_REGISTRY_URL}/khushu-${CI_COMMIT_TAG#v}-1.aarch64.rpm"
           link_type: package

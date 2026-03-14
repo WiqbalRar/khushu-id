@@ -18,7 +18,10 @@ jobs:
   # -------------------------------------------------------------------------
   build-deb:
     name: Build Debian Package
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        architecture: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.architecture }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -56,7 +59,7 @@ jobs:
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v4
         with:
-          name: deb-package
+          name: deb-package-${{ matrix.architecture }}
           path: output/*.deb
 
   # -------------------------------------------------------------------------
@@ -64,7 +67,10 @@ jobs:
   # -------------------------------------------------------------------------
   build-rpm:
     name: Build RPM Package
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        architecture: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.architecture }}
     container:
       image: fedora:latest
     steps:
@@ -99,12 +105,12 @@ jobs:
 
       - name: Build .rpm
         run: |
-          rpmbuild -bb packaging/rpm/khushu.spec
+          rpmbuild --define 'dist %{nil}' -bb packaging/rpm/khushu.spec
 
       - name: Upload .rpm artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rpm-package
+          name: rpm-package-${{ matrix.architecture }}
           path: ~/rpmbuild/RPMS/**/*.rpm
 
   # -------------------------------------------------------------------------
@@ -116,23 +122,15 @@ jobs:
     if: always()
     runs-on: ubuntu-24.04
     steps:
-      - name: Download .deb artifact
+      - name: Download all package artifacts
         uses: actions/download-artifact@v4
         continue-on-error: true
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
-          name: deb-package
+          pattern: '*-package-*'
           path: packages/
-
-      - name: Download .rpm artifact
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-        with:
-          name: rpm-package
-          path: packages/
+          merge-multiple: true
 
       - name: Upload packages to GitHub Release
         env:
