@@ -49,7 +49,7 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
     - **System Integration**: Native desktop notifications.
 - **Adkar**: Built-in Morning and Evening Adkar module.
 - **Hijri Calendar**: Current Hijri date displayed on dashboard.
-- **Secure Configuration**: Your sensitive settings (like latitude/longitude) are encrypted locally using XOR obfuscation and Base64 encoding.
+- **Secure Configuration**: Your sensitive settings (like latitude/longitude) are obfuscated locally using XOR and Base64 encoding.
 - **Modern UI**: Native Libadwaita interface with adaptive dark mode and system tray integration.
 
 ## What's Next? (Roadmap)
@@ -111,7 +111,7 @@ Khushu stores its configuration in a localized JSON file at `~/.config/khushu/co
 - **Notifications**: Adhan sound selections, pre-prayer alert timings, and Adkar notification toggles.
 - **Volume & Audio**: Output device settings and volume levels for both Adhan and Adkar alerts.
 
-For your privacy, sensitive fields such as your latitude and longitude are **encrypted** before being written to disk, ensuring that your precise location remains protected even if the file is accessed. While you can modify this file manually, it is recommended to use the built-in **Settings** menu within the application to ensure all changes are validated and correctly saved.
+For your privacy, sensitive fields such as your latitude and longitude are **obfuscated** before being written to disk, ensuring that your precise location is not stored in plaintext. While you can modify this file manually, it is recommended to use the built-in **Settings** menu within the application to ensure all changes are validated and correctly saved.
 
 ## Privacy & Data Use
 
@@ -123,7 +123,7 @@ Khushu is designed with privacy as a core principle. Here is exactly what data l
 | **OpenStreetMap Nominatim** | "City Search" and "Auto" modes | City name or coordinates | Resolves city names to coordinates (City Search) or coordinates to city names (Auto reverse geocode); subject to [OSM privacy policy](https://wiki.osmfoundation.org/wiki/Privacy_Policy) |
 | **None** | "Manual" mode | Nothing | You enter coordinates yourself — zero network traffic |
 
-**Local storage:** Your latitude and longitude are encrypted (XOR obfuscation + Base64) before being saved to `~/.config/khushu/config.json`. They are never transmitted to any server by the app itself.
+**Local storage:** Your latitude and longitude are obfuscated (XOR + Base64) before being saved to `~/.config/khushu/config.json`. They are never transmitted to any server by the app itself.
 
 **No analytics, no telemetry, no accounts.** All prayer calculations, Adkar, Hijri dates, and Qibla bearing are computed locally on your device.
 

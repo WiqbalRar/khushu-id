@@ -27,6 +27,7 @@ flatpak-cargo-generator.py
 # Packaging artifacts
 .flatpak-builder/
 build-dir/
+builddir/
 *.flatpak
 *.snap
 *.deb

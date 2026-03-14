@@ -1,7 +1,6 @@
 use adw::prelude::*;
 use ksni::{MenuItem, Tray};
 use libadwaita as adw;
-use std::collections::HashMap;
 
 struct KhushuTray {
     open_label: String,
@@ -64,35 +63,23 @@ impl Tray for KhushuTray {
     }
 }
 
-async fn request_background_portal() -> Result<bool, zbus::Error> {
-    log::info!("Attempting to request background portal...");
-    let connection = zbus::Connection::session().await?;
-    let proxy = zbus::Proxy::new(
-        &connection,
-        "org.freedesktop.portal.Desktop",
-        "/org/freedesktop/portal/desktop",
-        "org.freedesktop.portal.Background",
-    )
-    .await?;
+async fn request_background_portal() -> Result<(), ashpd::Error> {
+    use ashpd::desktop::background::Background;
 
-    let mut options = HashMap::new();
-    options.insert(
-        "reason",
-        zbus::zvariant::Value::from(
-            "Khushu needs to run in the background to send prayer time notifications",
-        ),
+    let response = Background::request()
+        .reason("Khushu needs to run in the background to send prayer time notifications")
+        .auto_start(false)
+        .dbus_activatable(true)
+        .send()
+        .await?
+        .response()?;
+
+    log::info!(
+        "Background portal: auto_start={}, background={}",
+        response.auto_start(),
+        response.run_in_background()
     );
-    options.insert("autostart", zbus::zvariant::Value::from(true));
-    options.insert(
-        "commandline",
-        zbus::zvariant::Value::from(vec!["khushu", "--background"]),
-    );
-
-    let _response_path: zbus::zvariant::OwnedObjectPath =
-        proxy.call("RequestBackground", &("", options)).await?;
-
-    log::info!("Background portal requested successfully.");
-    Ok(true)
+    Ok(())
 }
 
 async fn setup_tray_icon() {
@@ -103,8 +90,6 @@ async fn setup_tray_icon() {
     if TRAY_SPAWNED.swap(true, Ordering::SeqCst) {
         return;
     }
-
-    log::info!("Setting up KSNI fallback tray icon...");
 
     let lang = std::env::var("LANGUAGE").unwrap_or_default();
     let lang_ref = if lang.is_empty() { "en" } else { &lang };
@@ -129,9 +114,12 @@ async fn setup_tray_icon() {
 }
 
 pub fn setup_background() {
+    let is_sandboxed =
+        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
+
     gtk4::glib::spawn_future_local(async move {
-        if request_background_portal().await.is_err() {
-            log::info!("Background portal unavailable or failed.");
+        if is_sandboxed && let Err(e) = request_background_portal().await {
+            log::info!("Background portal failed: {e}");
         }
 
         setup_tray_icon().await;

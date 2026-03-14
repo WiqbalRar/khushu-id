@@ -5,7 +5,7 @@ use chrono::{Datelike, Duration, Local, NaiveDate};
 use hijri_date::HijriDate;
 
 use crate::adkar;
-use crate::audio::AudioManager;
+
 use crate::config::AppConfig;
 use crate::i18n::tr;
 use crate::location;
@@ -26,8 +26,6 @@ pub fn start_prayer_timer(
     use std::sync::atomic::{AtomicBool, Ordering};
     static HAS_CORE_TIMER: AtomicBool = AtomicBool::new(false);
     let is_core_timer = !HAS_CORE_TIMER.swap(true, Ordering::SeqCst);
-
-    let audio_manager = Rc::new(RefCell::new(AudioManager::new()));
 
     let last_notified_prayer: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
     let last_pre_notified: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
@@ -87,29 +85,34 @@ pub fn start_prayer_timer(
 
         let now = Local::now();
         let adjusted_now = now + Duration::days(config.hijri_offset);
-        let hijri = HijriDate::from_gr(
+        let hijri_text = match HijriDate::from_gr(
             adjusted_now.year() as usize,
             adjusted_now.month() as usize,
             adjusted_now.day() as usize,
-        )
-        .expect("Failed to calculate Hijri date");
-
-        let en_months = [
-            "Muharram",
-            "Safar",
-            "Rabi' al-Awwal",
-            "Rabi' al-Thani",
-            "Jumada al-Ula",
-            "Jumada al-Akhirah",
-            "Rajab",
-            "Sha'ban",
-            "Ramadan",
-            "Shawwal",
-            "Dhu al-Qi'dah",
-            "Dhu al-Hijjah",
-        ];
-        let m_name = tr(en_months.get(hijri.month() - 1).unwrap_or(&""), &lang);
-        let hijri_text = format!("{} {} {}", hijri.day(), m_name, hijri.year());
+        ) {
+            Ok(hijri) => {
+                let en_months = [
+                    "Muharram",
+                    "Safar",
+                    "Rabi' al-Awwal",
+                    "Rabi' al-Thani",
+                    "Jumada al-Ula",
+                    "Jumada al-Akhirah",
+                    "Rajab",
+                    "Sha'ban",
+                    "Ramadan",
+                    "Shawwal",
+                    "Dhu al-Qi'dah",
+                    "Dhu al-Hijjah",
+                ];
+                let m_name = tr(en_months.get(hijri.month() - 1).unwrap_or(&""), &lang);
+                format!("{} {} {}", hijri.day(), m_name, hijri.year())
+            }
+            Err(e) => {
+                log::error!("Failed to calculate Hijri date: {e}");
+                "—".to_string()
+            }
+        };
 
         let location_text = if let Some(city) = &config.city_name {
             location::short_city_with_country(city)
@@ -164,23 +167,21 @@ pub fn start_prayer_timer(
             if is_core_timer && total_seconds <= 0 && total_seconds > -60 {
                 let mut last_pray = last_notified_prayer.borrow_mut();
                 if last_pray.as_deref() != Some(name.as_str()) {
-                    if name != "Sunrise" {
-                        show_notification(
-                            &format!("{} {}", tr("It's time for", &lang), tr(&name, &lang)),
-                            &format!("{} {}.", tr("It is now time for", &lang), tr(&name, &lang)),
-                            true,
-                            &tr("Open Khushu", &lang),
-                            &tr("Stop Adhan", &lang),
-                        );
+                    show_notification(
+                        &format!("{} {}", tr("It's time for", &lang), tr(&name, &lang)),
+                        &format!("{} {}.", tr("It is now time for", &lang), tr(&name, &lang)),
+                        true,
+                        &tr("Open Khushu", &lang),
+                        &tr("Stop Adhan", &lang),
+                    );
 
+                    if name != "Sunrise" {
                         let path = config
                             .adhan_sound_path
                             .clone()
                             .unwrap_or_else(|| "assets/audio/Madinah.mp3".to_string());
                         if !config.adhan_muted {
-                            audio_manager
-                                .borrow()
-                                .play_adhan(&path, config.adhan_volume);
+                            crate::audio::play_adhan(&path, config.adhan_volume);
                         }
                     }
 
@@ -198,8 +199,12 @@ pub fn start_prayer_timer(
                     d_lists.date = today;
                 }
 
-                if name == "Sunrise" {
-                    if total_seconds <= 0 && total_seconds > -60 {
+                if let Some(schedule) = engine.get_prayer_times(today) {
+                    let fajr_elapsed = now.signed_duration_since(schedule.fajr).num_seconds();
+                    let asr_elapsed = now.signed_duration_since(schedule.asr).num_seconds();
+                    let isha_elapsed = now.signed_duration_since(schedule.isha).num_seconds();
+
+                    if (60..120).contains(&fajr_elapsed) {
                         let mut state = last_morning_adkar_1.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.morning.first() {
@@ -218,7 +223,8 @@ pub fn start_prayer_timer(
                             }
                             *state = Some(today);
                         }
-                    } else if total_seconds < -1800 && total_seconds > -1860 {
+                    }
+                    if (1800..1860).contains(&fajr_elapsed) {
                         let mut state = last_morning_adkar_2.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.morning.get(1) {
@@ -238,10 +244,8 @@ pub fn start_prayer_timer(
                             *state = Some(today);
                         }
                     }
-                }
 
-                if name == "Asr" {
-                    if total_seconds < -900 && total_seconds > -960 {
+                    if (900..960).contains(&asr_elapsed) {
                         let mut state = last_evening_adkar_1.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.evening.first() {
@@ -260,7 +264,8 @@ pub fn start_prayer_timer(
                             }
                             *state = Some(today);
                         }
-                    } else if total_seconds < -2700 && total_seconds > -2760 {
+                    }
+                    if (2700..2760).contains(&asr_elapsed) {
                         let mut state = last_evening_adkar_2.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.evening.get(1) {
@@ -280,10 +285,8 @@ pub fn start_prayer_timer(
                             *state = Some(today);
                         }
                     }
-                }
 
-                if name == "Isha" {
-                    if total_seconds < -1800 && total_seconds > -1860 {
+                    if (1800..1860).contains(&isha_elapsed) {
                         let mut state = last_night_adkar_1.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.night.first() {
@@ -302,7 +305,8 @@ pub fn start_prayer_timer(
                             }
                             *state = Some(today);
                         }
-                    } else if total_seconds < -3600 && total_seconds > -3660 {
+                    }
+                    if (3600..3660).contains(&isha_elapsed) {
                         let mut state = last_night_adkar_2.borrow_mut();
                         if *state != Some(today) {
                             if let Some(dikr) = d_lists.night.get(1) {

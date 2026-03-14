@@ -18,7 +18,7 @@ pub fn start_background_tasks(
     let compass_paused_timer = compass_paused.clone();
     let window_visibility_check = window.clone();
 
-    gtk::glib::timeout_add_local(std::time::Duration::from_millis(16), move || {
+    gtk::glib::timeout_add_local(std::time::Duration::from_millis(33), move || {
         if !*compass_paused_timer.borrow() && window_visibility_check.is_visible() {
             refresh_qibla_loop();
         }

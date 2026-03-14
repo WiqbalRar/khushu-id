@@ -7,45 +7,29 @@ use std::sync::OnceLock;
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::thread;
 
-static GLOBAL_STOP_SENDER: OnceLock<Sender<AudioCommand>> = OnceLock::new();
+static AUDIO_SENDER: OnceLock<Sender<AudioCommand>> = OnceLock::new();
 
 enum AudioCommand {
     Play(String, f32),
     Stop,
 }
 
-#[derive(Clone)]
-pub struct AudioManager {
-    sender: Sender<AudioCommand>,
-}
-
-impl AudioManager {
-    pub fn new() -> Self {
+fn ensure_audio_thread() -> &'static Sender<AudioCommand> {
+    AUDIO_SENDER.get_or_init(|| {
         let (tx, rx) = channel();
-        let _ = GLOBAL_STOP_SENDER.set(tx.clone());
-
         thread::spawn(move || {
             run_audio_loop(rx);
         });
+        tx
+    })
+}
 
-        Self { sender: tx }
-    }
+pub fn play_adhan(path_str: &str, volume: f32) {
+    let _ = ensure_audio_thread().send(AudioCommand::Play(path_str.to_string(), volume));
+}
 
-    pub fn play_adhan(&self, path_str: &str, volume: f32) {
-        let _ = self
-            .sender
-            .send(AudioCommand::Play(path_str.to_string(), volume));
-    }
-
-    pub fn stop(&self) {
-        let _ = self.sender.send(AudioCommand::Stop);
-    }
-
-    pub fn stop_global() {
-        if let Some(tx) = GLOBAL_STOP_SENDER.get() {
-            let _ = tx.send(AudioCommand::Stop);
-        }
-    }
+pub fn stop() {
+    let _ = ensure_audio_thread().send(AudioCommand::Stop);
 }
 
 type CachedAudio = (Vec<f32>, u16, u32);
@@ -77,16 +61,36 @@ fn run_audio_loop(rx: Receiver<AudioCommand>) {
                     continue;
                 }
 
-                let resource_path = format!(
-                    "/io/github/sniper1720/khushu/{}",
-                    path_str.trim_start_matches("assets/")
-                );
-                if let Ok(bytes) = gtk4::gio::resources_lookup_data(
-                    &resource_path,
-                    gtk4::gio::ResourceLookupFlags::NONE,
-                ) {
-                    let reader = std::io::Cursor::new(bytes.to_vec());
-                    if let Ok(decoder) = Decoder::new(reader) {
+                let is_asset = path_str.starts_with("assets/");
+
+                if is_asset {
+                    let resource_path = format!(
+                        "/io/github/sniper1720/khushu/{}",
+                        path_str.trim_start_matches("assets/")
+                    );
+                    if let Ok(bytes) = gtk4::gio::resources_lookup_data(
+                        &resource_path,
+                        gtk4::gio::ResourceLookupFlags::NONE,
+                    ) {
+                        let reader = std::io::Cursor::new(bytes.to_vec());
+                        if let Ok(decoder) = Decoder::new(reader) {
+                            let channels = decoder.channels();
+                            let rate = decoder.sample_rate();
+                            let samples: Vec<f32> = decoder.collect();
+
+                            cache.insert(path_str.clone(), (samples.clone(), channels, rate));
+
+                            let source = SamplesBuffer::new(channels, rate, samples);
+                            sink.append(source);
+                            _current_sink = Some(sink);
+                        } else {
+                            log::error!("Failed to decode audio resource: {}", resource_path);
+                        }
+                    } else {
+                        log::error!("Audio resource not found in binary: {}", resource_path);
+                    }
+                } else if let Ok(file) = std::fs::File::open(&path_str) {
+                    if let Ok(decoder) = Decoder::new(std::io::BufReader::new(file)) {
                         let channels = decoder.channels();
                         let rate = decoder.sample_rate();
                         let samples: Vec<f32> = decoder.collect();
@@ -97,10 +101,10 @@ fn run_audio_loop(rx: Receiver<AudioCommand>) {
                         sink.append(source);
                         _current_sink = Some(sink);
                     } else {
-                        log::error!("Failed to decode audio resource: {}", resource_path);
+                        log::error!("Failed to decode audio file: {}", path_str);
                     }
                 } else {
-                    log::error!("Audio resource not found in binary: {}", resource_path);
+                    log::error!("Failed to open audio file: {}", path_str);
                 }
             }
             AudioCommand::Stop => {

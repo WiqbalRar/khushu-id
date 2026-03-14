@@ -15,7 +15,7 @@ donation: https://github.com/sponsors/sniper1720
 
 grade: stable
 confinement: strict
-icon: ../../assets/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg
+icon: data/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg
 
 slots:
   dbus-khushu:
@@ -25,7 +25,7 @@ slots:
 
 apps:
   khushu:
-    command: bin/khushu
+    command: usr/bin/khushu
     desktop: usr/share/applications/io.github.sniper1720.khushu.desktop
     autostart: io.github.sniper1720.khushu.desktop
     common-id: io.github.sniper1720.khushu
@@ -36,6 +36,7 @@ apps:
       - desktop
       - desktop-legacy
       - unity7
+      - location-observe
     slots:
       - dbus-khushu
 
@@ -47,11 +48,18 @@ layout:
 
 parts:
   khushu:
-    plugin: rust
-    rust-channel: stable
-    source: ../../
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+    source: .
     build-packages:
       - gettext
+      - cargo
+      - rustc
+      - pkg-config
+      - libgtk-4-dev
+      - libadwaita-1-dev
+      - libgeoclue-2-dev
     stage-packages:
       - ca-certificates
       - libasound2t64
@@ -61,36 +69,12 @@ parts:
       - libayatana-appindicator3-1
     override-build: |
       craftctl default
-
+      
       # --- Fix GNOME Library Conflicts ---
       rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libharfbuzz*.so*
       rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpango*.so*
       rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/librsvg*.so*
 
-      # --- Desktop file ---
-      mkdir -p "$CRAFT_PART_INSTALL/usr/share/applications"
-      cp assets/khushu.desktop "$CRAFT_PART_INSTALL/usr/share/applications/io.github.sniper1720.khushu.desktop"
-
-      # --- Icons ---
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps
-      cp assets/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/icons/hicolor/symbolic/apps
-      cp assets/icons/hicolor/symbolic/apps/io.github.sniper1720.khushu-symbolic.svg $CRAFT_PART_INSTALL/usr/share/icons/hicolor/symbolic/apps/io.github.sniper1720.khushu-symbolic.svg
-
-      # --- Metainfo ---
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/metainfo
-      cp assets/io.github.sniper1720.khushu.metainfo.xml $CRAFT_PART_INSTALL/usr/share/metainfo/
-      
       # --- ALSA config ---
       mkdir -p $CRAFT_PART_INSTALL/assets
       echo -e "pcm.!default { type pulse }\nctl.!default { type pulse }" > $CRAFT_PART_INSTALL/assets/asound.conf
-
-      # --- Fonts ---
-      mkdir -p $CRAFT_PART_INSTALL/usr/share/fonts/truetype/khushu
-      cp assets/Amiri-Regular.ttf $CRAFT_PART_INSTALL/usr/share/fonts/truetype/khushu/
-
-      # --- Locales ---
-      if [ -d "target/locale" ]; then
-        mkdir -p "$CRAFT_PART_INSTALL/usr/share/locale"
-        cp -r target/locale/* "$CRAFT_PART_INSTALL/usr/share/locale/"
-      fi

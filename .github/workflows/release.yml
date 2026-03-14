@@ -1,0 +1,135 @@
+name: Release Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+# ===========================================================================
+jobs:
+  # -------------------------------------------------------------------------
+  # Build Debian Package
+  # -------------------------------------------------------------------------
+  build-deb:
+    name: Build Debian Package
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            debhelper \
+            meson \
+            ninja-build \
+            pkg-config \
+            gettext \
+            libgtk-4-dev \
+            libadwaita-1-dev \
+            libgeoclue-2-dev \
+            libasound2-dev
+
+      - name: Build .deb
+        run: |
+          ln -s packaging/debian debian
+          dpkg-buildpackage -us -uc -b
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-package
+          path: ../*.deb
+
+  # -------------------------------------------------------------------------
+  # Build RPM Package
+  # -------------------------------------------------------------------------
+  build-rpm:
+    name: Build RPM Package
+    runs-on: ubuntu-24.04
+    container:
+      image: fedora:latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          dnf install -y \
+            meson \
+            ninja-build \
+            gcc \
+            cargo \
+            rust \
+            gtk4-devel \
+            libadwaita-devel \
+            pkgconf-pkg-config \
+            geoclue2-devel \
+            alsa-lib-devel \
+            gettext \
+            rpm-build \
+            rpmdevtools
+
+      - name: Prepare source tarball
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          rpmdev-setuptree
+          tar czf ~/rpmbuild/SOURCES/v${VERSION}.tar.gz \
+            --transform="s,^\.,khushu-${VERSION}," \
+            --exclude='.git' .
+
+      - name: Build .rpm
+        run: |
+          rpmbuild -bb packaging/rpm/khushu.spec
+
+      - name: Upload .rpm artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rpm-package
+          path: ~/rpmbuild/RPMS/**/*.rpm
+
+  # -------------------------------------------------------------------------
+  # Attach Packages to Release
+  # -------------------------------------------------------------------------
+  release:
+    name: Attach Packages to Release
+    needs: [build-deb, build-rpm]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download .deb artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deb-package
+          path: packages/
+
+      - name: Download .rpm artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rpm-package
+          path: packages/
+
+      - name: Upload packages to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "Attaching packages to release ${TAG}..."
+
+          # Wait for the release to exist (it may still be creating)
+          for i in $(seq 1 10); do
+            gh release view "${TAG}" && break
+            echo "Waiting for release to appear... (attempt ${i})"
+            sleep 5
+          done
+
+          gh release upload "${TAG}" packages/*.deb packages/*.rpm --clobber

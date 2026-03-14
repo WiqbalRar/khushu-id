@@ -1,3 +1,4 @@
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use zbus::{Connection, proxy};
 
@@ -39,7 +40,7 @@ trait SensorProxy {
 pub struct CompassManager {
     heading: Arc<Mutex<f64>>,
     available: Arc<Mutex<bool>>,
-    stop_signal: Arc<Mutex<bool>>,
+    epoch: Arc<AtomicU64>,
 }
 
 impl CompassManager {
@@ -47,14 +48,15 @@ impl CompassManager {
         Self {
             heading: Arc::new(Mutex::new(0.0)),
             available: Arc::new(Mutex::new(false)),
-            stop_signal: Arc::new(Mutex::new(false)),
+            epoch: Arc::new(AtomicU64::new(0)),
         }
     }
 
     pub fn start_monitoring(&self) {
+        let my_epoch = self.epoch.load(Ordering::SeqCst);
         let heading_clone = self.heading.clone();
         let available_clone = self.available.clone();
-        let stop_clone = self.stop_signal.clone();
+        let epoch_clone = self.epoch.clone();
 
         tokio::spawn(async move {
             if let Ok(connection) = Connection::system().await
@@ -62,19 +64,24 @@ impl CompassManager {
                 && let Ok(has_compass) = proxy.has_compass().await
                 && has_compass
             {
-                *available_clone
-                    .lock()
-                    .expect("Failed to lock available_clone") = true;
+                *available_clone.lock().unwrap_or_else(|e| {
+                    log::error!("Failed to lock available_clone: {e}");
+                    e.into_inner()
+                }) = true;
                 let _ = proxy.claim_compass().await;
 
                 loop {
-                    if *stop_clone.lock().expect("Failed to lock stop_clone") {
+                    if epoch_clone.load(Ordering::SeqCst) != my_epoch {
                         let _ = proxy.release_compass().await;
+                        log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
                         break;
                     }
 
                     if let Ok(heading) = proxy.compass_heading().await {
-                        *heading_clone.lock().expect("Failed to lock heading_clone") = heading;
+                        *heading_clone.lock().unwrap_or_else(|e| {
+                            log::error!("Failed to lock heading_clone: {e}");
+                            e.into_inner()
+                        }) = heading;
                     }
 
                     tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
@@ -84,15 +91,26 @@ impl CompassManager {
     }
 
     pub fn stop(&self) {
-        *self.stop_signal.lock().expect("Failed to lock stop_signal") = true;
+        self.epoch.fetch_add(1, Ordering::SeqCst);
+    }
+
+    pub fn restart(&self) {
+        self.stop();
+        self.start_monitoring();
     }
 
     pub fn get_heading(&self) -> f64 {
-        *self.heading.lock().expect("Failed to lock heading")
+        *self.heading.lock().unwrap_or_else(|e| {
+            log::error!("Failed to lock heading: {e}");
+            e.into_inner()
+        })
     }
 
     pub fn is_available(&self) -> bool {
-        *self.available.lock().expect("Failed to lock available")
+        *self.available.lock().unwrap_or_else(|e| {
+            log::error!("Failed to lock available: {e}");
+            e.into_inner()
+        })
     }
 }
 

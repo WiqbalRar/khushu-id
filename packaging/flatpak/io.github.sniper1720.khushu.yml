@@ -15,29 +15,9 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
 modules:
   - name: khushu
-    buildsystem: simple
-    build-commands:
-      - mkdir -p .cargo
-      - cp cargo/config .cargo/config.toml
-      - cargo --offline build --release
-      - install -Dm755 target/release/khushu /app/bin/khushu
-      - install -Dm644 assets/khushu.desktop /app/share/applications/io.github.sniper1720.khushu.desktop
-      - install -Dm644 assets/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg /app/share/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg
-      - install -Dm644 assets/icons/hicolor/symbolic/apps/io.github.sniper1720.khushu-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.sniper1720.khushu-symbolic.svg
-      - install -Dm644 assets/io.github.sniper1720.khushu.metainfo.xml /app/share/metainfo/io.github.sniper1720.khushu.metainfo.xml
-      - install -Dm644 assets/Amiri-Regular.ttf /app/share/fonts/Amiri-Regular.ttf
-      - install -Dm644 target/locale/ar/LC_MESSAGES/khushu.mo /app/share/locale/ar/LC_MESSAGES/khushu.mo
-      - install -Dm644 target/locale/ar/LC_MESSAGES/gtk40.mo /app/share/locale/ar/LC_MESSAGES/gtk40.mo
-      - install -Dm644 target/locale/ar/LC_MESSAGES/libadwaita.mo /app/share/locale/ar/LC_MESSAGES/libadwaita.mo
-      - install -Dm644 target/locale/es/LC_MESSAGES/khushu.mo /app/share/locale/es/LC_MESSAGES/khushu.mo
-      - install -Dm644 target/locale/es/LC_MESSAGES/gtk40.mo /app/share/locale/es/LC_MESSAGES/gtk40.mo
-      - install -Dm644 target/locale/es/LC_MESSAGES/libadwaita.mo /app/share/locale/es/LC_MESSAGES/libadwaita.mo
-      - install -Dm644 target/locale/fr/LC_MESSAGES/khushu.mo /app/share/locale/fr/LC_MESSAGES/khushu.mo
-      - install -Dm644 target/locale/fr/LC_MESSAGES/gtk40.mo /app/share/locale/fr/LC_MESSAGES/gtk40.mo
-      - install -Dm644 target/locale/fr/LC_MESSAGES/libadwaita.mo /app/share/locale/fr/LC_MESSAGES/libadwaita.mo
-      - install -Dm644 target/locale/tr/LC_MESSAGES/khushu.mo /app/share/locale/tr/LC_MESSAGES/khushu.mo
-      - install -Dm644 target/locale/tr/LC_MESSAGES/gtk40.mo /app/share/locale/tr/LC_MESSAGES/gtk40.mo
-      - install -Dm644 target/locale/tr/LC_MESSAGES/libadwaita.mo /app/share/locale/tr/LC_MESSAGES/libadwaita.mo
+    buildsystem: meson
+    config-opts:
+      - --buildtype=release
     sources:
       - type: dir
         path: ../../
@@ -45,5 +25,7 @@ modules:
     build-options:
       append-path: /usr/lib/sdk/rust-stable/bin
       env:
-        CARGO_HOME: /run/build/khushu/cargo-home
+        CARGO_HOME: /run/build/khushu/cargo
+        CARGO_NET_OFFLINE: 'true'
+        CARGO_BUILD_OFFLINE: 'true'
         GETTEXT_SYSTEM: '1'

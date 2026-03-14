@@ -35,17 +35,28 @@ use timer_controller::start_prayer_timer;
 
 use gtk::{Button, Label};
 
-const APP_ID: &str = "io.github.sniper1720.khushu";
+const APP_ID: &str = match option_env!("APP_ID") {
+    Some(id) => id,
+    None => "io.github.sniper1720.khushu",
+};
 
 #[tokio::main]
 async fn main() {
     env_logger::init();
 
-    gtk::gio::resources_register_include!("khushu.gresource")
-        .expect("Failed to register embedded resources");
+    let is_sandboxed =
+        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
 
-    gtk::glib::set_prgname(Some(APP_ID));
+    if !is_sandboxed {
+        gtk::glib::set_prgname(Some("khushu"));
+    } else {
+        gtk::glib::set_prgname(Some(APP_ID));
+    }
+
     gtk::glib::set_application_name("Khushu");
+
+    gtk::gio::resources_register_include!("khushu-resources.gresource")
+        .expect("Failed to register embedded resources");
 
     let config = Rc::new(RefCell::new(AppConfig::load()));
 
@@ -96,7 +107,7 @@ async fn main() {
 
         let stop_adhan_action = gtk::gio::SimpleAction::new("stop-adhan", None);
         stop_adhan_action.connect_activate(move |_, _| {
-            crate::audio::AudioManager::stop_global();
+            crate::audio::stop();
             log::info!("Adhan stopped via notification action.");
         });
         app_startup_clone.add_action(&stop_adhan_action);
@@ -119,7 +130,7 @@ async fn main() {
         if !is_background {
             app.activate();
         } else {
-            *app_hold_cmd.borrow_mut() = Some(app.hold()); // CRITICAL: Stop GTK from auto-exiting since
+            *app_hold_cmd.borrow_mut() = Some(app.hold());
             let config_bg = _config_clone.clone();
             crate::timer_controller::start_prayer_timer(config_bg, |_| {});
             crate::background::setup_background();
@@ -239,6 +250,13 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
         win.set_visible(false);
         crate::background::setup_background();
         gtk::glib::Propagation::Stop
+    });
+
+    let compass_manager_visible = compass_manager.clone();
+    window.connect_notify_local(Some("visible"), move |win, _| {
+        if win.is_visible() {
+            compass_manager_visible.restart();
+        }
     });
 
     let view_stack = adw::ViewStack::new();

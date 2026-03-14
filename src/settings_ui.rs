@@ -528,8 +528,7 @@ pub fn setup_settings_ui(
                 .adhan_sound_path
                 .clone()
                 .unwrap_or_else(|| "assets/audio/Madinah.mp3".to_string());
-            let audio = crate::audio::AudioManager::new();
-            audio.play_adhan(&path, cfg.adhan_volume);
+            crate::audio::play_adhan(&path, cfg.adhan_volume);
         }
     });
 
@@ -595,23 +594,21 @@ pub fn setup_settings_ui(
             file_filter.add_mime_type("audio/mp3");
             file_filter.add_mime_type("audio/ogg");
 
-            let dialog = gtk::FileChooserDialog::builder()
-                .title(tr("Select Adhan Sound", &lang_for_audio))
-                .action(gtk::FileChooserAction::Open)
-                .modal(true)
-                .transient_for(&window_clone_sound)
-                .filter(&file_filter)
-                .build();
+            let filters = gtk::gio::ListStore::new::<gtk::FileFilter>();
+            filters.append(&file_filter);
 
-            dialog.add_button(&tr("Cancel", &lang_for_audio), gtk::ResponseType::Cancel);
-            dialog.add_button(&tr("Select", &lang_for_audio), gtk::ResponseType::Accept);
+            let dialog = gtk::FileDialog::builder()
+                .title(tr("Select Adhan Sound", &lang_for_audio))
+                .modal(true)
+                .filters(&filters)
+                .build();
 
             let config_dialog = config_sound.clone();
             let combo_dialog = combo.clone();
+            let parent_window = window_clone_sound.clone();
 
-            dialog.connect_response(move |d, response| {
-                if response == gtk::ResponseType::Accept
-                    && let Some(file) = d.file()
+            gtk::glib::spawn_future_local(async move {
+                if let Ok(file) = dialog.open_future(Some(&parent_window)).await
                     && let Some(path) = file.path()
                     && let Some(path_str) = path.to_str()
                 {
@@ -619,9 +616,7 @@ pub fn setup_settings_ui(
                     config_dialog.borrow().save();
                     combo_dialog.set_subtitle(path_str);
                 }
-                d.close();
             });
-            dialog.show();
         } else {
             let mut path = PathBuf::from("assets/audio");
             let file_name = &preset_files_clone[index - 2];
@@ -682,14 +677,14 @@ pub fn setup_settings_ui(
         .build();
 
     let config_test = config.clone();
-    let audio_mgr = crate::audio::AudioManager::new();
+
     let is_playing = Rc::new(RefCell::new(false));
 
     let lang_for_btn = lang_val.clone();
     test_audio_btn.connect_clicked(move |btn| {
         let mut playing = is_playing.borrow_mut();
         if *playing {
-            audio_mgr.stop();
+            crate::audio::stop();
             btn.set_label(&tr("▶ Preview Adhan", &lang_for_btn));
             *playing = false;
         } else {
@@ -702,7 +697,7 @@ pub fn setup_settings_ui(
                 .clone()
                 .unwrap_or_else(|| "assets/audio/Madinah.mp3".to_string());
 
-            audio_mgr.play_adhan(&path, cfg.adhan_volume);
+            crate::audio::play_adhan(&path, cfg.adhan_volume);
             btn.set_label(&tr("⏹ Stop Adhan", &lang_for_btn));
             *playing = true;
         }

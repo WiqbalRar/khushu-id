@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# ===========================================================================
+jobs:
+  # -------------------------------------------------------------------------
+  # Code Quality Checks
+  # -------------------------------------------------------------------------
+  check:
+    name: Test, Lint & Format
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --component clippy rustfmt
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            pkg-config \
+            gettext \
+            libgtk-4-dev \
+            libadwaita-1-dev \
+            libgeoclue-2-dev \
+            libasound2-dev
+
+      - name: Check formatting
+        run: cargo fmt --check
+
+      - name: Run Clippy
+        run: cargo clippy -- -D warnings
+
+      - name: Run tests
+        run: cargo test

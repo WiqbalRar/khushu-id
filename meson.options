@@ -1,0 +1,2 @@
+option('extra_translations', type: 'boolean', value: true,
+       description: 'Install extra GTK4/Libadwaita translations for bundled locales')

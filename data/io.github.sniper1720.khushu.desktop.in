@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Khushu
-Comment=An all-in-one Muslim app for Linux.
+Comment=An all-in-one Muslim app for Linux
 Exec=khushu %u
 Icon=io.github.sniper1720.khushu
 Terminal=false
@@ -8,4 +8,5 @@ Type=Application
 Categories=Utility;
 Keywords=Prayer;Islam;Salah;
 StartupNotify=true
-StartupWMClass=io.github.sniper1720.khushu
+StartupWMClass=khushu
+DBusActivatable=true

@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+
+export PATH := $(HOME)/.cargo/bin:$(PATH)
+export CARGO_HOME ?= $(HOME)/.cargo
+export RUSTUP_HOME ?= $(HOME)/.rustup
+
+%:
+	dh $@ --buildsystem=meson

@@ -4,13 +4,21 @@ use std::path::Path;
 use std::process::Command;
 
 fn main() {
-    glib_build_tools::compile_resources(
-        &["assets"],
-        "assets/khushu.gresource.xml",
-        "khushu.gresource",
-    );
-
+    println!("cargo:rerun-if-changed=data/");
     println!("cargo:rerun-if-changed=po/");
+
+    if !Path::new("data/khushu.gresource.xml").exists() {
+        panic!(
+            "CRITICAL: data/khushu.gresource.xml not found! Current dir: {:?}",
+            env::current_dir()
+        );
+    }
+
+    glib_build_tools::compile_resources(
+        &["data"],
+        "data/khushu.gresource.xml",
+        "khushu-resources.gresource",
+    );
 
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
     let locale_dir = Path::new(&manifest_dir).join("target").join("locale");
@@ -28,7 +36,7 @@ fn main() {
                     (parts[0], parts[1])
                 };
 
-                if lang == "pot" || file_stem == "khushu" {
+                if lang == "pot" || file_stem.ends_with(".pot") {
                     continue;
                 }
 

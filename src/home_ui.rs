@@ -17,29 +17,42 @@ pub fn refresh_home_ui(
 ) {
     let now = Local::now();
     let adjusted_now = now + Duration::days(config.hijri_offset);
-    let hijri = HijriDate::from_gr(
+    let hijri_result = HijriDate::from_gr(
         adjusted_now.year() as usize,
         adjusted_now.month() as usize,
         adjusted_now.day() as usize,
-    )
-    .expect("Hijri error");
+    );
 
-    let en_months = [
-        "Muharram",
-        "Safar",
-        "Rabi' al-Awwal",
-        "Rabi' al-Thani",
-        "Jumada al-Ula",
-        "Jumada al-Akhirah",
-        "Rajab",
-        "Sha'ban",
-        "Ramadan",
-        "Shawwal",
-        "Dhu al-Qi'dah",
-        "Dhu al-Hijjah",
-    ];
-    let m_name = tr(en_months.get(hijri.month() - 1).unwrap_or(&""), lang);
-    hijri_label.set_label(&format!("{} {} {}", hijri.day(), m_name, hijri.year()));
+    let hijri_text = match hijri_result {
+        Ok(hijri) => {
+            let en_months = [
+                "Muharram",
+                "Safar",
+                "Rabi' al-Awwal",
+                "Rabi' al-Thani",
+                "Jumada al-Ula",
+                "Jumada al-Akhirah",
+                "Rajab",
+                "Sha'ban",
+                "Ramadan",
+                "Shawwal",
+                "Dhu al-Qi'dah",
+                "Dhu al-Hijjah",
+            ];
+            let m_index = hijri.month() - 1;
+            let m_name = if m_index < en_months.len() {
+                tr(en_months[m_index], lang)
+            } else {
+                String::from("Unknown")
+            };
+            format!("{} {} {}", hijri.day(), m_name, hijri.year())
+        }
+        Err(e) => {
+            log::error!("Failed to calculate Hijri date: {e}");
+            "—".to_string()
+        }
+    };
+    hijri_label.set_label(&hijri_text);
 
     if let Some(city) = &config.city_name {
         location_label.set_label(&location::short_city_with_country(city));

@@ -1,22 +1,25 @@
 use gettextrs::{LocaleCategory, bind_textdomain_codeset, bindtextdomain, dgettext, setlocale};
 
 pub fn get_locale_dir() -> String {
+    if let Some(dir) = option_env!("LOCALEDIR")
+        && std::path::Path::new(dir).exists()
+    {
+        return dir.to_string();
+    }
+
     if std::path::Path::new("/app/share/locale").exists() {
         return "/app/share/locale".to_string();
-    } else if let Ok(snap) = std::env::var("SNAP") {
+    }
+
+    if let Ok(snap) = std::env::var("SNAP") {
         return format!("{}/usr/share/locale", snap);
-    } else if std::path::Path::new("/usr/share/locale/ar/LC_MESSAGES/khushu.mo").exists() {
-        return "/usr/share/locale".to_string();
-    } else if let Ok(canon) = std::fs::canonicalize("target/locale") {
+    }
+
+    if let Ok(canon) = std::fs::canonicalize("target/locale") {
         return canon.to_string_lossy().to_string();
     }
 
-    let dir = "./po";
-    if let Ok(canon) = std::fs::canonicalize(dir) {
-        canon.to_string_lossy().to_string()
-    } else {
-        dir.to_string()
-    }
+    "./po".to_string()
 }
 
 pub fn update_locale(lang: &str) {
@@ -64,9 +67,10 @@ pub fn update_locale(lang: &str) {
     let _ = setlocale(LocaleCategory::LcAll, "");
 
     let locale_dir = get_locale_dir();
+    let gettext_package = option_env!("GETTEXT_PACKAGE").unwrap_or("khushu");
 
-    let _ = bindtextdomain("khushu", &locale_dir);
-    let _ = bind_textdomain_codeset("khushu", "UTF-8");
+    let _ = bindtextdomain(gettext_package, &locale_dir);
+    let _ = bind_textdomain_codeset(gettext_package, "UTF-8");
 
     let lib_domains = [
         "libadwaita",
@@ -81,6 +85,17 @@ pub fn update_locale(lang: &str) {
         && std::path::Path::new("/usr/share/khushu/locale").exists()
     {
         "/usr/share/khushu/locale".to_string()
+    } else if locale_dir == "/app/share/locale"
+        && std::path::Path::new("/app/share/khushu/locale").exists()
+    {
+        "/app/share/khushu/locale".to_string()
+    } else if let Ok(snap) = std::env::var("SNAP") {
+        let snap_lib_locale = format!("{}/usr/share/khushu/locale", snap);
+        if std::path::Path::new(&snap_lib_locale).exists() {
+            snap_lib_locale
+        } else {
+            locale_dir.clone()
+        }
     } else {
         locale_dir.clone()
     };
@@ -105,14 +120,7 @@ pub fn tr(key: &str, _lang: &str) -> String {
         return res;
     }
 
-    for domain in [
-        "libadwaita",
-        "libadwaita-1",
-        "adw",
-        "adwaita",
-        "gtk40",
-        "gtk",
-    ] {
+    for domain in ["libadwaita", "adw", "adwaita", "gtk40", "gtk"] {
         let res_lib = dgettext(domain, key);
         if res_lib != key {
             return res_lib;

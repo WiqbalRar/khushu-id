@@ -1,0 +1,28 @@
+Source: khushu
+Section: gnome
+Priority: optional
+Maintainer: Djalel Oukid <sniper1720@linuxtechmore.com>
+Build-Depends: debhelper-compat (= 13),
+               meson,
+               ninja-build,
+               cargo,
+               rustc,
+               libgtk-4-dev,
+               libadwaita-1-dev,
+               libgeoclue-2-dev,
+               libasound2-dev,
+               pkg-config,
+               gettext
+Standards-Version: 4.6.2
+Homepage: https://github.com/sniper1720/khushu
+Rules-Requires-Root: no
+
+Package: khushu
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         fonts-hosny-amiri
+Description: An all-in-one Muslim app for Linux
+ Khushu is a modern GNOME application that provides prayer times,
+ Qibla direction, Adkar, and mosque search. It features a clean,
+ adaptive UI built with GTK4 and Libadwaita.

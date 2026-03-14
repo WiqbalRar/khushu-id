@@ -1,6 +1,7 @@
 use crate::security;
 use serde::{Deserialize, Serialize};
 use std::fs;
+use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 
 use gtk4::glib;
@@ -160,9 +161,10 @@ impl AppConfig {
         }
 
         if let Ok(content) = serde_json::to_string_pretty(&encrypted_self)
-            && fs::write(&path, content).is_ok()
+            && fs::write(&path, &content).is_ok()
         {
-            log::info!("Configuration encrypted and saved to {:?}", path);
+            let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
+            log::info!("Configuration obfuscated and saved to {:?}", path);
         } else {
             log::error!("Failed to save configuration to {:?}", path);
         }
