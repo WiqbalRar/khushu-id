@@ -17,7 +17,7 @@ check:
     - if: $CI_MERGE_REQUEST_ID
   before_script:
     - apt-get update
-    - apt-get install -y curl build-essential pkg-config gettext
+    - apt-get install -y curl build-essential pkg-config gettext libssl-dev
         libgtk-4-dev libadwaita-1-dev libgeoclue-2-dev libasound2-dev
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable -c clippy -c rustfmt
     - export PATH="$HOME/.cargo/bin:$PATH"
