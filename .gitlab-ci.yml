@@ -105,7 +105,7 @@ build-deb-amd64:
 build-deb-arm64:
   extends: .build-deb-base
   tags:
-    - saas-linux-medium-arm64
+    - saas-linux-small-arm64
 
 build-rpm-amd64:
   extends: .build-rpm-base
@@ -113,7 +113,7 @@ build-rpm-amd64:
 build-rpm-arm64:
   extends: .build-rpm-base
   tags:
-    - saas-linux-medium-arm64
+    - saas-linux-small-arm64
 
 # ---------------------------------------------------------------------------
 # Create GitLab Release and attach packages
@@ -126,12 +126,16 @@ create-release:
   needs:
     - job: build-deb-amd64
       artifacts: true
+      optional: true
     - job: build-deb-arm64
       artifacts: true
+      optional: true
     - job: build-rpm-amd64
       artifacts: true
+      optional: true
     - job: build-rpm-arm64
       artifacts: true
+      optional: true
   before_script:
     - apk add --no-cache curl
   script:
