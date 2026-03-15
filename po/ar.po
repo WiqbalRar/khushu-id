@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 01:59+0100\n"
+"POT-Creation-Date: 2026-03-15 16:28+0100\n"
 "PO-Revision-Date: 2026-02-13 02:25+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Djalel Oukid (جلال وكيد)\n"
@@ -15,68 +15,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/qibla_ui.rs:35
-msgid "Calculating..."
-msgstr "جاري الحساب..."
+#: data/io.github.sniper1720.khushu.desktop.in:2
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:230
+#: src/main.rs:334 src/pages.rs:394
+msgid "Khushu"
+msgstr "خشوع"
 
-#: src/qibla_ui.rs:71
-msgid "N"
-msgstr "شمال"
+#: data/io.github.sniper1720.khushu.desktop.in:3
+msgid "An all-in-one Muslim app for Linux"
+msgstr "تطبيق إسلامي شامل لنظام لينكس."
 
-msgid "Found"
-msgstr "تم العثور على"
+#: data/io.github.sniper1720.khushu.desktop.in:9
+msgid "Prayer;Islam;Salah;"
+msgstr "صلاة;إسلام;صلاح;"
 
-#: src/qibla_ui.rs:72
-msgid "E"
-msgstr "شرق"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:338
+msgid "An all-in-one Muslim app for Linux."
+msgstr "تطبيق إسلامي شامل لنظام لينكس."
 
-#: src/qibla_ui.rs:73
-msgid "S"
-msgstr "جنوب"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
+msgid ""
+"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+"smartphones. It centralizes your daily worship by providing accurate prayer "
+"times, native staggered Adkar notifications, and a roadmap that includes a "
+"dedicated Holy Quran experience—all with uncompromising privacy and zero "
+"telemetry."
+msgstr ""
+"تطبيق خشوع هو تطبيق إسلامي شامل لنظام لينكس، الأجهزة اللوحية، والهواتف "
+"الذكية. يجمع عباداتك اليومية من خلال توفير أوقات صلاة دقيقة، تنبيهات أذكار "
+"متتابعة، وخارطة طريق تشمل تجربة مخصصة للقرآن الكريم — كل ذلك مع خصوصية تامة "
+"وبدون أي تتبع."
 
-#: src/qibla_ui.rs:74
-msgid "W"
-msgstr "غرب"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
+msgid "Accurate prayer calculation methods (Offline)"
+msgstr "طرق حساب صلاة دقيقة (بدون إنترنت)"
 
-#: src/qibla_ui.rs:208
-msgid "Sensor Active (Smooth)"
-msgstr "المستشعر نشط (سلس)"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
+msgid "Morning, Evening, and Night Adkar with built-in counters"
+msgstr "أذكار الصباح والمساء والنوم مع عدادات مدمجة"
 
-#: src/timer_controller.rs:127
-msgid "in"
-msgstr "خلال"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
+msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+msgstr "تنبيهات آذان قابلة للتخصيص (صوت مكة/المدينة)"
 
-#: src/timer_controller.rs:133 src/timer_controller.rs:161
-msgid "It's time for"
-msgstr "حان موعد"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
+msgid "Interactive Qibla compass"
+msgstr "بوصلة قبلة تفاعلية"
 
-#: src/timer_controller.rs:143
-msgid "Upcoming Prayer:"
-msgstr "الصلاة القادمة:"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
+msgid "Hijri calendar mapping"
+msgstr "تقويم هجري"
 
-#: src/timer_controller.rs:147
-msgid "is in"
-msgstr "ستكون خلال"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
+msgid "Privacy-first local encryption for your location data"
+msgstr "تشفير محلي للبيانات لضمان الخصوصية"
 
-#: src/timer_controller.rs:149
-msgid "minutes"
-msgstr "دقائق"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
+msgid "Modern Libadwaita interface with adaptive Dark Mode"
+msgstr "واجهة Libadwaita حديثة مع وضع ليلي متكيف"
 
-#: src/timer_controller.rs:162
-msgid "It is now time for"
-msgstr "حان الآن موعد"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
+msgid "Multi-language support"
+msgstr "دعم تعدد اللغات"
 
-#: src/timer_controller.rs:200 src/timer_controller.rs:213
-msgid "Morning Adkar"
-msgstr "أذكار الصباح"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:29
+msgid ""
+"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
+"countdown, and Hijri date."
+msgstr ""
+"لوحة أوقات الصلاة: عرض أوقات الصلاة الدقيقة، عد تنازلي للصلاة القادمة، "
+"والتاريخ الهجري."
 
-#: src/timer_controller.rs:230 src/timer_controller.rs:243
-msgid "Evening Adkar"
-msgstr "أذكار المساء"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:33
+msgid ""
+"Adkar & Supplications: Access Daily Adkar with built-in counters and "
+"staggered notifications."
+msgstr ""
+"الأذكار والأدعية: الوصول إلى الأذكار اليومية مع عدادات مدمجة وتنبيهات نظام "
+"متفرقة."
 
-#: src/timer_controller.rs:260 src/timer_controller.rs:273
-msgid "Night Adkar"
-msgstr "أذكار النوم"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:37
+msgid ""
+"Interactive Qibla Direction: A beautifully rendered compass pointing to "
+"Mecca based on your GPS."
+msgstr ""
+"اتجاه القبلة التفاعلي: بوصلة مصممة بشكل جميل تشير إلى مكة بناءً على موقعك."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
+msgid "Djalel Oukid"
+msgstr "جلال وكيد"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:53
+msgid "prayer"
+msgstr "صلاة"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
+msgid "salah"
+msgstr "صلاة"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:55
+msgid "adhan"
+msgstr "أذان"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:56
+msgid "adkar"
+msgstr "أذكار"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:57
+msgid "qibla"
+msgstr "قبلة"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:58
+msgid "muslim"
+msgstr "مسلم"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:59
+msgid "islam"
+msgstr "إسلام"
 
 #: src/adkar.rs:220 src/adkar.rs:240
 msgid "Morning"
@@ -90,39 +145,36 @@ msgstr "أذكار المساء"
 msgid "Night"
 msgstr "أذكار النوم"
 
-#: src/main.rs:155 src/pages.rs:387 src/nav_ui.rs:121
+#: src/calendar.rs:66 src/calendar.rs:124
+msgid "Date Details"
+msgstr "تفاصيل التاريخ"
+
+#: src/main.rs:202 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
 msgstr "أوقات الصلاة"
 
-#: src/main.rs:160 src/main.rs:162
+#: src/main.rs:207 src/main.rs:209
 msgid "Toggle Sidebar"
 msgstr "تبديل الشريط الجانبي"
 
-#: src/main.rs:183 src/main.rs:281 src/pages.rs:397 src/tray.rs:47
-msgid "Khushu"
-msgstr "خشوع"
-
-#: src/main.rs:283 src/main.rs:290
+#: src/main.rs:336 src/main.rs:343
 msgid "Djalel Oukid (sniper1720)"
 msgstr "جلال وكيد (sniper1720)"
 
-#: src/main.rs:285
-msgid "An all-in-one Muslim app for Linux."
-msgstr "تطبيق إسلامي شامل لنظام لينكس."
-
-#: src/main.rs:288
+#: src/main.rs:341
+#, fuzzy
 msgid "© 2026 Djalel Oukid"
-msgstr "© 2026 جلال وكيد"
+msgstr "جلال وكيد"
 
-#: src/main.rs:291
+#: src/main.rs:344
 msgid "translator-credits"
 msgstr "جلال وكيد"
 
-#: src/main.rs:295
+#: src/main.rs:348
 msgid "Location Policy"
 msgstr "سياسة الموقع"
 
-#: src/main.rs:298
+#: src/main.rs:351
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
@@ -130,11 +182,11 @@ msgstr ""
 "الوضع التلقائي: GeoClue (النظام). بحث المدينة: Nominatim (OpenStreetMap). "
 "الوضع اليدوي: بدون اتصال بالشبكة."
 
-#: src/main.rs:301
+#: src/main.rs:354
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
-#: src/main.rs:304
+#: src/main.rs:357
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
@@ -142,68 +194,160 @@ msgstr ""
 "تبقى الإحداثيات على هذا الجهاز ولا تُرسل إلى أي خوادم خارجية. بدون تحليلات، "
 "بدون قياس عن بُعد، بدون حسابات."
 
-#: src/settings_ui.rs:35 src/settings_ui.rs:45 src/welcome.rs:286
-msgid "Theme"
-msgstr "السمة"
+#: src/nav_ui.rs:31 src/pages.rs:361
+msgid "Home"
+msgstr "الرئيسية"
 
-#: src/settings_ui.rs:40 src/welcome.rs:290 src/welcome.rs:299 src/pages.rs:234
-#: src/pages.rs:348
+#: src/nav_ui.rs:36 src/nav_ui.rs:127 src/pages.rs:362 src/pages.rs:385
+msgid "Calendar"
+msgstr "التقويم"
+
+#: src/nav_ui.rs:41 src/nav_ui.rs:128 src/pages.rs:363 src/pages.rs:386
+#, fuzzy
+msgid "Qibla"
+msgstr "قبلة"
+
+#: src/nav_ui.rs:46 src/nav_ui.rs:129 src/pages.rs:364 src/pages.rs:387
+#, fuzzy
+msgid "Adkar"
+msgstr "أذكار"
+
+#: src/nav_ui.rs:51 src/nav_ui.rs:130 src/pages.rs:365 src/pages.rs:388
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: src/nav_ui.rs:56 src/pages.rs:366
+msgid "About"
+msgstr "حول"
+
+#: src/pages.rs:80
+msgid "Loading..."
+msgstr "جاري التحميل..."
+
+#: src/pages.rs:227 src/pages.rs:241 src/pages.rs:341 src/pages.rs:342
+#: src/welcome.rs:279 src/welcome.rs:280
+msgid "Language"
+msgstr "اللغة"
+
+#: src/pages.rs:232 src/pages.rs:345 src/settings_ui.rs:39 src/welcome.rs:276
+#: src/welcome.rs:285
 msgid "System Default"
 msgstr "افتراضي النظام"
 
-#: src/settings_ui.rs:41 src/welcome.rs:290
+#: src/pages.rs:233 src/pages.rs:346 src/welcome.rs:286
+msgid "English"
+msgstr "الإنجليزية"
+
+#: src/pages.rs:234 src/pages.rs:347 src/welcome.rs:287
+msgid "Arabic"
+msgstr "العربية"
+
+#: src/pages.rs:235 src/pages.rs:348 src/welcome.rs:288
+msgid "French"
+msgstr "الفرنسية"
+
+#: src/pages.rs:236 src/pages.rs:349 src/welcome.rs:289
+msgid "Spanish"
+msgstr "الإسبانية"
+
+#: src/pages.rs:237 src/pages.rs:350 src/welcome.rs:290
+msgid "Turkish"
+msgstr "التركية"
+
+#: src/qibla_ui.rs:35
+msgid "Calculating..."
+msgstr "جاري الحساب..."
+
+#: src/qibla_ui.rs:77
+msgid "N"
+msgstr "شمال"
+
+#: src/qibla_ui.rs:78
+msgid "E"
+msgstr "شرق"
+
+#: src/qibla_ui.rs:79
+msgid "S"
+msgstr "جنوب"
+
+#: src/qibla_ui.rs:80
+msgid "W"
+msgstr "غرب"
+
+#: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
+msgid "Theme"
+msgstr "السمة"
+
+#: src/settings_ui.rs:40 src/welcome.rs:276
 msgid "Light"
 msgstr "فاتح"
 
-#: src/settings_ui.rs:42 src/welcome.rs:290
+#: src/settings_ui.rs:41 src/welcome.rs:276
 msgid "Dark"
 msgstr "داكن"
 
-#: src/settings_ui.rs:80 src/welcome.rs:308
+#: src/settings_ui.rs:79
+msgid "Autostart"
+msgstr "التشغيل التلقائي"
+
+#: src/settings_ui.rs:85
+msgid "Start Automatically"
+msgstr "التشغيل تلقائياً"
+
+#: src/settings_ui.rs:87
+msgid "Run Khushu in the background when you log in."
+msgstr "تشغيل تطبيق خشوع في الخلفية عند تسجيل الدخول."
+
+#: src/settings_ui.rs:103 src/welcome.rs:294
 msgid "Location Settings"
 msgstr "إعدادات الموقع"
 
-#: src/settings_ui.rs:87 src/welcome.rs:314
+#: src/settings_ui.rs:110 src/welcome.rs:300
 msgid "Manual Coordinates"
 msgstr "إحداثيات يدوية"
 
-#: src/settings_ui.rs:88 src/welcome.rs:315
+#: src/settings_ui.rs:111 src/welcome.rs:301
 msgid "City Selection"
 msgstr "اختيار المدينة"
 
-#: src/settings_ui.rs:89 src/welcome.rs:316
+#: src/settings_ui.rs:112 src/welcome.rs:302
 msgid "Auto (GPS/Network)"
 msgstr "تلقائي (GPS/الشبكة)"
 
-#: src/settings_ui.rs:94 src/welcome.rs:309
+#: src/settings_ui.rs:117 src/welcome.rs:295
 msgid "Location Method"
 msgstr "طريقة تحديد الموقع"
 
-#: src/settings_ui.rs:107 src/welcome.rs:320
+#: src/settings_ui.rs:130 src/welcome.rs:306
 msgid "Latitude"
 msgstr "خط العرض"
 
-#: src/settings_ui.rs:128 src/welcome.rs:321
+#: src/settings_ui.rs:151 src/welcome.rs:307
 msgid "Longitude"
 msgstr "خط الطول"
 
-#: src/settings_ui.rs:149
+#: src/settings_ui.rs:172
 msgid "Location Status"
 msgstr "إعدادات الموقع"
 
-#: src/settings_ui.rs:157
+#: src/settings_ui.rs:180
 msgid "City Search"
 msgstr "البحث عن مدينة"
 
-#: src/settings_ui.rs:164 src/welcome.rs:339
+#: src/settings_ui.rs:189 src/welcome.rs:337
 msgid "Search"
 msgstr "بحث"
 
-#: src/settings_ui.rs:232
+#: src/settings_ui.rs:225
+#, fuzzy
+msgid "City not found. Please try again."
+msgstr "لم يتم العثور على المدينة. يرجى التحقق من الإملاء."
+
+#: src/settings_ui.rs:245
 msgid "Auto Detection"
 msgstr "التحديد التلقائي"
 
-#: src/settings_ui.rs:237
+#: src/settings_ui.rs:250
 msgid "Update Now"
 msgstr "تحديث الآن"
 
@@ -311,400 +455,370 @@ msgstr "دقائق قبل الصلاة"
 msgid "Test Notification"
 msgstr "إشعار تجريبي"
 
-msgid "Assalamu Alaikum"
-msgstr "السلام عليكم"
+#: src/settings_ui.rs:514 src/timer_controller.rs:140
+#: src/timer_controller.rs:171
+msgid "It's time for"
+msgstr "حان موعد"
 
+#: src/settings_ui.rs:516
 msgid "This is a test notification from Khushu. May your prayers be accepted."
 msgstr "هذا إشعار تجريبي من خشوع. تقبل الله طاعاتكم."
 
-#: src/settings_ui.rs:529
-msgid "Audio"
-msgstr "الصوت"
-
-#: src/settings_ui.rs:549
-msgid "Default"
-msgstr "الافتراضي"
-
-#: src/settings_ui.rs:550
-msgid "Custom File..."
-msgstr "ملف مخصص..."
-
-#: src/settings_ui.rs:559
-msgid "Adhan Sound"
-msgstr "صوت الأذان"
-
-#: src/settings_ui.rs:579 src/settings_ui.rs:593
-msgid "Using builtin default"
-msgstr "استخدام الافتراضي المدمج"
-
-#: src/settings_ui.rs:596
-msgid "Audio Files"
-msgstr "ملفات الصوت"
-
-#: src/settings_ui.rs:602
-msgid "Select Adhan Sound"
-msgstr "اختر صوت الأذان"
-
-#: src/settings_ui.rs:609
-msgid "Cancel"
-msgstr "إلغاء"
-
-#: src/settings_ui.rs:610
-msgid "Select"
-msgstr "اختر"
-
-#: src/settings_ui.rs:643
-msgid "Mute Adhan"
-msgstr "كتم صوت الأذان"
-
-#: src/settings_ui.rs:644
-msgid "Silence the Adhan sound at prayer time."
-msgstr "إيقاف صوت الأذان وقت الصلاة."
-
-#: src/settings_ui.rs:663
-msgid "Adhan Volume"
-msgstr "حجم صوت الأذان"
-
-#: src/settings_ui.rs:664
-msgid "Volume level (0–100%)"
-msgstr "مستوى الصوت (0-100%)"
-
-#: src/settings_ui.rs:683 src/settings_ui.rs:696
-msgid "▶ Preview Adhan"
-msgstr "▶ معاينة الأذان"
-
-#: src/settings_ui.rs:709
-msgid "⏹ Stop Adhan"
-msgstr "⏹ إيقاف الأذان"
-
-#: src/settings_ui.rs:722
-msgid "Makkah Adhan"
-msgstr "أذان الحرم المكي"
-
-#: src/settings_ui.rs:723
-msgid "Madinah Adhan"
-msgstr "أذان الحرم المدني"
-
-#: src/welcome.rs:278 src/welcome.rs:279
-msgid "Welcome to Khushu"
-msgstr "مرحباً بك في خشوع"
-
-#: src/welcome.rs:281
-msgid "Please configure your location to get accurate prayer times."
-msgstr "يرجى تحديد موقعك للحصول على أوقات صلاة دقيقة."
-
-#: src/welcome.rs:285
-msgid "Appearance"
-msgstr "المظهر"
-
-#: src/welcome.rs:293 src/welcome.rs:294 src/pages.rs:229 src/pages.rs:243
-#: src/pages.rs:344 src/pages.rs:345
-msgid "Language"
-msgstr "اللغة"
-
-#: src/welcome.rs:300 src/pages.rs:235 src/pages.rs:349
-msgid "English"
-msgstr "الإنجليزية"
-
-#: src/welcome.rs:301 src/pages.rs:236 src/pages.rs:350
-msgid "Arabic"
-msgstr "العربية"
-
-#: src/welcome.rs:302 src/pages.rs:237 src/pages.rs:351
-msgid "French"
-msgstr "الفرنسية"
-
-#: src/welcome.rs:303 src/pages.rs:238 src/pages.rs:352
-msgid "Spanish"
-msgstr "الإسبانية"
-
-#: src/welcome.rs:304 src/pages.rs:239 src/pages.rs:353
-msgid "Turkish"
-msgstr "التركية"
-
-#: src/welcome.rs:322
-msgid "City Name"
-msgstr "اسم المدينة"
-
-#: src/welcome.rs:324
-msgid "Status"
-msgstr "الحالة"
-
-#: src/welcome.rs:329 src/welcome.rs:330 src/welcome.rs:331 src/welcome.rs:332
-msgid "Enable location services in system settings."
-msgstr "قم بتفعيل خدمة الموقع في إعدادات النظام."
-
-#: src/welcome.rs:337
-msgid "Detect Now"
-msgstr "اكتشف الآن"
-
-#: src/welcome.rs:338
-msgid "Continue"
-msgstr "متابعة"
-
-#: src/welcome.rs:429
-msgid "Detecting..."
-msgstr "جاري الكشف..."
-
-#: src/welcome.rs:455
-msgid "Detection failed. Check network/permissions."
-msgstr "فشل الكشف. تحقق من الشبكة/الصلاحيات."
-
-#: src/pages.rs:82
-msgid "Loading..."
-msgstr "جاري التحميل..."
-
-#: src/pages.rs:364 src/nav_ui.rs:31
-msgid "Home"
-msgstr "الرئيسية"
-
-#: src/pages.rs:365 src/pages.rs:388 src/nav_ui.rs:36 src/nav_ui.rs:122
-msgid "Calendar"
-msgstr "التقويم"
-
-#: src/pages.rs:366 src/pages.rs:389 src/nav_ui.rs:41 src/nav_ui.rs:123
-msgid "Qibla"
-msgstr "القبلة"
-
-#: src/pages.rs:367 src/pages.rs:390 src/nav_ui.rs:46 src/nav_ui.rs:124
-msgid "Adkar"
-msgstr "الأذكار"
-
-#: src/pages.rs:368 src/pages.rs:391 src/nav_ui.rs:51 src/nav_ui.rs:125
-msgid "Settings"
-msgstr "الإعدادات"
-
-#: src/pages.rs:369 src/nav_ui.rs:56
-msgid "About"
-msgstr "حول"
-
-#: src/calendar.rs:66 src/calendar.rs:124
-msgid "Date Details"
-msgstr "تفاصيل التاريخ"
-
-#: src/home_ui.rs:71
-msgid "No more prayers today"
-msgstr "لا مزيد من الصلوات اليوم"
-
-#: src/tray.rs:55
-msgid "Show Khushu"
-msgstr "إظهار خشوع"
-
-#: src/tray.rs:63
-msgid "Quit"
-msgstr "خروج"
-
-msgid "Fajr"
-msgstr "الفجر"
-
-msgid "Sunrise"
-msgstr "الشروق"
-
-msgid "Dhuhr"
-msgstr "الظهر"
-
-msgid "Asr"
-msgstr "العصر"
-
-msgid "Maghrib"
-msgstr "المغرب"
-
-msgid "Isha"
-msgstr "العشاء"
-
-msgid "Manual Calculation"
-msgstr "حساب يدوي"
-
-msgid "Autostart"
-msgstr "التشغيل التلقائي"
-
-msgid "Start Automatically"
-msgstr "التشغيل تلقائياً"
-
-msgid "Run Khushu in the background when you log in."
-msgstr "تشغيل تطبيق خشوع في الخلفية عند تسجيل الدخول."
-
-msgid "Sun"
-msgstr "الأحد"
-
-msgid "Mon"
-msgstr "الإثنين"
-
-msgid "Tue"
-msgstr "الثلاثاء"
-
-msgid "Wed"
-msgstr "الأربعاء"
-
-msgid "Thu"
-msgstr "الخميس"
-
-msgid "Fri"
-msgstr "الجمعة"
-
-msgid "Sat"
-msgstr "السبت"
-
-msgid "Muharram"
-msgstr "محرم"
-
-msgid "Safar"
-msgstr "صفر"
-
-msgid "Rabi' al-Awwal"
-msgstr "ربيع الأول"
-
-msgid "Rabi' al-Thani"
-msgstr "ربيع الثاني"
-
-msgid "Jumada al-Ula"
-msgstr "جمادى الأولى"
-
-msgid "Jumada al-Akhirah"
-msgstr "جمادى الآخرة"
-
-msgid "Rajab"
-msgstr "رجب"
-
-msgid "Sha'ban"
-msgstr "شعبان"
-
-msgid "Ramadan"
-msgstr "رمضان"
-
-msgid "Shawwal"
-msgstr "شوال"
-
-msgid "Dhu al-Qi'dah"
-msgstr "ذو القعدة"
-
-msgid "Dhu al-Hijjah"
-msgstr "ذو الحجة"
-
-msgid "January"
-msgstr "يناير"
-
-msgid "February"
-msgstr "فبراير"
-
-msgid "March"
-msgstr "مارس"
-
-msgid "April"
-msgstr "أبريل"
-
-msgid "May"
-msgstr "مايو"
-
-msgid "June"
-msgstr "يونيو"
-
-msgid "July"
-msgstr "يوليو"
-
-msgid "August"
-msgstr "أغسطس"
-
-msgid "September"
-msgstr "سبتمبر"
-
-msgid "October"
-msgstr "أكتوبر"
-
-msgid "November"
-msgstr "نوفمبر"
-
-msgid "December"
-msgstr "ديسمبر"
-
-msgid "Sunday"
-msgstr "الأحد"
-
-msgid "Monday"
-msgstr "الإثنين"
-
-msgid "Tuesday"
-msgstr "الثلاثاء"
-
-msgid "Wednesday"
-msgstr "الأربعاء"
-
-msgid "Thursday"
-msgstr "الخميس"
-
-msgid "Friday"
-msgstr "الجمعة"
-
-msgid "Saturday"
-msgstr "السبت"
-
-msgid "First Day of Ramadan"
-msgstr "أول أيام رمضان"
-
-msgid "Eid al-Fitr"
-msgstr "عيد الفطر"
-
-msgid "Eid al-Adha"
-msgstr "عيد الأضحى"
-
-msgid "Day of Arafah"
-msgstr "يوم عرفة"
-
-msgid "Islamic New Year"
-msgstr "رأس السنة الهجرية"
-
-msgid "Ashura"
-msgstr "عاشوراء"
-
-msgid "Mawlid al-Nabi"
-msgstr "المولد النبوي الشريف"
-#: src/location.rs:39
-msgid "Location service unavailable. Please check system settings."
-msgstr "خدمة الموقع غير متوفرة. يرجى التحقق من إعدادات النظام."
-
-#: src/location.rs:47 src/location.rs:56
-msgid "Location access denied or unavailable."
-msgstr "تم رفض الوصول إلى الموقع أو أنه غير متوفر."
-
-#: src/location.rs:51
-msgid "Failed to receive location updates."
-msgstr "فشل تلقي تحديثات الموقع."
-
-#: src/location.rs:64
-msgid "Location service disconnected unexpectedly."
-msgstr "انقطعت خدمة الموقع بشكل غير متوقع."
-
-#: src/location.rs:69
-msgid "Location request timed out. Please check your system settings."
-msgstr "انتهت مهلة طلب الموقع. يرجى التحقق من إعدادات النظام الخاص بك."
-
-#: src/location.rs:89 src/location.rs:136
-msgid "Network client initialization failed."
-msgstr "فشل تهيئة عميل الشبكة."
-
-#: src/location.rs:98
-msgid "Network error while resolving city."
-msgstr "خطأ في الشبكة أثناء تحديد المدينة."
-
-#: src/location.rs:100 src/location.rs:146 src/location.rs:152 src/location.rs:156
-msgid "Invalid response from location service."
-msgstr "استجابة غير صالحة من خدمة الموقع."
-
-#: src/location.rs:103
-msgid "Could not find city name for these coordinates."
-msgstr "تعذر العثور على اسم المدينة لهذه الإحداثيات."
-
-#: src/location.rs:141
-msgid "Network error. Please check your connection."
-msgstr "خطأ في الشبكة. يرجى التحقق من الاتصال الخاص بك."
-
-#: src/location.rs:161
-msgid "City not found. Please check the spelling."
-msgstr "لم يتم العثور على المدينة. يرجى التحقق من الإملاء."
 #
+#: src/settings_ui.rs:523 src/timer_controller.rs:160
+#: src/timer_controller.rs:174 src/timer_controller.rs:220
+#: src/timer_controller.rs:240 src/timer_controller.rs:261
+#: src/timer_controller.rs:281 src/timer_controller.rs:302
+#: src/timer_controller.rs:322
 msgid "Open Khushu"
 msgstr "افتح خشوع"
 
+#: src/settings_ui.rs:524 src/timer_controller.rs:161
+#: src/timer_controller.rs:175 src/timer_controller.rs:221
+#: src/timer_controller.rs:241 src/timer_controller.rs:262
+#: src/timer_controller.rs:282 src/timer_controller.rs:303
+#: src/timer_controller.rs:323
 msgid "Stop Adhan"
 msgstr "إيقاف الأذان"
 
+#: src/settings_ui.rs:538
+msgid "Audio"
+msgstr "الصوت"
+
+#: src/settings_ui.rs:545
+msgid "Default"
+msgstr "الافتراضي"
+
+#: src/settings_ui.rs:546
+msgid "Custom File..."
+msgstr "ملف مخصص..."
+
+#: src/settings_ui.rs:555
+msgid "Adhan Sound"
+msgstr "صوت الأذان"
+
+#: src/settings_ui.rs:575 src/settings_ui.rs:589
+msgid "Using builtin default"
+msgstr "استخدام الافتراضي المدمج"
+
+#: src/settings_ui.rs:592
+msgid "Audio Files"
+msgstr "ملفات الصوت"
+
+#: src/settings_ui.rs:601
+msgid "Select Adhan Sound"
+msgstr "اختر صوت الأذان"
+
+#: src/settings_ui.rs:635
+msgid "Mute Adhan"
+msgstr "كتم صوت الأذان"
+
+#: src/settings_ui.rs:636
+msgid "Silence the Adhan sound at prayer time."
+msgstr "إيقاف صوت الأذان وقت الصلاة."
+
+#: src/settings_ui.rs:655
+msgid "Adhan Volume"
+msgstr "حجم صوت الأذان"
+
+#: src/settings_ui.rs:656
+msgid "Volume level (0–100%)"
+msgstr "مستوى الصوت (0-100%)"
+
+#: src/settings_ui.rs:675 src/settings_ui.rs:688
+msgid "▶ Preview Adhan"
+msgstr "▶ معاينة الأذان"
+
+#: src/settings_ui.rs:701
+msgid "⏹ Stop Adhan"
+msgstr "⏹ إيقاف الأذان"
+
+#: src/settings_ui.rs:714
+msgid "Makkah Adhan"
+msgstr "أذان الحرم المكي"
+
+#: src/settings_ui.rs:715
+msgid "Madinah Adhan"
+msgstr "أذان الحرم المدني"
+
+#: src/timer_controller.rs:134
+msgid "in"
+msgstr "خلال"
+
+#: src/timer_controller.rs:151
+msgid "Upcoming Prayer:"
+msgstr "الصلاة القادمة:"
+
+#: src/timer_controller.rs:155
+msgid "is in"
+msgstr "ستكون خلال"
+
+#: src/timer_controller.rs:157
+msgid "minutes"
+msgstr "دقائق"
+
+#: src/timer_controller.rs:172
+msgid "It is now time for"
+msgstr "حان الآن موعد"
+
+#: src/timer_controller.rs:217 src/timer_controller.rs:237
+msgid "Morning Adkar"
+msgstr "أذكار الصباح"
+
+#: src/timer_controller.rs:258 src/timer_controller.rs:278
+msgid "Evening Adkar"
+msgstr "أذكار المساء"
+
+#: src/timer_controller.rs:299 src/timer_controller.rs:319
+msgid "Night Adkar"
+msgstr "أذكار النوم"
+
+#: src/welcome.rs:264 src/welcome.rs:265
+msgid "Welcome to Khushu"
+msgstr "مرحباً بك في خشوع"
+
+#: src/welcome.rs:267
+msgid "Please configure your location to get accurate prayer times."
+msgstr "يرجى تحديد موقعك للحصول على أوقات صلاة دقيقة."
+
+#: src/welcome.rs:271
+msgid "Appearance"
+msgstr "المظهر"
+
+#: src/welcome.rs:308
+msgid "City Name"
+msgstr "اسم المدينة"
+
+#: src/welcome.rs:310
+msgid "Status"
+msgstr "الحالة"
+
+#: src/welcome.rs:316
+msgid "Enable location services in system settings."
+msgstr "قم بتفعيل خدمة الموقع في إعدادات النظام."
+
+#: src/welcome.rs:319 src/welcome.rs:418
+msgid "Detecting..."
+msgstr "جاري الكشف..."
+
+#: src/welcome.rs:324 src/welcome.rs:437
+msgid "Found"
+msgstr "تم العثور على"
+
+#: src/welcome.rs:335
+msgid "Detect Now"
+msgstr "اكتشف الآن"
+
+#: src/welcome.rs:336
+msgid "Continue"
+msgstr "متابعة"
+
+#~ msgid "Sensor Active (Smooth)"
+#~ msgstr "المستشعر نشط (سلس)"
+
+#~ msgid "Assalamu Alaikum"
+#~ msgstr "السلام عليكم"
+
+#~ msgid "Cancel"
+#~ msgstr "إلغاء"
+
+#~ msgid "Select"
+#~ msgstr "اختر"
+
+#~ msgid "Detection failed. Check network/permissions."
+#~ msgstr "فشل الكشف. تحقق من الشبكة/الصلاحيات."
+
+#~ msgid "No more prayers today"
+#~ msgstr "لا مزيد من الصلوات اليوم"
+
+#~ msgid "Show Khushu"
+#~ msgstr "إظهار خشوع"
+
+#~ msgid "Quit"
+#~ msgstr "خروج"
+
+#~ msgid "Fajr"
+#~ msgstr "الفجر"
+
+#~ msgid "Sunrise"
+#~ msgstr "الشروق"
+
+#~ msgid "Dhuhr"
+#~ msgstr "الظهر"
+
+#~ msgid "Asr"
+#~ msgstr "العصر"
+
+#~ msgid "Maghrib"
+#~ msgstr "المغرب"
+
+#~ msgid "Isha"
+#~ msgstr "العشاء"
+
+#~ msgid "Manual Calculation"
+#~ msgstr "حساب يدوي"
+
+#~ msgid "Sun"
+#~ msgstr "الأحد"
+
+#~ msgid "Mon"
+#~ msgstr "الإثنين"
+
+#~ msgid "Tue"
+#~ msgstr "الثلاثاء"
+
+#~ msgid "Wed"
+#~ msgstr "الأربعاء"
+
+#~ msgid "Thu"
+#~ msgstr "الخميس"
+
+#~ msgid "Fri"
+#~ msgstr "الجمعة"
+
+#~ msgid "Sat"
+#~ msgstr "السبت"
+
+#~ msgid "Muharram"
+#~ msgstr "محرم"
+
+#~ msgid "Safar"
+#~ msgstr "صفر"
+
+#~ msgid "Rabi' al-Awwal"
+#~ msgstr "ربيع الأول"
+
+#~ msgid "Rabi' al-Thani"
+#~ msgstr "ربيع الثاني"
+
+#~ msgid "Jumada al-Ula"
+#~ msgstr "جمادى الأولى"
+
+#~ msgid "Jumada al-Akhirah"
+#~ msgstr "جمادى الآخرة"
+
+#~ msgid "Rajab"
+#~ msgstr "رجب"
+
+#~ msgid "Sha'ban"
+#~ msgstr "شعبان"
+
+#~ msgid "Ramadan"
+#~ msgstr "رمضان"
+
+#~ msgid "Shawwal"
+#~ msgstr "شوال"
+
+#~ msgid "Dhu al-Qi'dah"
+#~ msgstr "ذو القعدة"
+
+#~ msgid "Dhu al-Hijjah"
+#~ msgstr "ذو الحجة"
+
+#~ msgid "January"
+#~ msgstr "يناير"
+
+#~ msgid "February"
+#~ msgstr "فبراير"
+
+#~ msgid "March"
+#~ msgstr "مارس"
+
+#~ msgid "April"
+#~ msgstr "أبريل"
+
+#~ msgid "May"
+#~ msgstr "مايو"
+
+#~ msgid "June"
+#~ msgstr "يونيو"
+
+#~ msgid "July"
+#~ msgstr "يوليو"
+
+#~ msgid "August"
+#~ msgstr "أغسطس"
+
+#~ msgid "September"
+#~ msgstr "سبتمبر"
+
+#~ msgid "October"
+#~ msgstr "أكتوبر"
+
+#~ msgid "November"
+#~ msgstr "نوفمبر"
+
+#~ msgid "December"
+#~ msgstr "ديسمبر"
+
+#~ msgid "Sunday"
+#~ msgstr "الأحد"
+
+#~ msgid "Monday"
+#~ msgstr "الإثنين"
+
+#~ msgid "Tuesday"
+#~ msgstr "الثلاثاء"
+
+#~ msgid "Wednesday"
+#~ msgstr "الأربعاء"
+
+#~ msgid "Thursday"
+#~ msgstr "الخميس"
+
+#~ msgid "Friday"
+#~ msgstr "الجمعة"
+
+#~ msgid "Saturday"
+#~ msgstr "السبت"
+
+#~ msgid "First Day of Ramadan"
+#~ msgstr "أول أيام رمضان"
+
+#~ msgid "Eid al-Fitr"
+#~ msgstr "عيد الفطر"
+
+#~ msgid "Eid al-Adha"
+#~ msgstr "عيد الأضحى"
+
+#~ msgid "Day of Arafah"
+#~ msgstr "يوم عرفة"
+
+#~ msgid "Islamic New Year"
+#~ msgstr "رأس السنة الهجرية"
+
+#~ msgid "Ashura"
+#~ msgstr "عاشوراء"
+
+#~ msgid "Mawlid al-Nabi"
+#~ msgstr "المولد النبوي الشريف"
+
+#~ msgid "Location service unavailable. Please check system settings."
+#~ msgstr "خدمة الموقع غير متوفرة. يرجى التحقق من إعدادات النظام."
+
+#~ msgid "Location access denied or unavailable."
+#~ msgstr "تم رفض الوصول إلى الموقع أو أنه غير متوفر."
+
+#~ msgid "Failed to receive location updates."
+#~ msgstr "فشل تلقي تحديثات الموقع."
+
+#~ msgid "Location service disconnected unexpectedly."
+#~ msgstr "انقطعت خدمة الموقع بشكل غير متوقع."
+
+#~ msgid "Location request timed out. Please check your system settings."
+#~ msgstr "انتهت مهلة طلب الموقع. يرجى التحقق من إعدادات النظام الخاص بك."
+
+#~ msgid "Network client initialization failed."
+#~ msgstr "فشل تهيئة عميل الشبكة."
+
+#~ msgid "Network error while resolving city."
+#~ msgstr "خطأ في الشبكة أثناء تحديد المدينة."
+
+#~ msgid "Invalid response from location service."
+#~ msgstr "استجابة غير صالحة من خدمة الموقع."
+
+#~ msgid "Could not find city name for these coordinates."
+#~ msgstr "تعذر العثور على اسم المدينة لهذه الإحداثيات."
+
+#~ msgid "Network error. Please check your connection."
+#~ msgstr "خطأ في الشبكة. يرجى التحقق من الاتصال الخاص بك."

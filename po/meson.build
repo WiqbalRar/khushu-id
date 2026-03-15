@@ -1,4 +1,4 @@
-i18n.gettext('khushu', preset: 'glib')
+i18n.gettext('khushu', preset: 'glib', args: ['--keyword=tr'])
 
 if get_option('extra_translations')
   msgfmt = find_program('msgfmt')

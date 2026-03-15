@@ -16,12 +16,6 @@ finish-args:
 modules:
   - name: khushu
     buildsystem: meson
-    config-opts:
-      - --buildtype=release
-    sources:
-      - type: dir
-        path: ../../
-      - cargo-sources.json
     build-options:
       append-path: /usr/lib/sdk/rust-stable/bin
       env:
@@ -29,3 +23,7 @@ modules:
         CARGO_NET_OFFLINE: 'true'
         CARGO_BUILD_OFFLINE: 'true'
         GETTEXT_SYSTEM: '1'
+    sources:
+      - type: dir
+        path: ../../
+      - cargo-sources.json
