@@ -185,8 +185,9 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
 
     if config.borrow().location_mode == LocationMode::Auto {
         let tx = loc_tx.clone();
+        let lang = config.borrow().language.clone();
         tokio::spawn(async move {
-            if let Ok((lat, lon, name)) = location::fetch_auto_location().await {
+            if let Ok((lat, lon, name)) = location::fetch_auto_location(&lang).await {
                 let _ = tx.send((lat, lon, Some(name)));
             }
         });

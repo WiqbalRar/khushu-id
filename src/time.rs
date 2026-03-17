@@ -1,3 +1,4 @@
+use crate::i18n::tr;
 use chrono::{DateTime, Local, NaiveDate, Utc};
 use salah::{Configuration, Coordinates, Madhab, Method, Parameters, Prayer, PrayerTimes};
 
@@ -69,18 +70,30 @@ impl PrayerEngine {
         let now = Local::now();
 
         let prayers = [
-            ("Fajr", self.convert_to_local(times.time(Prayer::Fajr))),
             (
-                "Sunrise",
+                tr("Fajr", ""),
+                self.convert_to_local(times.time(Prayer::Fajr)),
+            ),
+            (
+                tr("Sunrise", ""),
                 self.convert_to_local(times.time(Prayer::Sunrise)),
             ),
-            ("Dhuhr", self.convert_to_local(times.time(Prayer::Dhuhr))),
-            ("Asr", self.convert_to_local(times.time(Prayer::Asr))),
             (
-                "Maghrib",
+                tr("Dhuhr", ""),
+                self.convert_to_local(times.time(Prayer::Dhuhr)),
+            ),
+            (
+                tr("Asr", ""),
+                self.convert_to_local(times.time(Prayer::Asr)),
+            ),
+            (
+                tr("Maghrib", ""),
                 self.convert_to_local(times.time(Prayer::Maghrib)),
             ),
-            ("Isha", self.convert_to_local(times.time(Prayer::Isha))),
+            (
+                tr("Isha", ""),
+                self.convert_to_local(times.time(Prayer::Isha)),
+            ),
         ];
 
         for (name, time) in prayers {
@@ -92,7 +105,7 @@ impl PrayerEngine {
         let next_day = date.succ_opt().unwrap();
         let next_times = PrayerTimes::new(next_day, self.location, self.params);
         Some((
-            "Fajr".to_string(),
+            tr("Fajr", "").to_string(),
             self.convert_to_local(next_times.time(Prayer::Fajr)),
         ))
     }

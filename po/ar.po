@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 16:28+0100\n"
+"POT-Creation-Date: 2026-03-16 23:51+0100\n"
 "PO-Revision-Date: 2026-02-13 02:25+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Djalel Oukid (جلال وكيد)\n"
@@ -14,124 +14,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: data/io.github.sniper1720.khushu.desktop.in:2
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:230
-#: src/main.rs:334 src/pages.rs:394
-msgid "Khushu"
-msgstr "خشوع"
-
-#: data/io.github.sniper1720.khushu.desktop.in:3
-msgid "An all-in-one Muslim app for Linux"
-msgstr "تطبيق إسلامي شامل لنظام لينكس."
-
-#: data/io.github.sniper1720.khushu.desktop.in:9
-msgid "Prayer;Islam;Salah;"
-msgstr "صلاة;إسلام;صلاح;"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:338
-msgid "An all-in-one Muslim app for Linux."
-msgstr "تطبيق إسلامي شامل لنظام لينكس."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate prayer "
-"times, native staggered Adkar notifications, and a roadmap that includes a "
-"dedicated Holy Quran experience—all with uncompromising privacy and zero "
-"telemetry."
-msgstr ""
-"تطبيق خشوع هو تطبيق إسلامي شامل لنظام لينكس، الأجهزة اللوحية، والهواتف "
-"الذكية. يجمع عباداتك اليومية من خلال توفير أوقات صلاة دقيقة، تنبيهات أذكار "
-"متتابعة، وخارطة طريق تشمل تجربة مخصصة للقرآن الكريم — كل ذلك مع خصوصية تامة "
-"وبدون أي تتبع."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
-msgid "Accurate prayer calculation methods (Offline)"
-msgstr "طرق حساب صلاة دقيقة (بدون إنترنت)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
-msgid "Morning, Evening, and Night Adkar with built-in counters"
-msgstr "أذكار الصباح والمساء والنوم مع عدادات مدمجة"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
-msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
-msgstr "تنبيهات آذان قابلة للتخصيص (صوت مكة/المدينة)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
-msgid "Interactive Qibla compass"
-msgstr "بوصلة قبلة تفاعلية"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
-msgid "Hijri calendar mapping"
-msgstr "تقويم هجري"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
-msgid "Privacy-first local encryption for your location data"
-msgstr "تشفير محلي للبيانات لضمان الخصوصية"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
-msgid "Modern Libadwaita interface with adaptive Dark Mode"
-msgstr "واجهة Libadwaita حديثة مع وضع ليلي متكيف"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
-msgid "Multi-language support"
-msgstr "دعم تعدد اللغات"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:29
-msgid ""
-"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
-"countdown, and Hijri date."
-msgstr ""
-"لوحة أوقات الصلاة: عرض أوقات الصلاة الدقيقة، عد تنازلي للصلاة القادمة، "
-"والتاريخ الهجري."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:33
-msgid ""
-"Adkar & Supplications: Access Daily Adkar with built-in counters and "
-"staggered notifications."
-msgstr ""
-"الأذكار والأدعية: الوصول إلى الأذكار اليومية مع عدادات مدمجة وتنبيهات نظام "
-"متفرقة."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:37
-msgid ""
-"Interactive Qibla Direction: A beautifully rendered compass pointing to "
-"Mecca based on your GPS."
-msgstr ""
-"اتجاه القبلة التفاعلي: بوصلة مصممة بشكل جميل تشير إلى مكة بناءً على موقعك."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
-msgid "Djalel Oukid"
-msgstr "جلال وكيد"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:53
-msgid "prayer"
-msgstr "صلاة"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
-msgid "salah"
-msgstr "صلاة"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:55
-msgid "adhan"
-msgstr "أذان"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:56
-msgid "adkar"
-msgstr "أذكار"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:57
-msgid "qibla"
-msgstr "قبلة"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:58
-msgid "muslim"
-msgstr "مسلم"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:59
-msgid "islam"
-msgstr "إسلام"
 
 #: src/adkar.rs:220 src/adkar.rs:240
 msgid "Morning"
@@ -149,50 +31,53 @@ msgstr "أذكار النوم"
 msgid "Date Details"
 msgstr "تفاصيل التاريخ"
 
-#: src/main.rs:202 src/nav_ui.rs:126 src/pages.rs:384
+#: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
 msgstr "أوقات الصلاة"
 
-#: src/main.rs:207 src/main.rs:209
+#: src/main.rs:208 src/main.rs:210
 msgid "Toggle Sidebar"
 msgstr "تبديل الشريط الجانبي"
 
-#: src/main.rs:336 src/main.rs:343
+#: src/main.rs:231 src/main.rs:335 src/pages.rs:394
+msgid "Khushu"
+msgstr "خشوع"
+
+#: src/main.rs:337 src/main.rs:344
 msgid "Djalel Oukid (sniper1720)"
 msgstr "جلال وكيد (sniper1720)"
 
-#: src/main.rs:341
-#, fuzzy
+#: src/main.rs:339
+msgid "An all-in-one Muslim app for Linux."
+msgstr "تطبيق إسلامي شامل لنظام لينكس."
+
+#: src/main.rs:342
 msgid "© 2026 Djalel Oukid"
 msgstr "جلال وكيد"
 
-#: src/main.rs:344
+#: src/main.rs:345
 msgid "translator-credits"
 msgstr "جلال وكيد"
 
-#: src/main.rs:348
+#: src/main.rs:349
 msgid "Location Policy"
 msgstr "سياسة الموقع"
 
-#: src/main.rs:351
+#: src/main.rs:352
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr ""
-"الوضع التلقائي: GeoClue (النظام). بحث المدينة: Nominatim (OpenStreetMap). "
-"الوضع اليدوي: بدون اتصال بالشبكة."
+msgstr "الوضع التلقائي: GeoClue (النظام). البحث عن المدن: Nominatim (OpenStreetMap). الوضع اليدوي: لا يوجد استهلاك للبيانات."
 
-#: src/main.rs:354
+#: src/main.rs:355
 msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
-#: src/main.rs:357
+#: src/main.rs:358
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr ""
-"تبقى الإحداثيات على هذا الجهاز ولا تُرسل إلى أي خوادم خارجية. بدون تحليلات، "
-"بدون قياس عن بُعد، بدون حسابات."
+msgstr "تبقى الإحداثيات على هذا الجهاز ولا يتم إرسالها إلى أي خوادم خارجية. لا توجد تحليلات ، ولا يوجد أي تتبع ، ولا حسابات."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -203,14 +88,12 @@ msgid "Calendar"
 msgstr "التقويم"
 
 #: src/nav_ui.rs:41 src/nav_ui.rs:128 src/pages.rs:363 src/pages.rs:386
-#, fuzzy
 msgid "Qibla"
-msgstr "قبلة"
+msgstr "القبلة"
 
 #: src/nav_ui.rs:46 src/nav_ui.rs:129 src/pages.rs:364 src/pages.rs:387
-#, fuzzy
 msgid "Adkar"
-msgstr "أذكار"
+msgstr "الأذكار"
 
 #: src/nav_ui.rs:51 src/nav_ui.rs:130 src/pages.rs:365 src/pages.rs:388
 msgid "Settings"
@@ -273,6 +156,14 @@ msgstr "جنوب"
 #: src/qibla_ui.rs:80
 msgid "W"
 msgstr "غرب"
+
+#: src/qibla_ui.rs:228
+msgid "Sensor Active (Smooth)"
+msgstr "المستشعر نشط (سلس)"
+
+#: src/qibla_ui.rs:230
+msgid "Manual Calculation"
+msgstr "حساب يدوي"
 
 #: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
 msgid "Theme"
@@ -339,7 +230,6 @@ msgid "Search"
 msgstr "بحث"
 
 #: src/settings_ui.rs:225
-#, fuzzy
 msgid "City not found. Please try again."
 msgstr "لم يتم العثور على المدينة. يرجى التحقق من الإملاء."
 
@@ -541,6 +431,30 @@ msgstr "أذان الحرم المكي"
 msgid "Madinah Adhan"
 msgstr "أذان الحرم المدني"
 
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "الفجر"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "الشروق"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "الظهر"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "العصر"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "المغرب"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "العشاء"
+
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "خلال"
@@ -597,11 +511,11 @@ msgstr "الحالة"
 msgid "Enable location services in system settings."
 msgstr "قم بتفعيل خدمة الموقع في إعدادات النظام."
 
-#: src/welcome.rs:319 src/welcome.rs:418
+#: src/welcome.rs:319 src/welcome.rs:422
 msgid "Detecting..."
 msgstr "جاري الكشف..."
 
-#: src/welcome.rs:324 src/welcome.rs:437
+#: src/welcome.rs:324 src/welcome.rs:442
 msgid "Found"
 msgstr "تم العثور على"
 
@@ -613,8 +527,185 @@ msgstr "اكتشف الآن"
 msgid "Continue"
 msgstr "متابعة"
 
-#~ msgid "Sensor Active (Smooth)"
-#~ msgstr "المستشعر نشط (سلس)"
+msgid "Sunday"
+msgstr "الأحد"
+
+msgid "Monday"
+msgstr "الإثنين"
+
+msgid "Tuesday"
+msgstr "الثلاثاء"
+
+msgid "Wednesday"
+msgstr "الأربعاء"
+
+msgid "Thursday"
+msgstr "الخميس"
+
+msgid "Friday"
+msgstr "الجمعة"
+
+msgid "Saturday"
+msgstr "السبت"
+
+msgid "Sun"
+msgstr "الأحد"
+
+msgid "Mon"
+msgstr "الإثنين"
+
+msgid "Tue"
+msgstr "الثلاثاء"
+
+msgid "Wed"
+msgstr "الأربعاء"
+
+msgid "Thu"
+msgstr "الخميس"
+
+msgid "Fri"
+msgstr "الجمعة"
+
+msgid "Sat"
+msgstr "السبت"
+
+msgid "Muharram"
+msgstr "محرم"
+
+msgid "Safar"
+msgstr "صفر"
+
+msgid "Rabi' al-Awwal"
+msgstr "ربيع الأول"
+
+msgid "Rabi' al-Thani"
+msgstr "ربيع الثاني"
+
+msgid "Jumada al-Ula"
+msgstr "جمادى الأولى"
+
+msgid "Jumada al-Akhirah"
+msgstr "جمادى الآخرة"
+
+msgid "Rajab"
+msgstr "رجب"
+
+msgid "Sha'ban"
+msgstr "شعبان"
+
+msgid "Ramadan"
+msgstr "رمضان"
+
+msgid "Shawwal"
+msgstr "شوال"
+
+msgid "Dhu al-Qi'dah"
+msgstr "ذو القعدة"
+
+msgid "Dhu al-Hijjah"
+msgstr "ذو الحجة"
+
+msgid "January"
+msgstr "يناير"
+
+msgid "February"
+msgstr "فبراير"
+
+msgid "March"
+msgstr "مارس"
+
+msgid "April"
+msgstr "أبريل"
+
+msgid "May"
+msgstr "مايو"
+
+msgid "June"
+msgstr "يونيو"
+
+msgid "July"
+msgstr "يوليو"
+
+msgid "August"
+msgstr "أغسطس"
+
+msgid "September"
+msgstr "سبتمبر"
+
+msgid "October"
+msgstr "أكتوبر"
+
+msgid "November"
+msgstr "نوفمبر"
+
+msgid "December"
+msgstr "ديسمبر"
+
+#~ msgid "An all-in-one Muslim app for Linux"
+#~ msgstr "تطبيق إسلامي شامل لنظام لينكس."
+
+#~ msgid "Prayer;Islam;Salah;"
+#~ msgstr "صلاة;إسلام;صلاح;"
+
+#~ msgid ""
+#~ "Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+#~ "smartphones. It centralizes your daily worship by providing accurate "
+#~ "prayer times, native staggered Adkar notifications, and a roadmap that "
+#~ "includes a dedicated Holy Quran experience—all with uncompromising "
+#~ "privacy and zero telemetry."
+#~ msgstr ""
+#~ "تطبيق خشوع هو تطبيق إسلامي شامل لنظام لينكس، الأجهزة اللوحية، والهواتف "
+#~ "الذكية. يجمع عباداتك اليومية من خلال توفير أوقات صلاة دقيقة، تنبيهات "
+#~ "أذكار متتابعة، وخارطة طريق تشمل تجربة مخصصة للقرآن الكريم — كل ذلك مع "
+#~ "خصوصية تامة وبدون أي تتبع."
+
+#~ msgid "Accurate prayer calculation methods (Offline)"
+#~ msgstr "طرق حساب صلاة دقيقة (بدون إنترنت)"
+
+#~ msgid "Morning, Evening, and Night Adkar with built-in counters"
+#~ msgstr "أذكار الصباح والمساء والنوم مع عدادات مدمجة"
+
+#~ msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+#~ msgstr "تنبيهات آذان قابلة للتخصيص (صوت مكة/المدينة)"
+
+#~ msgid "Interactive Qibla compass"
+#~ msgstr "بوصلة قبلة تفاعلية"
+
+#~ msgid "Hijri calendar mapping"
+#~ msgstr "تقويم هجري"
+
+#~ msgid "Privacy-first local encryption for your location data"
+#~ msgstr "تشفير محلي للبيانات لضمان الخصوصية"
+
+#~ msgid "Modern Libadwaita interface with adaptive Dark Mode"
+#~ msgstr "واجهة Libadwaita حديثة مع وضع ليلي متكيف"
+
+#~ msgid "Multi-language support"
+#~ msgstr "دعم تعدد اللغات"
+
+#~ msgid "Djalel Oukid"
+#~ msgstr "جلال وكيد"
+
+#~ msgid "prayer"
+#~ msgstr "صلاة"
+
+#~ msgid "salah"
+#~ msgstr "صلاة"
+
+#~ msgid "adhan"
+#~ msgstr "أذان"
+
+#~ msgid "adkar"
+#~ msgstr "أذكار"
+
+#~ msgid "qibla"
+#~ msgstr "قبلة"
+
+#~ msgid "muslim"
+#~ msgstr "مسلم"
+
+#~ msgid "islam"
+#~ msgstr "إسلام"
 
 #~ msgid "Assalamu Alaikum"
 #~ msgstr "السلام عليكم"
@@ -637,141 +728,6 @@ msgstr "متابعة"
 #~ msgid "Quit"
 #~ msgstr "خروج"
 
-#~ msgid "Fajr"
-#~ msgstr "الفجر"
-
-#~ msgid "Sunrise"
-#~ msgstr "الشروق"
-
-#~ msgid "Dhuhr"
-#~ msgstr "الظهر"
-
-#~ msgid "Asr"
-#~ msgstr "العصر"
-
-#~ msgid "Maghrib"
-#~ msgstr "المغرب"
-
-#~ msgid "Isha"
-#~ msgstr "العشاء"
-
-#~ msgid "Manual Calculation"
-#~ msgstr "حساب يدوي"
-
-#~ msgid "Sun"
-#~ msgstr "الأحد"
-
-#~ msgid "Mon"
-#~ msgstr "الإثنين"
-
-#~ msgid "Tue"
-#~ msgstr "الثلاثاء"
-
-#~ msgid "Wed"
-#~ msgstr "الأربعاء"
-
-#~ msgid "Thu"
-#~ msgstr "الخميس"
-
-#~ msgid "Fri"
-#~ msgstr "الجمعة"
-
-#~ msgid "Sat"
-#~ msgstr "السبت"
-
-#~ msgid "Muharram"
-#~ msgstr "محرم"
-
-#~ msgid "Safar"
-#~ msgstr "صفر"
-
-#~ msgid "Rabi' al-Awwal"
-#~ msgstr "ربيع الأول"
-
-#~ msgid "Rabi' al-Thani"
-#~ msgstr "ربيع الثاني"
-
-#~ msgid "Jumada al-Ula"
-#~ msgstr "جمادى الأولى"
-
-#~ msgid "Jumada al-Akhirah"
-#~ msgstr "جمادى الآخرة"
-
-#~ msgid "Rajab"
-#~ msgstr "رجب"
-
-#~ msgid "Sha'ban"
-#~ msgstr "شعبان"
-
-#~ msgid "Ramadan"
-#~ msgstr "رمضان"
-
-#~ msgid "Shawwal"
-#~ msgstr "شوال"
-
-#~ msgid "Dhu al-Qi'dah"
-#~ msgstr "ذو القعدة"
-
-#~ msgid "Dhu al-Hijjah"
-#~ msgstr "ذو الحجة"
-
-#~ msgid "January"
-#~ msgstr "يناير"
-
-#~ msgid "February"
-#~ msgstr "فبراير"
-
-#~ msgid "March"
-#~ msgstr "مارس"
-
-#~ msgid "April"
-#~ msgstr "أبريل"
-
-#~ msgid "May"
-#~ msgstr "مايو"
-
-#~ msgid "June"
-#~ msgstr "يونيو"
-
-#~ msgid "July"
-#~ msgstr "يوليو"
-
-#~ msgid "August"
-#~ msgstr "أغسطس"
-
-#~ msgid "September"
-#~ msgstr "سبتمبر"
-
-#~ msgid "October"
-#~ msgstr "أكتوبر"
-
-#~ msgid "November"
-#~ msgstr "نوفمبر"
-
-#~ msgid "December"
-#~ msgstr "ديسمبر"
-
-#~ msgid "Sunday"
-#~ msgstr "الأحد"
-
-#~ msgid "Monday"
-#~ msgstr "الإثنين"
-
-#~ msgid "Tuesday"
-#~ msgstr "الثلاثاء"
-
-#~ msgid "Wednesday"
-#~ msgstr "الأربعاء"
-
-#~ msgid "Thursday"
-#~ msgstr "الخميس"
-
-#~ msgid "Friday"
-#~ msgstr "الجمعة"
-
-#~ msgid "Saturday"
-#~ msgstr "السبت"
-
 #~ msgid "First Day of Ramadan"
 #~ msgstr "أول أيام رمضان"
 
@@ -786,9 +742,6 @@ msgstr "متابعة"
 
 #~ msgid "Islamic New Year"
 #~ msgstr "رأس السنة الهجرية"
-
-#~ msgid "Ashura"
-#~ msgstr "عاشوراء"
 
 #~ msgid "Mawlid al-Nabi"
 #~ msgstr "المولد النبوي الشريف"

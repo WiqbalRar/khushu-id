@@ -366,11 +366,14 @@ where
     let city_row_for_search = city_row.clone();
     let city_search_btn_for_search = city_search_btn.clone();
     let config_for_city_search = config.clone();
+    let current_lang_for_search = current_lang.clone();
     let perform_city_search = std::rc::Rc::new(move || {
         let query = city_row_for_search.text().to_string();
         if query.trim().is_empty() {
             return;
         }
+
+        let current_lang_clone_search = current_lang_for_search.clone();
 
         city_row_for_search.remove_css_class("error");
         city_row_for_search.remove_css_class("success");
@@ -379,7 +382,8 @@ where
         let config_clone = config_for_city_search.clone();
 
         gtk::glib::spawn_future_local(async move {
-            let result = location::search_city(&query).await;
+            let lang = current_lang_clone_search.borrow().clone();
+            let result = location::search_city(&query, &lang).await;
             if let Ok((lat, lon, name)) = result {
                 let mut cfg = config_clone.borrow_mut();
                 cfg.latitude = lat;
@@ -422,7 +426,8 @@ where
         let current_lang_for_status = current_lang_for_detect.clone();
         let state_clone = location_state_for_detect.clone();
         gtk::glib::spawn_future_local(async move {
-            let result = location::fetch_auto_location().await;
+            let lang = current_lang_for_status.borrow().clone();
+            let result = location::fetch_auto_location(&lang).await;
             match result {
                 Ok((lat, lon, city)) => {
                     let mut cfg = config_clone.borrow_mut();

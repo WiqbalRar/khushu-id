@@ -225,11 +225,11 @@ pub fn create_qibla_page(
             tr(get_cardinal(q_bearing), &lang)
         ));
         let status_text = if compass_clone.is_available() {
-            "Sensor Active (Smooth)"
+            tr("Sensor Active (Smooth)", &lang)
         } else {
-            "Manual Calculation"
+            tr("Manual Calculation", &lang)
         };
-        s_label.set_label(&tr(status_text, &lang));
+        s_label.set_label(&status_text);
 
         drawing_area_clone.queue_draw();
     });

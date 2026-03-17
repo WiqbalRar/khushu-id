@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: khushu\n"
+"Project-Id-Version: khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 16:28+0100\n"
+"POT-Creation-Date: 2026-03-17 00:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,115 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: data/io.github.sniper1720.khushu.desktop.in:2
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:230
-#: src/main.rs:334 src/pages.rs:394
-msgid "Khushu"
-msgstr ""
-
-#: data/io.github.sniper1720.khushu.desktop.in:3
-msgid "An all-in-one Muslim app for Linux"
-msgstr ""
-
-#: data/io.github.sniper1720.khushu.desktop.in:9
-msgid "Prayer;Islam;Salah;"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:338
-msgid "An all-in-one Muslim app for Linux."
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate prayer "
-"times, native staggered Adkar notifications, and a roadmap that includes a "
-"dedicated Holy Quran experience—all with uncompromising privacy and zero "
-"telemetry."
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
-msgid "Accurate prayer calculation methods (Offline)"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
-msgid "Morning, Evening, and Night Adkar with built-in counters"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
-msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
-msgid "Interactive Qibla compass"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
-msgid "Hijri calendar mapping"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
-msgid "Privacy-first local encryption for your location data"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
-msgid "Modern Libadwaita interface with adaptive Dark Mode"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
-msgid "Multi-language support"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:29
-msgid ""
-"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
-"countdown, and Hijri date."
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:33
-msgid ""
-"Adkar & Supplications: Access Daily Adkar with built-in counters and "
-"staggered notifications."
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:37
-msgid ""
-"Interactive Qibla Direction: A beautifully rendered compass pointing to "
-"Mecca based on your GPS."
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
-msgid "Djalel Oukid"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:53
-msgid "prayer"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
-msgid "salah"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:55
-msgid "adhan"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:56
-msgid "adkar"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:57
-msgid "qibla"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:58
-msgid "muslim"
-msgstr ""
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:59
-msgid "islam"
-msgstr ""
 
 #: src/adkar.rs:220 src/adkar.rs:240
 msgid "Morning"
@@ -142,41 +33,49 @@ msgstr ""
 msgid "Date Details"
 msgstr ""
 
-#: src/main.rs:202 src/nav_ui.rs:126 src/pages.rs:384
+#: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
 msgstr ""
 
-#: src/main.rs:207 src/main.rs:209
+#: src/main.rs:208 src/main.rs:210
 msgid "Toggle Sidebar"
 msgstr ""
 
-#: src/main.rs:336 src/main.rs:343
+#: src/main.rs:231 src/main.rs:335 src/pages.rs:394
+msgid "Khushu"
+msgstr ""
+
+#: src/main.rs:337 src/main.rs:344
 msgid "Djalel Oukid (sniper1720)"
 msgstr ""
 
-#: src/main.rs:341
+#: src/main.rs:339
+msgid "An all-in-one Muslim app for Linux."
+msgstr ""
+
+#: src/main.rs:342
 msgid "© 2026 Djalel Oukid"
 msgstr ""
 
-#: src/main.rs:344
+#: src/main.rs:345
 msgid "translator-credits"
 msgstr ""
 
-#: src/main.rs:348
+#: src/main.rs:349
 msgid "Location Policy"
 msgstr ""
 
-#: src/main.rs:351
+#: src/main.rs:352
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
 msgstr ""
 
-#: src/main.rs:354
+#: src/main.rs:355
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/main.rs:357
+#: src/main.rs:358
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
@@ -258,6 +157,14 @@ msgstr ""
 
 #: src/qibla_ui.rs:80
 msgid "W"
+msgstr ""
+
+#: src/qibla_ui.rs:228
+msgid "Sensor Active (Smooth)"
+msgstr ""
+
+#: src/qibla_ui.rs:230
+msgid "Manual Calculation"
 msgstr ""
 
 #: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
@@ -525,6 +432,30 @@ msgstr ""
 msgid "Madinah Adhan"
 msgstr ""
 
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr ""
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr ""
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr ""
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr ""
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr ""
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr ""
+
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr ""
@@ -581,11 +512,11 @@ msgstr ""
 msgid "Enable location services in system settings."
 msgstr ""
 
-#: src/welcome.rs:319 src/welcome.rs:418
+#: src/welcome.rs:319 src/welcome.rs:422
 msgid "Detecting..."
 msgstr ""
 
-#: src/welcome.rs:324 src/welcome.rs:437
+#: src/welcome.rs:324 src/welcome.rs:442
 msgid "Found"
 msgstr ""
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 16:28+0100\n"
+"POT-Creation-Date: 2026-03-16 23:51+0100\n"
 "PO-Revision-Date: 2026-02-13 02:26+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Spanish\n"
@@ -14,127 +14,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: data/io.github.sniper1720.khushu.desktop.in:2
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:230
-#: src/main.rs:334 src/pages.rs:394
-msgid "Khushu"
-msgstr "Khushu"
-
-#: data/io.github.sniper1720.khushu.desktop.in:3
-msgid "An all-in-one Muslim app for Linux"
-msgstr "Una aplicación musulmana todo-en-uno para Linux."
-
-#: data/io.github.sniper1720.khushu.desktop.in:9
-msgid "Prayer;Islam;Salah;"
-msgstr "Oración;Islam;Salah;"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:338
-msgid "An all-in-one Muslim app for Linux."
-msgstr "Una aplicación musulmana todo-en-uno para Linux."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate prayer "
-"times, native staggered Adkar notifications, and a roadmap that includes a "
-"dedicated Holy Quran experience—all with uncompromising privacy and zero "
-"telemetry."
-msgstr ""
-"Khushu es tu aplicación musulmana todo en uno para el escritorio Linux, "
-"tabletas y teléfonos inteligentes. Centraliza tu adoración diaria "
-"proporcionando horarios de oración precisos, notificaciones de Adkar "
-"escalonadas nativas y una hoja de ruta que incluye una experiencia dedicada "
-"al Sagrado Corán, todo con una privacidad sin concesiones y cero telemetría."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
-msgid "Accurate prayer calculation methods (Offline)"
-msgstr "Métodos de cálculo de oración precisos (Fuera de línea)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
-msgid "Morning, Evening, and Night Adkar with built-in counters"
-msgstr "Adkar de mañana, tarde y noche con contadores integrados"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
-msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
-msgstr ""
-"Notificaciones del sistema de Adhan personalizables (audio de La Meca/Medina)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
-msgid "Interactive Qibla compass"
-msgstr "Brújula de Qibla interactiva"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
-msgid "Hijri calendar mapping"
-msgstr "Mapeo del calendario Hijri"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
-msgid "Privacy-first local encryption for your location data"
-msgstr "Cifrado local de tus datos de ubicación para una privacidad absoluta"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
-msgid "Modern Libadwaita interface with adaptive Dark Mode"
-msgstr "Interfaz moderna de Libadwaita con modo oscuro adaptable"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
-msgid "Multi-language support"
-msgstr "Soporte para múltiples idiomas"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:29
-msgid ""
-"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
-"countdown, and Hijri date."
-msgstr ""
-"Panel de horarios de oración: vea las horas de oración diarias precisas, la "
-"cuenta regresiva de la próxima oración y la fecha Hijri."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:33
-msgid ""
-"Adkar & Supplications: Access Daily Adkar with built-in counters and "
-"staggered notifications."
-msgstr ""
-"Adkar y súplicas: acceda al Adkar diario con contadores integrados y "
-"notificaciones escalonadas."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:37
-msgid ""
-"Interactive Qibla Direction: A beautifully rendered compass pointing to "
-"Mecca based on your GPS."
-msgstr ""
-"Dirección de Qibla interactiva: una brújula bellamente renderizada que "
-"apunta a La Meca según su GPS."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
-msgid "Djalel Oukid"
-msgstr "Djalel Oukid"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:53
-msgid "prayer"
-msgstr "oración"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
-msgid "salah"
-msgstr "salah"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:55
-msgid "adhan"
-msgstr "adhan"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:56
-msgid "adkar"
-msgstr "adkar"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:57
-msgid "qibla"
-msgstr "qibla"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:58
-msgid "muslim"
-msgstr "musulmán"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:59
-msgid "islam"
-msgstr "islam"
 
 #: src/adkar.rs:220 src/adkar.rs:240
 msgid "Morning"
@@ -152,50 +31,53 @@ msgstr "Noche"
 msgid "Date Details"
 msgstr "Detalles"
 
-#: src/main.rs:202 src/nav_ui.rs:126 src/pages.rs:384
+#: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
 msgstr "Horarios de oración"
 
-#: src/main.rs:207 src/main.rs:209
+#: src/main.rs:208 src/main.rs:210
 msgid "Toggle Sidebar"
 msgstr "Alternar barra lateral"
 
-#: src/main.rs:336 src/main.rs:343
+#: src/main.rs:231 src/main.rs:335 src/pages.rs:394
+msgid "Khushu"
+msgstr "Khushu"
+
+#: src/main.rs:337 src/main.rs:344
 msgid "Djalel Oukid (sniper1720)"
 msgstr "Djalel Oukid (sniper1720)"
 
-#: src/main.rs:341
-#, fuzzy
+#: src/main.rs:339
+msgid "An all-in-one Muslim app for Linux."
+msgstr "Una aplicación musulmana todo-en-uno para Linux."
+
+#: src/main.rs:342
 msgid "© 2026 Djalel Oukid"
 msgstr "Djalel Oukid"
 
-#: src/main.rs:344
+#: src/main.rs:345
 msgid "translator-credits"
 msgstr "Djalel Oukid"
 
-#: src/main.rs:348
+#: src/main.rs:349
 msgid "Location Policy"
 msgstr "Política de ubicación"
 
-#: src/main.rs:351
+#: src/main.rs:352
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr ""
-"Modo automático: GeoClue (sistema). Búsqueda de ciudad: Nominatim "
-"(OpenStreetMap). Modo manual: sin tráfico de red."
+msgstr "Modo automático: GeoClue (sistema). Búsqueda de ciudades: Nominatim (OpenStreetMap). Modo manual: cero tráfico de red."
 
-#: src/main.rs:354
+#: src/main.rs:355
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: src/main.rs:357
+#: src/main.rs:358
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr ""
-"Las coordenadas permanecen en este dispositivo y no se envían a ningún "
-"servidor externo. Sin analíticas, sin telemetría, sin cuentas."
+msgstr "Las coordenadas permanecen en este dispositivo y no se envían a ningún servidor externo. Sin análisis, sin telemetría, sin cuentas."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -206,12 +88,10 @@ msgid "Calendar"
 msgstr "Calendario"
 
 #: src/nav_ui.rs:41 src/nav_ui.rs:128 src/pages.rs:363 src/pages.rs:386
-#, fuzzy
 msgid "Qibla"
 msgstr "qibla"
 
 #: src/nav_ui.rs:46 src/nav_ui.rs:129 src/pages.rs:364 src/pages.rs:387
-#, fuzzy
 msgid "Adkar"
 msgstr "adkar"
 
@@ -276,6 +156,14 @@ msgstr "S"
 #: src/qibla_ui.rs:80
 msgid "W"
 msgstr "O"
+
+#: src/qibla_ui.rs:228
+msgid "Sensor Active (Smooth)"
+msgstr "Sensor activo (fluido)"
+
+#: src/qibla_ui.rs:230
+msgid "Manual Calculation"
+msgstr "Cálculo Manual"
 
 #: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
 msgid "Theme"
@@ -342,7 +230,6 @@ msgid "Search"
 msgstr "Buscar"
 
 #: src/settings_ui.rs:225
-#, fuzzy
 msgid "City not found. Please try again."
 msgstr "Ciudad no encontrada. Por favor, compruebe la ortografía."
 
@@ -546,6 +433,30 @@ msgstr "Adhan de La Meca"
 msgid "Madinah Adhan"
 msgstr "Adhan de Medina"
 
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "Fajr"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "Amanecer"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "Dhuhr"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "Asr"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "Maghrib"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "Isha"
+
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "en"
@@ -602,11 +513,11 @@ msgstr "Estado"
 msgid "Enable location services in system settings."
 msgstr "Active los servicios de ubicación en la configuración del sistema."
 
-#: src/welcome.rs:319 src/welcome.rs:418
+#: src/welcome.rs:319 src/welcome.rs:422
 msgid "Detecting..."
 msgstr "Detectando..."
 
-#: src/welcome.rs:324 src/welcome.rs:437
+#: src/welcome.rs:324 src/welcome.rs:442
 msgid "Found"
 msgstr "Encontrado"
 
@@ -618,11 +529,193 @@ msgstr "Detectar ahora"
 msgid "Continue"
 msgstr "Continuar"
 
+msgid "Sunday"
+msgstr "Domingo"
+
+msgid "Monday"
+msgstr "Lunes"
+
+msgid "Tuesday"
+msgstr "Martes"
+
+msgid "Wednesday"
+msgstr "Miércoles"
+
+msgid "Thursday"
+msgstr "Jueves"
+
+msgid "Friday"
+msgstr "Viernes"
+
+msgid "Saturday"
+msgstr "Sábado"
+
+msgid "Sun"
+msgstr "Dom"
+
+msgid "Mon"
+msgstr "Lun"
+
+msgid "Tue"
+msgstr "Mar"
+
+msgid "Wed"
+msgstr "Mié"
+
+msgid "Thu"
+msgstr "Jue"
+
+msgid "Fri"
+msgstr "Vie"
+
+msgid "Sat"
+msgstr "Sáb"
+
+msgid "Muharram"
+msgstr "Muharram"
+
+msgid "Safar"
+msgstr "Safar"
+
+msgid "Rabi' al-Awwal"
+msgstr "Rabi' al-Awwal"
+
+msgid "Rabi' al-Thani"
+msgstr "Rabi' al-Thani"
+
+msgid "Jumada al-Ula"
+msgstr "Jumada al-Ula"
+
+msgid "Jumada al-Akhirah"
+msgstr "Jumada al-Akhirah"
+
+msgid "Rajab"
+msgstr "Rajab"
+
+msgid "Sha'ban"
+msgstr "Sha'ban"
+
+msgid "Ramadan"
+msgstr "Ramadán"
+
+msgid "Shawwal"
+msgstr "Shawwal"
+
+msgid "Dhu al-Qi'dah"
+msgstr "Dhu al-Qi'dah"
+
+msgid "Dhu al-Hijjah"
+msgstr "Dhu al-Hijjah"
+
+msgid "January"
+msgstr "Enero"
+
+msgid "February"
+msgstr "Febrero"
+
+msgid "March"
+msgstr "Marzo"
+
+msgid "April"
+msgstr "Abril"
+
+msgid "May"
+msgstr "Mayo"
+
+msgid "June"
+msgstr "Junio"
+
+msgid "July"
+msgstr "Julio"
+
+msgid "August"
+msgstr "Agosto"
+
+msgid "September"
+msgstr "Septiembre"
+
+msgid "October"
+msgstr "Octubre"
+
+msgid "November"
+msgstr "Noviembre"
+
+msgid "December"
+msgstr "Diciembre"
+
+#~ msgid "An all-in-one Muslim app for Linux"
+#~ msgstr "Una aplicación musulmana todo-en-uno para Linux."
+
+#~ msgid "Prayer;Islam;Salah;"
+#~ msgstr "Oración;Islam;Salah;"
+
+#~ msgid ""
+#~ "Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+#~ "smartphones. It centralizes your daily worship by providing accurate "
+#~ "prayer times, native staggered Adkar notifications, and a roadmap that "
+#~ "includes a dedicated Holy Quran experience—all with uncompromising "
+#~ "privacy and zero telemetry."
+#~ msgstr ""
+#~ "Khushu es tu aplicación musulmana todo en uno para el escritorio Linux, "
+#~ "tabletas y teléfonos inteligentes. Centraliza tu adoración diaria "
+#~ "proporcionando horarios de oración precisos, notificaciones de Adkar "
+#~ "escalonadas nativas y una hoja de ruta que incluye una experiencia "
+#~ "dedicada al Sagrado Corán, todo con una privacidad sin concesiones y cero "
+#~ "telemetría."
+
+#~ msgid "Accurate prayer calculation methods (Offline)"
+#~ msgstr "Métodos de cálculo de oración precisos (Fuera de línea)"
+
+#~ msgid "Morning, Evening, and Night Adkar with built-in counters"
+#~ msgstr "Adkar de mañana, tarde y noche con contadores integrados"
+
+#~ msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+#~ msgstr ""
+#~ "Notificaciones del sistema de Adhan personalizables (audio de La Meca/"
+#~ "Medina)"
+
+#~ msgid "Interactive Qibla compass"
+#~ msgstr "Brújula de Qibla interactiva"
+
+#~ msgid "Hijri calendar mapping"
+#~ msgstr "Mapeo del calendario Hijri"
+
+#~ msgid "Privacy-first local encryption for your location data"
+#~ msgstr ""
+#~ "Cifrado local de tus datos de ubicación para una privacidad absoluta"
+
+#~ msgid "Modern Libadwaita interface with adaptive Dark Mode"
+#~ msgstr "Interfaz moderna de Libadwaita con modo oscuro adaptable"
+
+#~ msgid "Multi-language support"
+#~ msgstr "Soporte para múltiples idiomas"
+
+#~ msgid "Djalel Oukid"
+#~ msgstr "Djalel Oukid"
+
+#~ msgid "prayer"
+#~ msgstr "oración"
+
+#~ msgid "salah"
+#~ msgstr "salah"
+
+#~ msgid "adhan"
+#~ msgstr "adhan"
+
+#~ msgid "adkar"
+#~ msgstr "adkar"
+
+#~ msgid "qibla"
+#~ msgstr "qibla"
+
+#~ msgid "muslim"
+#~ msgstr "musulmán"
+
+#~ msgid "islam"
+#~ msgstr "islam"
+
 #~ msgid "Assalamu Alaikum"
 #~ msgstr "Assalamu Alaikum"
-
-#~ msgid "Sensor Active (Smooth)"
-#~ msgstr "Sensor activo (fluido)"
 
 #~ msgid "Cancel"
 #~ msgstr "Cancelar"
@@ -641,138 +734,6 @@ msgstr "Continuar"
 
 #~ msgid "Quit"
 #~ msgstr "Salir"
-
-#~ msgid "Fajr"
-#~ msgstr "Fajr"
-
-#~ msgid "Sunrise"
-#~ msgstr "Amanecer"
-
-#~ msgid "Dhuhr"
-#~ msgstr "Dhuhr"
-
-#~ msgid "Asr"
-#~ msgstr "Asr"
-
-#~ msgid "Maghrib"
-#~ msgstr "Maghrib"
-
-#~ msgid "Isha"
-#~ msgstr "Isha"
-
-#~ msgid "Sun"
-#~ msgstr "Dom"
-
-#~ msgid "Mon"
-#~ msgstr "Lun"
-
-#~ msgid "Tue"
-#~ msgstr "Mar"
-
-#~ msgid "Wed"
-#~ msgstr "Mié"
-
-#~ msgid "Thu"
-#~ msgstr "Jue"
-
-#~ msgid "Fri"
-#~ msgstr "Vie"
-
-#~ msgid "Sat"
-#~ msgstr "Sáb"
-
-#~ msgid "Muharram"
-#~ msgstr "Muharram"
-
-#~ msgid "Safar"
-#~ msgstr "Safar"
-
-#~ msgid "Rabi' al-Awwal"
-#~ msgstr "Rabi' al-Awwal"
-
-#~ msgid "Rabi' al-Thani"
-#~ msgstr "Rabi' al-Thani"
-
-#~ msgid "Jumada al-Ula"
-#~ msgstr "Jumada al-Ula"
-
-#~ msgid "Jumada al-Akhirah"
-#~ msgstr "Jumada al-Akhirah"
-
-#~ msgid "Rajab"
-#~ msgstr "Rajab"
-
-#~ msgid "Sha'ban"
-#~ msgstr "Sha'ban"
-
-#~ msgid "Ramadan"
-#~ msgstr "Ramadán"
-
-#~ msgid "Shawwal"
-#~ msgstr "Shawwal"
-
-#~ msgid "Dhu al-Qi'dah"
-#~ msgstr "Dhu al-Qi'dah"
-
-#~ msgid "Dhu al-Hijjah"
-#~ msgstr "Dhu al-Hijjah"
-
-#~ msgid "January"
-#~ msgstr "Enero"
-
-#~ msgid "February"
-#~ msgstr "Febrero"
-
-#~ msgid "March"
-#~ msgstr "Marzo"
-
-#~ msgid "April"
-#~ msgstr "Abril"
-
-#~ msgid "May"
-#~ msgstr "Mayo"
-
-#~ msgid "June"
-#~ msgstr "Junio"
-
-#~ msgid "July"
-#~ msgstr "Julio"
-
-#~ msgid "August"
-#~ msgstr "Agosto"
-
-#~ msgid "September"
-#~ msgstr "Septiembre"
-
-#~ msgid "October"
-#~ msgstr "Octubre"
-
-#~ msgid "November"
-#~ msgstr "Noviembre"
-
-#~ msgid "December"
-#~ msgstr "Diciembre"
-
-#~ msgid "Sunday"
-#~ msgstr "Domingo"
-
-#~ msgid "Monday"
-#~ msgstr "Lunes"
-
-#~ msgid "Tuesday"
-#~ msgstr "Martes"
-
-#~ msgid "Wednesday"
-#~ msgstr "Miércoles"
-
-#~ msgid "Thursday"
-#~ msgstr "Jueves"
-
-#~ msgid "Friday"
-#~ msgstr "Viernes"
-
-#~ msgid "Saturday"
-#~ msgstr "Sábado"
 
 #~ msgid "First Day of Ramadan"
 #~ msgstr "Primer Día de Ramadán"
@@ -794,9 +755,6 @@ msgstr "Continuar"
 
 #~ msgid "Mawlid al-Nabi"
 #~ msgstr "Mawlid al-Nabi"
-
-#~ msgid "Manual Calculation"
-#~ msgstr "Cálculo Manual"
 
 #~ msgid "Location service unavailable. Please check system settings."
 #~ msgstr ""

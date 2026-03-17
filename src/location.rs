@@ -39,11 +39,11 @@ pub fn short_city_with_country(display_name: &str) -> String {
 use ashpd::desktop::location::{Accuracy, LocationProxy};
 use futures_util::StreamExt;
 
-pub async fn fetch_auto_location() -> Result<(f64, f64, String), String> {
-    fetch_geoclue_location().await
+pub async fn fetch_auto_location(lang: &str) -> Result<(f64, f64, String), String> {
+    fetch_geoclue_location(lang).await
 }
 
-async fn fetch_geoclue_location() -> Result<(f64, f64, String), String> {
+async fn fetch_geoclue_location(lang: &str) -> Result<(f64, f64, String), String> {
     log::info!("Attempting to fetch location via ASHPD Portal...");
 
     let proxy = LocationProxy::new().await.map_err(|e| {
@@ -95,10 +95,10 @@ async fn fetch_geoclue_location() -> Result<(f64, f64, String), String> {
 
     log::info!("Portal location fetched: {}, {}", lat, lon);
 
-    let city = match reverse_geocode(lat, lon).await {
+    let city = match reverse_geocode(lat, lon, lang).await {
         Ok(name) => {
             log::info!("Reverse geocoded to: {}", name);
-            name
+            short_city_with_country(&name)
         }
         Err(e) => {
             log::warn!("Reverse geocode failed, using coordinates: {}", e);
@@ -109,12 +109,12 @@ async fn fetch_geoclue_location() -> Result<(f64, f64, String), String> {
     Ok((lat, lon, city))
 }
 
-async fn reverse_geocode(lat: f64, lon: f64) -> Result<String, String> {
+async fn reverse_geocode(lat: f64, lon: f64, lang: &str) -> Result<String, String> {
     let http = client();
 
     let url = format!(
-        "https://nominatim.openstreetmap.org/reverse?lat={}&lon={}&format=json&zoom=10",
-        lat, lon
+        "https://nominatim.openstreetmap.org/reverse?lat={}&lon={}&format=json&zoom=10&accept-language={}",
+        lat, lon, lang
     );
 
     let resp = http
@@ -141,13 +141,14 @@ fn format_coordinates(lat: f64, lon: f64) -> String {
     format!("{:.2}°{}, {:.2}°{}", lat.abs(), lat_dir, lon.abs(), lon_dir)
 }
 
-pub async fn search_city(query: &str) -> Result<(f64, f64, String), String> {
+pub async fn search_city(query: &str, lang: &str) -> Result<(f64, f64, String), String> {
     log::info!("Searching for city: {}", query);
     let http = client();
 
     let url = format!(
-        "https://nominatim.openstreetmap.org/search?q={}&format=json&limit=1",
-        urlencoding::encode(query)
+        "https://nominatim.openstreetmap.org/search?q={}&format=json&limit=1&accept-language={}",
+        urlencoding::encode(query),
+        lang
     );
 
     let resp = http.get(url).send().await.map_err(|e| {

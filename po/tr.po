@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 16:28+0100\n"
+"POT-Creation-Date: 2026-03-16 23:51+0100\n"
 "PO-Revision-Date: 2026-02-24 20:00+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Turkish\n"
@@ -14,126 +14,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: data/io.github.sniper1720.khushu.desktop.in:2
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:230
-#: src/main.rs:334 src/pages.rs:394
-msgid "Khushu"
-msgstr "Khushu"
-
-#: data/io.github.sniper1720.khushu.desktop.in:3
-msgid "An all-in-one Muslim app for Linux"
-msgstr "Linux için hepsi bir arada Müslüman uygulaması."
-
-#: data/io.github.sniper1720.khushu.desktop.in:9
-msgid "Prayer;Islam;Salah;"
-msgstr "Namaz;İslam;Salah;"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:338
-msgid "An all-in-one Muslim app for Linux."
-msgstr "Linux için hepsi bir arada Müslüman uygulaması."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate prayer "
-"times, native staggered Adkar notifications, and a roadmap that includes a "
-"dedicated Holy Quran experience—all with uncompromising privacy and zero "
-"telemetry."
-msgstr ""
-"Khushu; Linux masaüstü, tabletler ve akıllı telefonlar için hepsi bir arada "
-"Müslüman uygulamasıdır. Doğru namaz vakitleri, yerel kademeli Zikir "
-"bildirimleri ve adanmış bir Kur'an-ı Kerim deneyimini içeren bir yol "
-"haritası sunarak günlük ibadetlerinizi tek bir merkezde toplar; tüm bunları "
-"tavizsiz gizlilik ve sıfır telemetri ile yapar."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
-msgid "Accurate prayer calculation methods (Offline)"
-msgstr "Doğru namaz hesaplama yöntemleri (Çevrimdışı)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
-msgid "Morning, Evening, and Night Adkar with built-in counters"
-msgstr "Yerleşik sayaçlarla Sabah, Akşam ve Gece Zikirleri"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
-msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
-msgstr "Özelleştirilebilir Ezan sistemi bildirimleri (Mekke/Medine sesleri)"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
-msgid "Interactive Qibla compass"
-msgstr "Etkileşimli Kıble pusulası"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
-msgid "Hijri calendar mapping"
-msgstr "Hicri takvim eşlemesi"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
-msgid "Privacy-first local encryption for your location data"
-msgstr "Konum verileriniz için gizlilik öncelikli yerel şifreleme"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
-msgid "Modern Libadwaita interface with adaptive Dark Mode"
-msgstr "Uyarlanabilir Karanlık Mod ile modern Libadwaita arayüzü"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
-msgid "Multi-language support"
-msgstr "Çoklu dil desteği"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:29
-msgid ""
-"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
-"countdown, and Hijri date."
-msgstr ""
-"Namaz Vakitleri Paneli: Günlük doğru Namaz vakitlerini, yaklaşan namaz geri "
-"sayımını ve Hicri tarihi görüntüleyin."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:33
-msgid ""
-"Adkar & Supplications: Access Daily Adkar with built-in counters and "
-"staggered notifications."
-msgstr ""
-"Zikirler ve Dualar: Yerleşik sayaçlar ve kademeli bildirimlerle Günlük "
-"Zikirler'e erişin."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:37
-msgid ""
-"Interactive Qibla Direction: A beautifully rendered compass pointing to "
-"Mecca based on your GPS."
-msgstr ""
-"Etkileşimli Kıble Yönü: GPS'inize göre Mekke'yi gösteren, güzelce "
-"oluşturulmuş bir pusula."
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
-msgid "Djalel Oukid"
-msgstr "Djalel Oukid"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:53
-msgid "prayer"
-msgstr "namaz"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
-msgid "salah"
-msgstr "namaz"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:55
-msgid "adhan"
-msgstr "ezan"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:56
-msgid "adkar"
-msgstr "zikir"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:57
-msgid "qibla"
-msgstr "kıble"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:58
-msgid "muslim"
-msgstr "müslüman"
-
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:59
-msgid "islam"
-msgstr "islam"
 
 #: src/adkar.rs:220 src/adkar.rs:240
 msgid "Morning"
@@ -151,50 +31,53 @@ msgstr "Gece"
 msgid "Date Details"
 msgstr "Detaylar"
 
-#: src/main.rs:202 src/nav_ui.rs:126 src/pages.rs:384
+#: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
 msgstr "Namaz Vakitleri"
 
-#: src/main.rs:207 src/main.rs:209
+#: src/main.rs:208 src/main.rs:210
 msgid "Toggle Sidebar"
 msgstr "Kenar çubuğunu aç/kapat"
 
-#: src/main.rs:336 src/main.rs:343
+#: src/main.rs:231 src/main.rs:335 src/pages.rs:394
+msgid "Khushu"
+msgstr "Khushu"
+
+#: src/main.rs:337 src/main.rs:344
 msgid "Djalel Oukid (sniper1720)"
 msgstr "Djalel Oukid (sniper1720)"
 
-#: src/main.rs:341
-#, fuzzy
+#: src/main.rs:339
+msgid "An all-in-one Muslim app for Linux."
+msgstr "Linux için hepsi bir arada Müslüman uygulaması."
+
+#: src/main.rs:342
 msgid "© 2026 Djalel Oukid"
 msgstr "Djalel Oukid"
 
-#: src/main.rs:344
+#: src/main.rs:345
 msgid "translator-credits"
 msgstr "Djalel Oukid"
 
-#: src/main.rs:348
+#: src/main.rs:349
 msgid "Location Policy"
 msgstr "Konum Politikası"
 
-#: src/main.rs:351
+#: src/main.rs:352
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr ""
-"Otomatik mod: GeoClue (sistem). Şehir arama: Nominatim (OpenStreetMap). "
-"Manuel mod: sıfır ağ trafiği."
+msgstr "Otomatik mod: GeoClue (sistem). Şehir arama: Nominatim (OpenStreetMap). Manuel mod: sıfır ağ trafiği."
 
-#: src/main.rs:354
+#: src/main.rs:355
 msgid "Privacy Policy"
 msgstr "Gizlilik Politikası"
 
-#: src/main.rs:357
+#: src/main.rs:358
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr ""
-"Koordinatlar bu cihazda kalır ve harici sunuculara gönderilmez. Analiz yok, "
-"telemetri yok, hesap yok."
+msgstr "Koordinatlar bu cihazda kalır ve herhangi bir harici sunucuya gönderilmez. Analiz yok, telemetri yok, hesap yok."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -205,12 +88,10 @@ msgid "Calendar"
 msgstr "Takvim"
 
 #: src/nav_ui.rs:41 src/nav_ui.rs:128 src/pages.rs:363 src/pages.rs:386
-#, fuzzy
 msgid "Qibla"
 msgstr "kıble"
 
 #: src/nav_ui.rs:46 src/nav_ui.rs:129 src/pages.rs:364 src/pages.rs:387
-#, fuzzy
 msgid "Adkar"
 msgstr "zikir"
 
@@ -275,6 +156,14 @@ msgstr "G"
 #: src/qibla_ui.rs:80
 msgid "W"
 msgstr "B"
+
+#: src/qibla_ui.rs:228
+msgid "Sensor Active (Smooth)"
+msgstr "Sensör aktif (Pürüzsüz)"
+
+#: src/qibla_ui.rs:230
+msgid "Manual Calculation"
+msgstr "Manuel Hesaplama"
 
 #: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
 msgid "Theme"
@@ -341,7 +230,6 @@ msgid "Search"
 msgstr "Ara"
 
 #: src/settings_ui.rs:225
-#, fuzzy
 msgid "City not found. Please try again."
 msgstr "Şehir bulunamadı. Lütfen yazımı kontrol edin."
 
@@ -543,6 +431,30 @@ msgstr "Mekke ezanı"
 msgid "Madinah Adhan"
 msgstr "Medine ezanı"
 
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "İmsak"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "Güneş"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "Öğle"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "İkindi"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "Akşam"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "Yatsı"
+
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "içinde"
@@ -599,11 +511,11 @@ msgstr "Durum"
 msgid "Enable location services in system settings."
 msgstr "Konum hizmetlerini sistem ayarlarında etkinleştirin."
 
-#: src/welcome.rs:319 src/welcome.rs:418
+#: src/welcome.rs:319 src/welcome.rs:422
 msgid "Detecting..."
 msgstr "Algılanıyor..."
 
-#: src/welcome.rs:324 src/welcome.rs:437
+#: src/welcome.rs:324 src/welcome.rs:442
 msgid "Found"
 msgstr "Bulundu"
 
@@ -615,11 +527,189 @@ msgstr "Şimdi Algıla"
 msgid "Continue"
 msgstr "Devam"
 
+msgid "Sunday"
+msgstr "Pazar"
+
+msgid "Monday"
+msgstr "Pazartesi"
+
+msgid "Tuesday"
+msgstr "Salı"
+
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+msgid "Thursday"
+msgstr "Perşembe"
+
+msgid "Friday"
+msgstr "Cuma"
+
+msgid "Saturday"
+msgstr "Cumartesi"
+
+msgid "Sun"
+msgstr "Paz"
+
+msgid "Mon"
+msgstr "Pzt"
+
+msgid "Tue"
+msgstr "Sal"
+
+msgid "Wed"
+msgstr "Çar"
+
+msgid "Thu"
+msgstr "Per"
+
+msgid "Fri"
+msgstr "Cum"
+
+msgid "Sat"
+msgstr "Cmt"
+
+msgid "Muharram"
+msgstr "Muharrem"
+
+msgid "Safar"
+msgstr "Safer"
+
+msgid "Rabi' al-Awwal"
+msgstr "Rebiülevvel"
+
+msgid "Rabi' al-Thani"
+msgstr "Rebiülahir"
+
+msgid "Jumada al-Ula"
+msgstr "Cemaziyelevvel"
+
+msgid "Jumada al-Akhirah"
+msgstr "Cemaziyelahir"
+
+msgid "Rajab"
+msgstr "Recep"
+
+msgid "Sha'ban"
+msgstr "Şaban"
+
+msgid "Ramadan"
+msgstr "Ramazan"
+
+msgid "Shawwal"
+msgstr "Şevval"
+
+msgid "Dhu al-Qi'dah"
+msgstr "Zilkade"
+
+msgid "Dhu al-Hijjah"
+msgstr "Zilhicce"
+
+msgid "January"
+msgstr "Ocak"
+
+msgid "February"
+msgstr "Şubat"
+
+msgid "March"
+msgstr "Mart"
+
+msgid "April"
+msgstr "Nisan"
+
+msgid "May"
+msgstr "Mayıs"
+
+msgid "June"
+msgstr "Haziran"
+
+msgid "July"
+msgstr "Temmuz"
+
+msgid "August"
+msgstr "Ağustos"
+
+msgid "September"
+msgstr "Eylül"
+
+msgid "October"
+msgstr "Ekim"
+
+msgid "November"
+msgstr "Kasım"
+
+msgid "December"
+msgstr "Aralık"
+
+#~ msgid "An all-in-one Muslim app for Linux"
+#~ msgstr "Linux için hepsi bir arada Müslüman uygulaması."
+
+#~ msgid "Prayer;Islam;Salah;"
+#~ msgstr "Namaz;İslam;Salah;"
+
+#~ msgid ""
+#~ "Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+#~ "smartphones. It centralizes your daily worship by providing accurate "
+#~ "prayer times, native staggered Adkar notifications, and a roadmap that "
+#~ "includes a dedicated Holy Quran experience—all with uncompromising "
+#~ "privacy and zero telemetry."
+#~ msgstr ""
+#~ "Khushu; Linux masaüstü, tabletler ve akıllı telefonlar için hepsi bir "
+#~ "arada Müslüman uygulamasıdır. Doğru namaz vakitleri, yerel kademeli Zikir "
+#~ "bildirimleri ve adanmış bir Kur'an-ı Kerim deneyimini içeren bir yol "
+#~ "haritası sunarak günlük ibadetlerinizi tek bir merkezde toplar; tüm "
+#~ "bunları tavizsiz gizlilik ve sıfır telemetri ile yapar."
+
+#~ msgid "Accurate prayer calculation methods (Offline)"
+#~ msgstr "Doğru namaz hesaplama yöntemleri (Çevrimdışı)"
+
+#~ msgid "Morning, Evening, and Night Adkar with built-in counters"
+#~ msgstr "Yerleşik sayaçlarla Sabah, Akşam ve Gece Zikirleri"
+
+#~ msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+#~ msgstr "Özelleştirilebilir Ezan sistemi bildirimleri (Mekke/Medine sesleri)"
+
+#~ msgid "Interactive Qibla compass"
+#~ msgstr "Etkileşimli Kıble pusulası"
+
+#~ msgid "Hijri calendar mapping"
+#~ msgstr "Hicri takvim eşlemesi"
+
+#~ msgid "Privacy-first local encryption for your location data"
+#~ msgstr "Konum verileriniz için gizlilik öncelikli yerel şifreleme"
+
+#~ msgid "Modern Libadwaita interface with adaptive Dark Mode"
+#~ msgstr "Uyarlanabilir Karanlık Mod ile modern Libadwaita arayüzü"
+
+#~ msgid "Multi-language support"
+#~ msgstr "Çoklu dil desteği"
+
+#~ msgid "Djalel Oukid"
+#~ msgstr "Djalel Oukid"
+
+#~ msgid "prayer"
+#~ msgstr "namaz"
+
+#~ msgid "salah"
+#~ msgstr "namaz"
+
+#~ msgid "adhan"
+#~ msgstr "ezan"
+
+#~ msgid "adkar"
+#~ msgstr "zikir"
+
+#~ msgid "qibla"
+#~ msgstr "kıble"
+
+#~ msgid "muslim"
+#~ msgstr "müslüman"
+
+#~ msgid "islam"
+#~ msgstr "islam"
+
 #~ msgid "Assalamu Alaikum"
 #~ msgstr "Esselamu Aleykum"
-
-#~ msgid "Sensor Active (Smooth)"
-#~ msgstr "Sensör aktif (Pürüzsüz)"
 
 #~ msgid "Cancel"
 #~ msgstr "İptal"
@@ -638,138 +728,6 @@ msgstr "Devam"
 
 #~ msgid "Quit"
 #~ msgstr "Çıkış"
-
-#~ msgid "Fajr"
-#~ msgstr "İmsak"
-
-#~ msgid "Sunrise"
-#~ msgstr "Güneş"
-
-#~ msgid "Dhuhr"
-#~ msgstr "Öğle"
-
-#~ msgid "Asr"
-#~ msgstr "İkindi"
-
-#~ msgid "Maghrib"
-#~ msgstr "Akşam"
-
-#~ msgid "Isha"
-#~ msgstr "Yatsı"
-
-#~ msgid "Sun"
-#~ msgstr "Paz"
-
-#~ msgid "Mon"
-#~ msgstr "Pzt"
-
-#~ msgid "Tue"
-#~ msgstr "Sal"
-
-#~ msgid "Wed"
-#~ msgstr "Çar"
-
-#~ msgid "Thu"
-#~ msgstr "Per"
-
-#~ msgid "Fri"
-#~ msgstr "Cum"
-
-#~ msgid "Sat"
-#~ msgstr "Cmt"
-
-#~ msgid "Muharram"
-#~ msgstr "Muharrem"
-
-#~ msgid "Safar"
-#~ msgstr "Safer"
-
-#~ msgid "Rabi' al-Awwal"
-#~ msgstr "Rebiülevvel"
-
-#~ msgid "Rabi' al-Thani"
-#~ msgstr "Rebiülahir"
-
-#~ msgid "Jumada al-Ula"
-#~ msgstr "Cemaziyelevvel"
-
-#~ msgid "Jumada al-Akhirah"
-#~ msgstr "Cemaziyelahir"
-
-#~ msgid "Rajab"
-#~ msgstr "Recep"
-
-#~ msgid "Sha'ban"
-#~ msgstr "Şaban"
-
-#~ msgid "Ramadan"
-#~ msgstr "Ramazan"
-
-#~ msgid "Shawwal"
-#~ msgstr "Şevval"
-
-#~ msgid "Dhu al-Qi'dah"
-#~ msgstr "Zilkade"
-
-#~ msgid "Dhu al-Hijjah"
-#~ msgstr "Zilhicce"
-
-#~ msgid "January"
-#~ msgstr "Ocak"
-
-#~ msgid "February"
-#~ msgstr "Şubat"
-
-#~ msgid "March"
-#~ msgstr "Mart"
-
-#~ msgid "April"
-#~ msgstr "Nisan"
-
-#~ msgid "May"
-#~ msgstr "Mayıs"
-
-#~ msgid "June"
-#~ msgstr "Haziran"
-
-#~ msgid "July"
-#~ msgstr "Temmuz"
-
-#~ msgid "August"
-#~ msgstr "Ağustos"
-
-#~ msgid "September"
-#~ msgstr "Eylül"
-
-#~ msgid "October"
-#~ msgstr "Ekim"
-
-#~ msgid "November"
-#~ msgstr "Kasım"
-
-#~ msgid "December"
-#~ msgstr "Aralık"
-
-#~ msgid "Sunday"
-#~ msgstr "Pazar"
-
-#~ msgid "Monday"
-#~ msgstr "Pazartesi"
-
-#~ msgid "Tuesday"
-#~ msgstr "Salı"
-
-#~ msgid "Wednesday"
-#~ msgstr "Çarşamba"
-
-#~ msgid "Thursday"
-#~ msgstr "Perşembe"
-
-#~ msgid "Friday"
-#~ msgstr "Cuma"
-
-#~ msgid "Saturday"
-#~ msgstr "Cumartesi"
 
 #~ msgid "First Day of Ramadan"
 #~ msgstr "Ramazan'ın İlk Günü"
@@ -791,9 +749,6 @@ msgstr "Devam"
 
 #~ msgid "Mawlid al-Nabi"
 #~ msgstr "Mevlid Kandili"
-
-#~ msgid "Manual Calculation"
-#~ msgstr "Manuel Hesaplama"
 
 #~ msgid "Location service unavailable. Please check system settings."
 #~ msgstr ""

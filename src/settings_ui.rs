@@ -210,7 +210,7 @@ pub fn setup_settings_ui(
         let lang_val_clone = lang_val_city.clone();
 
         gtk::glib::spawn_future_local(async move {
-            let result = location::search_city(&query).await;
+            let result = location::search_city(&query, &lang_val_clone).await;
             match result {
                 Ok((lat, lon, name)) => {
                     let _ = tx.send((lat, lon, Some(name.clone())));
@@ -269,7 +269,7 @@ pub fn setup_settings_ui(
         let lang_for_update = lang_val_auto.clone();
 
         gtk::glib::spawn_future_local(async move {
-            let result = location::fetch_auto_location().await;
+            let result = location::fetch_auto_location(&lang_for_update).await;
             match result {
                 Ok((lat, lon, name)) => {
                     let _ = tx.send((lat, lon, Some(name.clone())));
