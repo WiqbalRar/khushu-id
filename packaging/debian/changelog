@@ -1,3 +1,11 @@
+khushu (1.0.1) unstable; urgency=medium
+
+  * Fixed tray icon translation extraction (Quit and Open Khushu).
+  * Fixed AppStream metadata translation (descriptions, keywords).
+  * Improved tray behavior to update labels immediately on language change.
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Wed, 18 Mar 2026 02:40:00 +0100
+
 khushu (1.0.0) unstable; urgency=medium
 
   * Initial release.

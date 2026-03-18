@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1] — 2026-03-18
+
+### Fixed
+- Fixed tray icon translation extraction (Quit and Open Khushu)
+- Fixed AppStream metadata translation (descriptions, keywords)
+- Improved tray behavior to update labels immediately on language change
+
 ## [1.0.0] — 2026-03-04
 
 ### Added
