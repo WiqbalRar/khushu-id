@@ -304,19 +304,19 @@ fn update_details(
             date.year()
         ));
 
-        let event_key = match (hijri.month(), hijri.day()) {
-            (9, 1) => Some("First Day of Ramadan"),
-            (10, 1) => Some("Eid al-Fitr"),
-            (12, 10) => Some("Eid al-Adha"),
-            (12, 9) => Some("Day of Arafah"),
-            (1, 1) => Some("Islamic New Year"),
-            (1, 10) => Some("Ashura"),
-            (3, 12) => Some("Mawlid al-Nabi"),
+        let event_label_text = match (hijri.month(), hijri.day()) {
+            (9, 1) => Some(tr("First Day of Ramadan", lang)),
+            (10, 1) => Some(tr("Eid al-Fitr", lang)),
+            (12, 10) => Some(tr("Eid al-Adha", lang)),
+            (12, 9) => Some(tr("Day of Arafah", lang)),
+            (1, 1) => Some(tr("Islamic New Year", lang)),
+            (1, 10) => Some(tr("Ashura", lang)),
+            (3, 12) => Some(tr("Mawlid al-Nabi", lang)),
             _ => None,
         };
 
-        if let Some(key) = event_key {
-            event_label.set_label(&tr(key, lang));
+        if let Some(text) = event_label_text {
+            event_label.set_label(&text);
             event_label.set_visible(true);
         } else {
             event_label.set_visible(false);

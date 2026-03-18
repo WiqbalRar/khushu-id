@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-17 00:49+0100\n"
+"POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,8 +29,89 @@ msgstr ""
 msgid "Night"
 msgstr ""
 
+#: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
+#: src/timer_controller.rs:160 src/timer_controller.rs:174
+#: src/timer_controller.rs:220 src/timer_controller.rs:240
+#: src/timer_controller.rs:261 src/timer_controller.rs:281
+#: src/timer_controller.rs:302 src/timer_controller.rs:322
+msgid "Open Khushu"
+msgstr ""
+
+#: src/background.rs:122 src/background.rs:147
+msgid "Quit"
+msgstr ""
+
 #: src/calendar.rs:66 src/calendar.rs:124
 msgid "Date Details"
+msgstr ""
+
+#: src/calendar.rs:308
+msgid "First Day of Ramadan"
+msgstr ""
+
+#: src/calendar.rs:309
+msgid "Eid al-Fitr"
+msgstr ""
+
+#: src/calendar.rs:310
+msgid "Eid al-Adha"
+msgstr ""
+
+#: src/calendar.rs:311
+msgid "Day of Arafah"
+msgstr ""
+
+#: src/calendar.rs:312
+msgid "Islamic New Year"
+msgstr ""
+
+#: src/calendar.rs:313
+msgid "Ashura"
+msgstr ""
+
+#: src/calendar.rs:314
+msgid "Mawlid al-Nabi"
+msgstr ""
+
+#: src/location.rs:53
+msgid "Location service unavailable. Please check system settings."
+msgstr ""
+
+#: src/location.rs:63 src/location.rs:73
+msgid "Location access denied or unavailable."
+msgstr ""
+
+#: src/location.rs:68
+msgid "Failed to receive location updates."
+msgstr ""
+
+#: src/location.rs:84
+msgid "Location service disconnected unexpectedly."
+msgstr ""
+
+#: src/location.rs:90
+msgid "Location request timed out. Please check your system settings."
+msgstr ""
+
+#: src/location.rs:129
+msgid "Network error while resolving city."
+msgstr ""
+
+#: src/location.rs:134 src/location.rs:166 src/location.rs:172
+#: src/location.rs:176
+msgid "Invalid response from location service."
+msgstr ""
+
+#: src/location.rs:137
+msgid "Could not find city name for these coordinates."
+msgstr ""
+
+#: src/location.rs:161
+msgid "Network error. Please check your connection."
+msgstr ""
+
+#: src/location.rs:182
+msgid "City not found. Please check the spelling."
 msgstr ""
 
 #: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
@@ -356,14 +437,6 @@ msgstr ""
 msgid "This is a test notification from Khushu. May your prayers be accepted."
 msgstr ""
 
-#: src/settings_ui.rs:523 src/timer_controller.rs:160
-#: src/timer_controller.rs:174 src/timer_controller.rs:220
-#: src/timer_controller.rs:240 src/timer_controller.rs:261
-#: src/timer_controller.rs:281 src/timer_controller.rs:302
-#: src/timer_controller.rs:322
-msgid "Open Khushu"
-msgstr ""
-
 #: src/settings_ui.rs:524 src/timer_controller.rs:161
 #: src/timer_controller.rs:175 src/timer_controller.rs:221
 #: src/timer_controller.rs:241 src/timer_controller.rs:262
@@ -432,30 +505,6 @@ msgstr ""
 msgid "Madinah Adhan"
 msgstr ""
 
-#: src/time.rs:74 src/time.rs:108
-msgid "Fajr"
-msgstr ""
-
-#: src/time.rs:78
-msgid "Sunrise"
-msgstr ""
-
-#: src/time.rs:82
-msgid "Dhuhr"
-msgstr ""
-
-#: src/time.rs:86
-msgid "Asr"
-msgstr ""
-
-#: src/time.rs:90
-msgid "Maghrib"
-msgstr ""
-
-#: src/time.rs:94
-msgid "Isha"
-msgstr ""
-
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr ""
@@ -486,6 +535,30 @@ msgstr ""
 
 #: src/timer_controller.rs:299 src/timer_controller.rs:319
 msgid "Night Adkar"
+msgstr ""
+
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr ""
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr ""
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr ""
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr ""
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr ""
+
+#: src/time.rs:94
+msgid "Isha"
 msgstr ""
 
 #: src/welcome.rs:264 src/welcome.rs:265

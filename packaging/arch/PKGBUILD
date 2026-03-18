@@ -8,6 +8,7 @@ url="https://github.com/sniper1720/khushu"
 license=('GPL-3.0-or-later')
 depends=('gtk4' 'libadwaita' 'glibc' 'gcc-libs' 'geoclue2' 'alsa-lib' 'ttf-amiri')
 optdepends=('xdg-desktop-portal: autostart portal support')
+options=(!debug)
 makedepends=('cargo' 'gettext' 'meson' 'ninja')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/sniper1720/khushu/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('SKIP')

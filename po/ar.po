@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-16 23:51+0100\n"
+"POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-02-13 02:25+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Djalel Oukid (جلال وكيد)\n"
@@ -27,9 +27,92 @@ msgstr "أذكار المساء"
 msgid "Night"
 msgstr "أذكار النوم"
 
+#
+#: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
+#: src/timer_controller.rs:160 src/timer_controller.rs:174
+#: src/timer_controller.rs:220 src/timer_controller.rs:240
+#: src/timer_controller.rs:261 src/timer_controller.rs:281
+#: src/timer_controller.rs:302 src/timer_controller.rs:322
+msgid "Open Khushu"
+msgstr "افتح خشوع"
+
+#: src/background.rs:122 src/background.rs:147
+msgid "Quit"
+msgstr "خروج"
+
 #: src/calendar.rs:66 src/calendar.rs:124
 msgid "Date Details"
 msgstr "تفاصيل التاريخ"
+
+#: src/calendar.rs:308
+msgid "First Day of Ramadan"
+msgstr "أول أيام رمضان"
+
+#: src/calendar.rs:309
+msgid "Eid al-Fitr"
+msgstr "عيد الفطر"
+
+#: src/calendar.rs:310
+msgid "Eid al-Adha"
+msgstr "عيد الأضحى"
+
+#: src/calendar.rs:311
+msgid "Day of Arafah"
+msgstr "يوم عرفة"
+
+#: src/calendar.rs:312
+msgid "Islamic New Year"
+msgstr "رأس السنة الهجرية"
+
+#: src/calendar.rs:313
+msgid "Ashura"
+msgstr "عاشوراء"
+
+#: src/calendar.rs:314
+msgid "Mawlid al-Nabi"
+msgstr "المولد النبوي الشريف"
+
+#: src/location.rs:53
+msgid "Location service unavailable. Please check system settings."
+msgstr "خدمة الموقع غير متوفرة. يرجى التحقق من إعدادات النظام."
+
+#: src/location.rs:63 src/location.rs:73
+msgid "Location access denied or unavailable."
+msgstr "تم رفض الوصول إلى الموقع أو أنه غير متوفر."
+
+#: src/location.rs:68
+msgid "Failed to receive location updates."
+msgstr "فشل تلقي تحديثات الموقع."
+
+#: src/location.rs:84
+msgid "Location service disconnected unexpectedly."
+msgstr "انقطعت خدمة الموقع بشكل غير متوقع."
+
+#: src/location.rs:90
+msgid "Location request timed out. Please check your system settings."
+msgstr "انتهت مهلة طلب الموقع. يرجى التحقق من إعدادات النظام الخاص بك."
+
+#: src/location.rs:129
+msgid "Network error while resolving city."
+msgstr "خطأ في الشبكة أثناء تحديد المدينة."
+
+#: src/location.rs:134 src/location.rs:166 src/location.rs:172
+#: src/location.rs:176
+msgid "Invalid response from location service."
+msgstr "استجابة غير صالحة من خدمة الموقع."
+
+#: src/location.rs:137
+msgid "Could not find city name for these coordinates."
+msgstr "تعذر العثور على اسم المدينة لهذه الإحداثيات."
+
+#: src/location.rs:161
+msgid "Network error. Please check your connection."
+msgstr "خطأ في الشبكة. يرجى التحقق من الاتصال الخاص بك."
+
+#: src/location.rs:182
+#, fuzzy
+msgid "City not found. Please check the spelling."
+msgstr "لم يتم العثور على المدينة. يرجى التحقق من الإملاء."
 
 #: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
@@ -67,7 +150,9 @@ msgstr "سياسة الموقع"
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr "الوضع التلقائي: GeoClue (النظام). البحث عن المدن: Nominatim (OpenStreetMap). الوضع اليدوي: لا يوجد استهلاك للبيانات."
+msgstr ""
+"الوضع التلقائي: GeoClue (النظام). البحث عن المدن: Nominatim (OpenStreetMap). "
+"الوضع اليدوي: لا يوجد استهلاك للبيانات."
 
 #: src/main.rs:355
 msgid "Privacy Policy"
@@ -77,7 +162,9 @@ msgstr "سياسة الخصوصية"
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr "تبقى الإحداثيات على هذا الجهاز ولا يتم إرسالها إلى أي خوادم خارجية. لا توجد تحليلات ، ولا يوجد أي تتبع ، ولا حسابات."
+msgstr ""
+"تبقى الإحداثيات على هذا الجهاز ولا يتم إرسالها إلى أي خوادم خارجية. لا توجد "
+"تحليلات ، ولا يوجد أي تتبع ، ولا حسابات."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -354,15 +441,6 @@ msgstr "حان موعد"
 msgid "This is a test notification from Khushu. May your prayers be accepted."
 msgstr "هذا إشعار تجريبي من خشوع. تقبل الله طاعاتكم."
 
-#
-#: src/settings_ui.rs:523 src/timer_controller.rs:160
-#: src/timer_controller.rs:174 src/timer_controller.rs:220
-#: src/timer_controller.rs:240 src/timer_controller.rs:261
-#: src/timer_controller.rs:281 src/timer_controller.rs:302
-#: src/timer_controller.rs:322
-msgid "Open Khushu"
-msgstr "افتح خشوع"
-
 #: src/settings_ui.rs:524 src/timer_controller.rs:161
 #: src/timer_controller.rs:175 src/timer_controller.rs:221
 #: src/timer_controller.rs:241 src/timer_controller.rs:262
@@ -431,30 +509,6 @@ msgstr "أذان الحرم المكي"
 msgid "Madinah Adhan"
 msgstr "أذان الحرم المدني"
 
-#: src/time.rs:74 src/time.rs:108
-msgid "Fajr"
-msgstr "الفجر"
-
-#: src/time.rs:78
-msgid "Sunrise"
-msgstr "الشروق"
-
-#: src/time.rs:82
-msgid "Dhuhr"
-msgstr "الظهر"
-
-#: src/time.rs:86
-msgid "Asr"
-msgstr "العصر"
-
-#: src/time.rs:90
-msgid "Maghrib"
-msgstr "المغرب"
-
-#: src/time.rs:94
-msgid "Isha"
-msgstr "العشاء"
-
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "خلال"
@@ -486,6 +540,30 @@ msgstr "أذكار المساء"
 #: src/timer_controller.rs:299 src/timer_controller.rs:319
 msgid "Night Adkar"
 msgstr "أذكار النوم"
+
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "الفجر"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "الشروق"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "الظهر"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "العصر"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "المغرب"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "العشاء"
 
 #: src/welcome.rs:264 src/welcome.rs:265
 msgid "Welcome to Khushu"
@@ -527,119 +605,119 @@ msgstr "اكتشف الآن"
 msgid "Continue"
 msgstr "متابعة"
 
-msgid "Sunday"
-msgstr "الأحد"
+#~ msgid "Sunday"
+#~ msgstr "الأحد"
 
-msgid "Monday"
-msgstr "الإثنين"
+#~ msgid "Monday"
+#~ msgstr "الإثنين"
 
-msgid "Tuesday"
-msgstr "الثلاثاء"
+#~ msgid "Tuesday"
+#~ msgstr "الثلاثاء"
 
-msgid "Wednesday"
-msgstr "الأربعاء"
+#~ msgid "Wednesday"
+#~ msgstr "الأربعاء"
 
-msgid "Thursday"
-msgstr "الخميس"
+#~ msgid "Thursday"
+#~ msgstr "الخميس"
 
-msgid "Friday"
-msgstr "الجمعة"
+#~ msgid "Friday"
+#~ msgstr "الجمعة"
 
-msgid "Saturday"
-msgstr "السبت"
+#~ msgid "Saturday"
+#~ msgstr "السبت"
 
-msgid "Sun"
-msgstr "الأحد"
+#~ msgid "Sun"
+#~ msgstr "الأحد"
 
-msgid "Mon"
-msgstr "الإثنين"
+#~ msgid "Mon"
+#~ msgstr "الإثنين"
 
-msgid "Tue"
-msgstr "الثلاثاء"
+#~ msgid "Tue"
+#~ msgstr "الثلاثاء"
 
-msgid "Wed"
-msgstr "الأربعاء"
+#~ msgid "Wed"
+#~ msgstr "الأربعاء"
 
-msgid "Thu"
-msgstr "الخميس"
+#~ msgid "Thu"
+#~ msgstr "الخميس"
 
-msgid "Fri"
-msgstr "الجمعة"
+#~ msgid "Fri"
+#~ msgstr "الجمعة"
 
-msgid "Sat"
-msgstr "السبت"
+#~ msgid "Sat"
+#~ msgstr "السبت"
 
-msgid "Muharram"
-msgstr "محرم"
+#~ msgid "Muharram"
+#~ msgstr "محرم"
 
-msgid "Safar"
-msgstr "صفر"
+#~ msgid "Safar"
+#~ msgstr "صفر"
 
-msgid "Rabi' al-Awwal"
-msgstr "ربيع الأول"
+#~ msgid "Rabi' al-Awwal"
+#~ msgstr "ربيع الأول"
 
-msgid "Rabi' al-Thani"
-msgstr "ربيع الثاني"
+#~ msgid "Rabi' al-Thani"
+#~ msgstr "ربيع الثاني"
 
-msgid "Jumada al-Ula"
-msgstr "جمادى الأولى"
+#~ msgid "Jumada al-Ula"
+#~ msgstr "جمادى الأولى"
 
-msgid "Jumada al-Akhirah"
-msgstr "جمادى الآخرة"
+#~ msgid "Jumada al-Akhirah"
+#~ msgstr "جمادى الآخرة"
 
-msgid "Rajab"
-msgstr "رجب"
+#~ msgid "Rajab"
+#~ msgstr "رجب"
 
-msgid "Sha'ban"
-msgstr "شعبان"
+#~ msgid "Sha'ban"
+#~ msgstr "شعبان"
 
-msgid "Ramadan"
-msgstr "رمضان"
+#~ msgid "Ramadan"
+#~ msgstr "رمضان"
 
-msgid "Shawwal"
-msgstr "شوال"
+#~ msgid "Shawwal"
+#~ msgstr "شوال"
 
-msgid "Dhu al-Qi'dah"
-msgstr "ذو القعدة"
+#~ msgid "Dhu al-Qi'dah"
+#~ msgstr "ذو القعدة"
 
-msgid "Dhu al-Hijjah"
-msgstr "ذو الحجة"
+#~ msgid "Dhu al-Hijjah"
+#~ msgstr "ذو الحجة"
 
-msgid "January"
-msgstr "يناير"
+#~ msgid "January"
+#~ msgstr "يناير"
 
-msgid "February"
-msgstr "فبراير"
+#~ msgid "February"
+#~ msgstr "فبراير"
 
-msgid "March"
-msgstr "مارس"
+#~ msgid "March"
+#~ msgstr "مارس"
 
-msgid "April"
-msgstr "أبريل"
+#~ msgid "April"
+#~ msgstr "أبريل"
 
-msgid "May"
-msgstr "مايو"
+#~ msgid "May"
+#~ msgstr "مايو"
 
-msgid "June"
-msgstr "يونيو"
+#~ msgid "June"
+#~ msgstr "يونيو"
 
-msgid "July"
-msgstr "يوليو"
+#~ msgid "July"
+#~ msgstr "يوليو"
 
-msgid "August"
-msgstr "أغسطس"
+#~ msgid "August"
+#~ msgstr "أغسطس"
 
-msgid "September"
-msgstr "سبتمبر"
+#~ msgid "September"
+#~ msgstr "سبتمبر"
 
-msgid "October"
-msgstr "أكتوبر"
+#~ msgid "October"
+#~ msgstr "أكتوبر"
 
-msgid "November"
-msgstr "نوفمبر"
+#~ msgid "November"
+#~ msgstr "نوفمبر"
 
-msgid "December"
-msgstr "ديسمبر"
+#~ msgid "December"
+#~ msgstr "ديسمبر"
 
 #~ msgid "An all-in-one Muslim app for Linux"
 #~ msgstr "تطبيق إسلامي شامل لنظام لينكس."
@@ -725,53 +803,5 @@ msgstr "ديسمبر"
 #~ msgid "Show Khushu"
 #~ msgstr "إظهار خشوع"
 
-#~ msgid "Quit"
-#~ msgstr "خروج"
-
-#~ msgid "First Day of Ramadan"
-#~ msgstr "أول أيام رمضان"
-
-#~ msgid "Eid al-Fitr"
-#~ msgstr "عيد الفطر"
-
-#~ msgid "Eid al-Adha"
-#~ msgstr "عيد الأضحى"
-
-#~ msgid "Day of Arafah"
-#~ msgstr "يوم عرفة"
-
-#~ msgid "Islamic New Year"
-#~ msgstr "رأس السنة الهجرية"
-
-#~ msgid "Mawlid al-Nabi"
-#~ msgstr "المولد النبوي الشريف"
-
-#~ msgid "Location service unavailable. Please check system settings."
-#~ msgstr "خدمة الموقع غير متوفرة. يرجى التحقق من إعدادات النظام."
-
-#~ msgid "Location access denied or unavailable."
-#~ msgstr "تم رفض الوصول إلى الموقع أو أنه غير متوفر."
-
-#~ msgid "Failed to receive location updates."
-#~ msgstr "فشل تلقي تحديثات الموقع."
-
-#~ msgid "Location service disconnected unexpectedly."
-#~ msgstr "انقطعت خدمة الموقع بشكل غير متوقع."
-
-#~ msgid "Location request timed out. Please check your system settings."
-#~ msgstr "انتهت مهلة طلب الموقع. يرجى التحقق من إعدادات النظام الخاص بك."
-
 #~ msgid "Network client initialization failed."
 #~ msgstr "فشل تهيئة عميل الشبكة."
-
-#~ msgid "Network error while resolving city."
-#~ msgstr "خطأ في الشبكة أثناء تحديد المدينة."
-
-#~ msgid "Invalid response from location service."
-#~ msgstr "استجابة غير صالحة من خدمة الموقع."
-
-#~ msgid "Could not find city name for these coordinates."
-#~ msgstr "تعذر العثور على اسم المدينة لهذه الإحداثيات."
-
-#~ msgid "Network error. Please check your connection."
-#~ msgstr "خطأ في الشبكة. يرجى التحقق من الاتصال الخاص بك."

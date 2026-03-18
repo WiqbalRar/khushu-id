@@ -1,10 +1,30 @@
+use crate::i18n::tr;
 use adw::prelude::*;
 use ksni::{MenuItem, Tray};
 use libadwaita as adw;
+use std::sync::{Arc, OnceLock, RwLock};
 
-struct KhushuTray {
+struct KhushuTrayData {
     open_label: String,
     quit_label: String,
+}
+
+struct KhushuTray {
+    data: Arc<RwLock<KhushuTrayData>>,
+}
+
+static TRAY_DATA: OnceLock<Arc<RwLock<KhushuTrayData>>> = OnceLock::new();
+static TRAY_HANDLE: OnceLock<ksni::Handle<KhushuTray>> = OnceLock::new();
+
+fn get_tray_data() -> Arc<RwLock<KhushuTrayData>> {
+    TRAY_DATA
+        .get_or_init(|| {
+            Arc::new(RwLock::new(KhushuTrayData {
+                open_label: String::new(),
+                quit_label: String::new(),
+            }))
+        })
+        .clone()
 }
 
 impl Tray for KhushuTray {
@@ -31,9 +51,10 @@ impl Tray for KhushuTray {
 
     fn menu(&self) -> Vec<MenuItem<Self>> {
         use ksni::menu::*;
+        let data = self.data.read().unwrap();
         vec![
             StandardItem {
-                label: self.open_label.clone(),
+                label: data.open_label.clone(),
                 activate: Box::new(|_this: &mut Self| {
                     gtk4::glib::idle_add(move || {
                         if let Some(app) = gtk4::gio::Application::default() {
@@ -46,7 +67,7 @@ impl Tray for KhushuTray {
             }
             .into(),
             StandardItem {
-                label: self.quit_label.clone(),
+                label: data.quit_label.clone(),
                 activate: Box::new(|_this: &mut Self| {
                     gtk4::glib::idle_add(move || {
                         if let Some(app) = gtk4::gio::Application::default() {
@@ -93,23 +114,43 @@ async fn setup_tray_icon() {
 
     let lang = std::env::var("LANGUAGE").unwrap_or_default();
     let lang_ref = if lang.is_empty() { "en" } else { &lang };
-    let tray = KhushuTray {
-        open_label: crate::i18n::tr("Open Khushu", lang_ref),
-        quit_label: crate::i18n::tr("Quit", lang_ref),
-    };
+
+    let data = get_tray_data();
+    {
+        let mut d = data.write().unwrap();
+        d.open_label = tr("Open Khushu", lang_ref);
+        d.quit_label = tr("Quit", lang_ref);
+    }
+
+    let tray = KhushuTray { data };
 
     let is_sandboxed = std::path::Path::new("/.flatpak-info").exists();
 
     match tray.disable_dbus_name(is_sandboxed).spawn().await {
         Ok(handle) => {
+            let _ = TRAY_HANDLE.set(handle);
             tokio::spawn(async move {
-                let _h = handle;
                 std::future::pending::<()>().await;
             });
         }
         Err(e) => {
             log::error!("Failed to spawn KSNI tray icon: {}", e);
         }
+    }
+}
+
+pub fn update_tray_labels(lang: &str) {
+    let data = get_tray_data();
+    {
+        let mut d = data.write().unwrap();
+        d.open_label = tr("Open Khushu", lang);
+        d.quit_label = tr("Quit", lang);
+    }
+
+    if let Some(handle) = TRAY_HANDLE.get().cloned() {
+        tokio::spawn(async move {
+            let _ = handle.update(|_| {}).await;
+        });
     }
 }
 

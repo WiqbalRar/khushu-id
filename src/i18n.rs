@@ -104,6 +104,8 @@ pub fn update_locale(lang: &str) {
         let _ = bindtextdomain(domain, &lib_locale_dir);
         let _ = bind_textdomain_codeset(domain, "UTF-8");
     }
+
+    crate::background::update_tray_labels(lang);
 }
 
 pub fn tr(key: &str, _lang: &str) -> String {

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-16 23:51+0100\n"
+"POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-02-13 02:26+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Spanish\n"
@@ -27,9 +27,96 @@ msgstr "Tarde"
 msgid "Night"
 msgstr "Noche"
 
+#
+#: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
+#: src/timer_controller.rs:160 src/timer_controller.rs:174
+#: src/timer_controller.rs:220 src/timer_controller.rs:240
+#: src/timer_controller.rs:261 src/timer_controller.rs:281
+#: src/timer_controller.rs:302 src/timer_controller.rs:322
+msgid "Open Khushu"
+msgstr "Abrir Khushu"
+
+#: src/background.rs:122 src/background.rs:147
+msgid "Quit"
+msgstr "Salir"
+
 #: src/calendar.rs:66 src/calendar.rs:124
 msgid "Date Details"
 msgstr "Detalles"
+
+#: src/calendar.rs:308
+msgid "First Day of Ramadan"
+msgstr "Primer Día de Ramadán"
+
+#: src/calendar.rs:309
+msgid "Eid al-Fitr"
+msgstr "Eid al-Fitr"
+
+#: src/calendar.rs:310
+msgid "Eid al-Adha"
+msgstr "Eid al-Adha"
+
+#: src/calendar.rs:311
+msgid "Day of Arafah"
+msgstr "Día de Arafah"
+
+#: src/calendar.rs:312
+msgid "Islamic New Year"
+msgstr "Año Nuevo Islámico"
+
+#: src/calendar.rs:313
+msgid "Ashura"
+msgstr "Ashura"
+
+#: src/calendar.rs:314
+msgid "Mawlid al-Nabi"
+msgstr "Mawlid al-Nabi"
+
+#: src/location.rs:53
+msgid "Location service unavailable. Please check system settings."
+msgstr ""
+"Servicio de ubicación no disponible. Por favor, compruebe la configuración "
+"del sistema."
+
+#: src/location.rs:63 src/location.rs:73
+msgid "Location access denied or unavailable."
+msgstr "Acceso a la ubicación denegado o no disponible."
+
+#: src/location.rs:68
+msgid "Failed to receive location updates."
+msgstr "Error al recibir actualizaciones de ubicación."
+
+#: src/location.rs:84
+msgid "Location service disconnected unexpectedly."
+msgstr "Servicio de ubicación desconectado inesperadamente."
+
+#: src/location.rs:90
+msgid "Location request timed out. Please check your system settings."
+msgstr ""
+"La solicitud de ubicación expiró. Por favor, compruebe la configuración de "
+"su sistema."
+
+#: src/location.rs:129
+msgid "Network error while resolving city."
+msgstr "Error de red al resolver la ciudad."
+
+#: src/location.rs:134 src/location.rs:166 src/location.rs:172
+#: src/location.rs:176
+msgid "Invalid response from location service."
+msgstr "Respuesta inválida del servicio de ubicación."
+
+#: src/location.rs:137
+msgid "Could not find city name for these coordinates."
+msgstr "No se pudo encontrar el nombre de la ciudad para estas coordenadas."
+
+#: src/location.rs:161
+msgid "Network error. Please check your connection."
+msgstr "Error de red. Por favor, compruebe su conexión."
+
+#: src/location.rs:182
+#, fuzzy
+msgid "City not found. Please check the spelling."
+msgstr "Ciudad no encontrada. Por favor, compruebe la ortografía."
 
 #: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
@@ -67,7 +154,9 @@ msgstr "Política de ubicación"
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr "Modo automático: GeoClue (sistema). Búsqueda de ciudades: Nominatim (OpenStreetMap). Modo manual: cero tráfico de red."
+msgstr ""
+"Modo automático: GeoClue (sistema). Búsqueda de ciudades: Nominatim "
+"(OpenStreetMap). Modo manual: cero tráfico de red."
 
 #: src/main.rs:355
 msgid "Privacy Policy"
@@ -77,7 +166,9 @@ msgstr "Política de privacidad"
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr "Las coordenadas permanecen en este dispositivo y no se envían a ningún servidor externo. Sin análisis, sin telemetría, sin cuentas."
+msgstr ""
+"Las coordenadas permanecen en este dispositivo y no se envían a ningún "
+"servidor externo. Sin análisis, sin telemetría, sin cuentas."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -356,15 +447,6 @@ msgstr ""
 "Esta es una notificación de prueba de Khushu. Que tus oraciones sean "
 "aceptadas."
 
-#
-#: src/settings_ui.rs:523 src/timer_controller.rs:160
-#: src/timer_controller.rs:174 src/timer_controller.rs:220
-#: src/timer_controller.rs:240 src/timer_controller.rs:261
-#: src/timer_controller.rs:281 src/timer_controller.rs:302
-#: src/timer_controller.rs:322
-msgid "Open Khushu"
-msgstr "Abrir Khushu"
-
 #: src/settings_ui.rs:524 src/timer_controller.rs:161
 #: src/timer_controller.rs:175 src/timer_controller.rs:221
 #: src/timer_controller.rs:241 src/timer_controller.rs:262
@@ -433,30 +515,6 @@ msgstr "Adhan de La Meca"
 msgid "Madinah Adhan"
 msgstr "Adhan de Medina"
 
-#: src/time.rs:74 src/time.rs:108
-msgid "Fajr"
-msgstr "Fajr"
-
-#: src/time.rs:78
-msgid "Sunrise"
-msgstr "Amanecer"
-
-#: src/time.rs:82
-msgid "Dhuhr"
-msgstr "Dhuhr"
-
-#: src/time.rs:86
-msgid "Asr"
-msgstr "Asr"
-
-#: src/time.rs:90
-msgid "Maghrib"
-msgstr "Maghrib"
-
-#: src/time.rs:94
-msgid "Isha"
-msgstr "Isha"
-
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "en"
@@ -488,6 +546,30 @@ msgstr "Tarde"
 #: src/timer_controller.rs:299 src/timer_controller.rs:319
 msgid "Night Adkar"
 msgstr "Adkar"
+
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "Fajr"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "Amanecer"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "Dhuhr"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "Asr"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "Maghrib"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "Isha"
 
 #: src/welcome.rs:264 src/welcome.rs:265
 msgid "Welcome to Khushu"
@@ -529,119 +611,119 @@ msgstr "Detectar ahora"
 msgid "Continue"
 msgstr "Continuar"
 
-msgid "Sunday"
-msgstr "Domingo"
+#~ msgid "Sunday"
+#~ msgstr "Domingo"
 
-msgid "Monday"
-msgstr "Lunes"
+#~ msgid "Monday"
+#~ msgstr "Lunes"
 
-msgid "Tuesday"
-msgstr "Martes"
+#~ msgid "Tuesday"
+#~ msgstr "Martes"
 
-msgid "Wednesday"
-msgstr "Miércoles"
+#~ msgid "Wednesday"
+#~ msgstr "Miércoles"
 
-msgid "Thursday"
-msgstr "Jueves"
+#~ msgid "Thursday"
+#~ msgstr "Jueves"
 
-msgid "Friday"
-msgstr "Viernes"
+#~ msgid "Friday"
+#~ msgstr "Viernes"
 
-msgid "Saturday"
-msgstr "Sábado"
+#~ msgid "Saturday"
+#~ msgstr "Sábado"
 
-msgid "Sun"
-msgstr "Dom"
+#~ msgid "Sun"
+#~ msgstr "Dom"
 
-msgid "Mon"
-msgstr "Lun"
+#~ msgid "Mon"
+#~ msgstr "Lun"
 
-msgid "Tue"
-msgstr "Mar"
+#~ msgid "Tue"
+#~ msgstr "Mar"
 
-msgid "Wed"
-msgstr "Mié"
+#~ msgid "Wed"
+#~ msgstr "Mié"
 
-msgid "Thu"
-msgstr "Jue"
+#~ msgid "Thu"
+#~ msgstr "Jue"
 
-msgid "Fri"
-msgstr "Vie"
+#~ msgid "Fri"
+#~ msgstr "Vie"
 
-msgid "Sat"
-msgstr "Sáb"
+#~ msgid "Sat"
+#~ msgstr "Sáb"
 
-msgid "Muharram"
-msgstr "Muharram"
+#~ msgid "Muharram"
+#~ msgstr "Muharram"
 
-msgid "Safar"
-msgstr "Safar"
+#~ msgid "Safar"
+#~ msgstr "Safar"
 
-msgid "Rabi' al-Awwal"
-msgstr "Rabi' al-Awwal"
+#~ msgid "Rabi' al-Awwal"
+#~ msgstr "Rabi' al-Awwal"
 
-msgid "Rabi' al-Thani"
-msgstr "Rabi' al-Thani"
+#~ msgid "Rabi' al-Thani"
+#~ msgstr "Rabi' al-Thani"
 
-msgid "Jumada al-Ula"
-msgstr "Jumada al-Ula"
+#~ msgid "Jumada al-Ula"
+#~ msgstr "Jumada al-Ula"
 
-msgid "Jumada al-Akhirah"
-msgstr "Jumada al-Akhirah"
+#~ msgid "Jumada al-Akhirah"
+#~ msgstr "Jumada al-Akhirah"
 
-msgid "Rajab"
-msgstr "Rajab"
+#~ msgid "Rajab"
+#~ msgstr "Rajab"
 
-msgid "Sha'ban"
-msgstr "Sha'ban"
+#~ msgid "Sha'ban"
+#~ msgstr "Sha'ban"
 
-msgid "Ramadan"
-msgstr "Ramadán"
+#~ msgid "Ramadan"
+#~ msgstr "Ramadán"
 
-msgid "Shawwal"
-msgstr "Shawwal"
+#~ msgid "Shawwal"
+#~ msgstr "Shawwal"
 
-msgid "Dhu al-Qi'dah"
-msgstr "Dhu al-Qi'dah"
+#~ msgid "Dhu al-Qi'dah"
+#~ msgstr "Dhu al-Qi'dah"
 
-msgid "Dhu al-Hijjah"
-msgstr "Dhu al-Hijjah"
+#~ msgid "Dhu al-Hijjah"
+#~ msgstr "Dhu al-Hijjah"
 
-msgid "January"
-msgstr "Enero"
+#~ msgid "January"
+#~ msgstr "Enero"
 
-msgid "February"
-msgstr "Febrero"
+#~ msgid "February"
+#~ msgstr "Febrero"
 
-msgid "March"
-msgstr "Marzo"
+#~ msgid "March"
+#~ msgstr "Marzo"
 
-msgid "April"
-msgstr "Abril"
+#~ msgid "April"
+#~ msgstr "Abril"
 
-msgid "May"
-msgstr "Mayo"
+#~ msgid "May"
+#~ msgstr "Mayo"
 
-msgid "June"
-msgstr "Junio"
+#~ msgid "June"
+#~ msgstr "Junio"
 
-msgid "July"
-msgstr "Julio"
+#~ msgid "July"
+#~ msgstr "Julio"
 
-msgid "August"
-msgstr "Agosto"
+#~ msgid "August"
+#~ msgstr "Agosto"
 
-msgid "September"
-msgstr "Septiembre"
+#~ msgid "September"
+#~ msgstr "Septiembre"
 
-msgid "October"
-msgstr "Octubre"
+#~ msgid "October"
+#~ msgstr "Octubre"
 
-msgid "November"
-msgstr "Noviembre"
+#~ msgid "November"
+#~ msgstr "Noviembre"
 
-msgid "December"
-msgstr "Diciembre"
+#~ msgid "December"
+#~ msgstr "Diciembre"
 
 #~ msgid "An all-in-one Muslim app for Linux"
 #~ msgstr "Una aplicación musulmana todo-en-uno para Linux."
@@ -732,60 +814,5 @@ msgstr "Diciembre"
 #~ msgid "Show Khushu"
 #~ msgstr "Mostrar Khushu"
 
-#~ msgid "Quit"
-#~ msgstr "Salir"
-
-#~ msgid "First Day of Ramadan"
-#~ msgstr "Primer Día de Ramadán"
-
-#~ msgid "Eid al-Fitr"
-#~ msgstr "Eid al-Fitr"
-
-#~ msgid "Eid al-Adha"
-#~ msgstr "Eid al-Adha"
-
-#~ msgid "Day of Arafah"
-#~ msgstr "Día de Arafah"
-
-#~ msgid "Islamic New Year"
-#~ msgstr "Año Nuevo Islámico"
-
-#~ msgid "Ashura"
-#~ msgstr "Ashura"
-
-#~ msgid "Mawlid al-Nabi"
-#~ msgstr "Mawlid al-Nabi"
-
-#~ msgid "Location service unavailable. Please check system settings."
-#~ msgstr ""
-#~ "Servicio de ubicación no disponible. Por favor, compruebe la "
-#~ "configuración del sistema."
-
-#~ msgid "Location access denied or unavailable."
-#~ msgstr "Acceso a la ubicación denegado o no disponible."
-
-#~ msgid "Failed to receive location updates."
-#~ msgstr "Error al recibir actualizaciones de ubicación."
-
-#~ msgid "Location service disconnected unexpectedly."
-#~ msgstr "Servicio de ubicación desconectado inesperadamente."
-
-#~ msgid "Location request timed out. Please check your system settings."
-#~ msgstr ""
-#~ "La solicitud de ubicación expiró. Por favor, compruebe la configuración "
-#~ "de su sistema."
-
 #~ msgid "Network client initialization failed."
 #~ msgstr "Error al inicializar el cliente de red."
-
-#~ msgid "Network error while resolving city."
-#~ msgstr "Error de red al resolver la ciudad."
-
-#~ msgid "Invalid response from location service."
-#~ msgstr "Respuesta inválida del servicio de ubicación."
-
-#~ msgid "Could not find city name for these coordinates."
-#~ msgstr "No se pudo encontrar el nombre de la ciudad para estas coordenadas."
-
-#~ msgid "Network error. Please check your connection."
-#~ msgstr "Error de red. Por favor, compruebe su conexión."

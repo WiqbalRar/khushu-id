@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Khushu 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-16 23:51+0100\n"
+"POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-02-24 20:00+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Turkish\n"
@@ -27,9 +27,93 @@ msgstr "Akşam"
 msgid "Night"
 msgstr "Gece"
 
+#
+#: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
+#: src/timer_controller.rs:160 src/timer_controller.rs:174
+#: src/timer_controller.rs:220 src/timer_controller.rs:240
+#: src/timer_controller.rs:261 src/timer_controller.rs:281
+#: src/timer_controller.rs:302 src/timer_controller.rs:322
+msgid "Open Khushu"
+msgstr "Khushu'yu Aç"
+
+#: src/background.rs:122 src/background.rs:147
+msgid "Quit"
+msgstr "Çıkış"
+
 #: src/calendar.rs:66 src/calendar.rs:124
 msgid "Date Details"
 msgstr "Detaylar"
+
+#: src/calendar.rs:308
+msgid "First Day of Ramadan"
+msgstr "Ramazan'ın İlk Günü"
+
+#: src/calendar.rs:309
+msgid "Eid al-Fitr"
+msgstr "Ramazan Bayramı"
+
+#: src/calendar.rs:310
+msgid "Eid al-Adha"
+msgstr "Kurban Bayramı"
+
+#: src/calendar.rs:311
+msgid "Day of Arafah"
+msgstr "Arefe Günü"
+
+#: src/calendar.rs:312
+msgid "Islamic New Year"
+msgstr "Hicri Yılbaşı"
+
+#: src/calendar.rs:313
+msgid "Ashura"
+msgstr "Aşure Günü"
+
+#: src/calendar.rs:314
+msgid "Mawlid al-Nabi"
+msgstr "Mevlid Kandili"
+
+#: src/location.rs:53
+msgid "Location service unavailable. Please check system settings."
+msgstr "Konum servisi kullanılamıyor. Lütfen sistem ayarlarını kontrol edin."
+
+#: src/location.rs:63 src/location.rs:73
+msgid "Location access denied or unavailable."
+msgstr "Konum erişimi reddedildi veya kullanılamıyor."
+
+#: src/location.rs:68
+msgid "Failed to receive location updates."
+msgstr "Konum güncellemeleri alınamadı."
+
+#: src/location.rs:84
+msgid "Location service disconnected unexpectedly."
+msgstr "Konum servisi beklenmedik bir şekilde kapandı."
+
+#: src/location.rs:90
+msgid "Location request timed out. Please check your system settings."
+msgstr ""
+"Konum isteği zaman aşımına uğradı. Lütfen sistem ayarlarınızı kontrol edin."
+
+#: src/location.rs:129
+msgid "Network error while resolving city."
+msgstr "Şehir çözümlenirken ağ hatası oluştu."
+
+#: src/location.rs:134 src/location.rs:166 src/location.rs:172
+#: src/location.rs:176
+msgid "Invalid response from location service."
+msgstr "Konum servisinden geçersiz yanıt alındı."
+
+#: src/location.rs:137
+msgid "Could not find city name for these coordinates."
+msgstr "Bu koordinatlar için şehir adı bulunamadı."
+
+#: src/location.rs:161
+msgid "Network error. Please check your connection."
+msgstr "Ağ hatası. Lütfen bağlantınızı kontrol edin."
+
+#: src/location.rs:182
+#, fuzzy
+msgid "City not found. Please check the spelling."
+msgstr "Şehir bulunamadı. Lütfen yazımı kontrol edin."
 
 #: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
 msgid "Prayer Times"
@@ -67,7 +151,9 @@ msgstr "Konum Politikası"
 msgid ""
 "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
 "mode: zero network traffic."
-msgstr "Otomatik mod: GeoClue (sistem). Şehir arama: Nominatim (OpenStreetMap). Manuel mod: sıfır ağ trafiği."
+msgstr ""
+"Otomatik mod: GeoClue (sistem). Şehir arama: Nominatim (OpenStreetMap). "
+"Manuel mod: sıfır ağ trafiği."
 
 #: src/main.rs:355
 msgid "Privacy Policy"
@@ -77,7 +163,9 @@ msgstr "Gizlilik Politikası"
 msgid ""
 "Coordinates stay on this device and are not sent to any external servers. No "
 "analytics, no telemetry, no accounts."
-msgstr "Koordinatlar bu cihazda kalır ve herhangi bir harici sunucuya gönderilmez. Analiz yok, telemetri yok, hesap yok."
+msgstr ""
+"Koordinatlar bu cihazda kalır ve herhangi bir harici sunucuya gönderilmez. "
+"Analiz yok, telemetri yok, hesap yok."
 
 #: src/nav_ui.rs:31 src/pages.rs:361
 msgid "Home"
@@ -354,15 +442,6 @@ msgstr "Vakit geldi:"
 msgid "This is a test notification from Khushu. May your prayers be accepted."
 msgstr "Bu Khushu'dan bir test bildirimidir. Dualarınız kabul olsun."
 
-#
-#: src/settings_ui.rs:523 src/timer_controller.rs:160
-#: src/timer_controller.rs:174 src/timer_controller.rs:220
-#: src/timer_controller.rs:240 src/timer_controller.rs:261
-#: src/timer_controller.rs:281 src/timer_controller.rs:302
-#: src/timer_controller.rs:322
-msgid "Open Khushu"
-msgstr "Khushu'yu Aç"
-
 #: src/settings_ui.rs:524 src/timer_controller.rs:161
 #: src/timer_controller.rs:175 src/timer_controller.rs:221
 #: src/timer_controller.rs:241 src/timer_controller.rs:262
@@ -431,30 +510,6 @@ msgstr "Mekke ezanı"
 msgid "Madinah Adhan"
 msgstr "Medine ezanı"
 
-#: src/time.rs:74 src/time.rs:108
-msgid "Fajr"
-msgstr "İmsak"
-
-#: src/time.rs:78
-msgid "Sunrise"
-msgstr "Güneş"
-
-#: src/time.rs:82
-msgid "Dhuhr"
-msgstr "Öğle"
-
-#: src/time.rs:86
-msgid "Asr"
-msgstr "İkindi"
-
-#: src/time.rs:90
-msgid "Maghrib"
-msgstr "Akşam"
-
-#: src/time.rs:94
-msgid "Isha"
-msgstr "Yatsı"
-
 #: src/timer_controller.rs:134
 msgid "in"
 msgstr "içinde"
@@ -486,6 +541,30 @@ msgstr "Akşam"
 #: src/timer_controller.rs:299 src/timer_controller.rs:319
 msgid "Night Adkar"
 msgstr "Zikirler"
+
+#: src/time.rs:74 src/time.rs:108
+msgid "Fajr"
+msgstr "İmsak"
+
+#: src/time.rs:78
+msgid "Sunrise"
+msgstr "Güneş"
+
+#: src/time.rs:82
+msgid "Dhuhr"
+msgstr "Öğle"
+
+#: src/time.rs:86
+msgid "Asr"
+msgstr "İkindi"
+
+#: src/time.rs:90
+msgid "Maghrib"
+msgstr "Akşam"
+
+#: src/time.rs:94
+msgid "Isha"
+msgstr "Yatsı"
 
 #: src/welcome.rs:264 src/welcome.rs:265
 msgid "Welcome to Khushu"
@@ -527,119 +606,119 @@ msgstr "Şimdi Algıla"
 msgid "Continue"
 msgstr "Devam"
 
-msgid "Sunday"
-msgstr "Pazar"
+#~ msgid "Sunday"
+#~ msgstr "Pazar"
 
-msgid "Monday"
-msgstr "Pazartesi"
+#~ msgid "Monday"
+#~ msgstr "Pazartesi"
 
-msgid "Tuesday"
-msgstr "Salı"
+#~ msgid "Tuesday"
+#~ msgstr "Salı"
 
-msgid "Wednesday"
-msgstr "Çarşamba"
+#~ msgid "Wednesday"
+#~ msgstr "Çarşamba"
 
-msgid "Thursday"
-msgstr "Perşembe"
+#~ msgid "Thursday"
+#~ msgstr "Perşembe"
 
-msgid "Friday"
-msgstr "Cuma"
+#~ msgid "Friday"
+#~ msgstr "Cuma"
 
-msgid "Saturday"
-msgstr "Cumartesi"
+#~ msgid "Saturday"
+#~ msgstr "Cumartesi"
 
-msgid "Sun"
-msgstr "Paz"
+#~ msgid "Sun"
+#~ msgstr "Paz"
 
-msgid "Mon"
-msgstr "Pzt"
+#~ msgid "Mon"
+#~ msgstr "Pzt"
 
-msgid "Tue"
-msgstr "Sal"
+#~ msgid "Tue"
+#~ msgstr "Sal"
 
-msgid "Wed"
-msgstr "Çar"
+#~ msgid "Wed"
+#~ msgstr "Çar"
 
-msgid "Thu"
-msgstr "Per"
+#~ msgid "Thu"
+#~ msgstr "Per"
 
-msgid "Fri"
-msgstr "Cum"
+#~ msgid "Fri"
+#~ msgstr "Cum"
 
-msgid "Sat"
-msgstr "Cmt"
+#~ msgid "Sat"
+#~ msgstr "Cmt"
 
-msgid "Muharram"
-msgstr "Muharrem"
+#~ msgid "Muharram"
+#~ msgstr "Muharrem"
 
-msgid "Safar"
-msgstr "Safer"
+#~ msgid "Safar"
+#~ msgstr "Safer"
 
-msgid "Rabi' al-Awwal"
-msgstr "Rebiülevvel"
+#~ msgid "Rabi' al-Awwal"
+#~ msgstr "Rebiülevvel"
 
-msgid "Rabi' al-Thani"
-msgstr "Rebiülahir"
+#~ msgid "Rabi' al-Thani"
+#~ msgstr "Rebiülahir"
 
-msgid "Jumada al-Ula"
-msgstr "Cemaziyelevvel"
+#~ msgid "Jumada al-Ula"
+#~ msgstr "Cemaziyelevvel"
 
-msgid "Jumada al-Akhirah"
-msgstr "Cemaziyelahir"
+#~ msgid "Jumada al-Akhirah"
+#~ msgstr "Cemaziyelahir"
 
-msgid "Rajab"
-msgstr "Recep"
+#~ msgid "Rajab"
+#~ msgstr "Recep"
 
-msgid "Sha'ban"
-msgstr "Şaban"
+#~ msgid "Sha'ban"
+#~ msgstr "Şaban"
 
-msgid "Ramadan"
-msgstr "Ramazan"
+#~ msgid "Ramadan"
+#~ msgstr "Ramazan"
 
-msgid "Shawwal"
-msgstr "Şevval"
+#~ msgid "Shawwal"
+#~ msgstr "Şevval"
 
-msgid "Dhu al-Qi'dah"
-msgstr "Zilkade"
+#~ msgid "Dhu al-Qi'dah"
+#~ msgstr "Zilkade"
 
-msgid "Dhu al-Hijjah"
-msgstr "Zilhicce"
+#~ msgid "Dhu al-Hijjah"
+#~ msgstr "Zilhicce"
 
-msgid "January"
-msgstr "Ocak"
+#~ msgid "January"
+#~ msgstr "Ocak"
 
-msgid "February"
-msgstr "Şubat"
+#~ msgid "February"
+#~ msgstr "Şubat"
 
-msgid "March"
-msgstr "Mart"
+#~ msgid "March"
+#~ msgstr "Mart"
 
-msgid "April"
-msgstr "Nisan"
+#~ msgid "April"
+#~ msgstr "Nisan"
 
-msgid "May"
-msgstr "Mayıs"
+#~ msgid "May"
+#~ msgstr "Mayıs"
 
-msgid "June"
-msgstr "Haziran"
+#~ msgid "June"
+#~ msgstr "Haziran"
 
-msgid "July"
-msgstr "Temmuz"
+#~ msgid "July"
+#~ msgstr "Temmuz"
 
-msgid "August"
-msgstr "Ağustos"
+#~ msgid "August"
+#~ msgstr "Ağustos"
 
-msgid "September"
-msgstr "Eylül"
+#~ msgid "September"
+#~ msgstr "Eylül"
 
-msgid "October"
-msgstr "Ekim"
+#~ msgid "October"
+#~ msgstr "Ekim"
 
-msgid "November"
-msgstr "Kasım"
+#~ msgid "November"
+#~ msgstr "Kasım"
 
-msgid "December"
-msgstr "Aralık"
+#~ msgid "December"
+#~ msgstr "Aralık"
 
 #~ msgid "An all-in-one Muslim app for Linux"
 #~ msgstr "Linux için hepsi bir arada Müslüman uygulaması."
@@ -726,59 +805,5 @@ msgstr "Aralık"
 #~ msgid "Show Khushu"
 #~ msgstr "Khushu'yu Göster"
 
-#~ msgid "Quit"
-#~ msgstr "Çıkış"
-
-#~ msgid "First Day of Ramadan"
-#~ msgstr "Ramazan'ın İlk Günü"
-
-#~ msgid "Eid al-Fitr"
-#~ msgstr "Ramazan Bayramı"
-
-#~ msgid "Eid al-Adha"
-#~ msgstr "Kurban Bayramı"
-
-#~ msgid "Day of Arafah"
-#~ msgstr "Arefe Günü"
-
-#~ msgid "Islamic New Year"
-#~ msgstr "Hicri Yılbaşı"
-
-#~ msgid "Ashura"
-#~ msgstr "Aşure Günü"
-
-#~ msgid "Mawlid al-Nabi"
-#~ msgstr "Mevlid Kandili"
-
-#~ msgid "Location service unavailable. Please check system settings."
-#~ msgstr ""
-#~ "Konum servisi kullanılamıyor. Lütfen sistem ayarlarını kontrol edin."
-
-#~ msgid "Location access denied or unavailable."
-#~ msgstr "Konum erişimi reddedildi veya kullanılamıyor."
-
-#~ msgid "Failed to receive location updates."
-#~ msgstr "Konum güncellemeleri alınamadı."
-
-#~ msgid "Location service disconnected unexpectedly."
-#~ msgstr "Konum servisi beklenmedik bir şekilde kapandı."
-
-#~ msgid "Location request timed out. Please check your system settings."
-#~ msgstr ""
-#~ "Konum isteği zaman aşımına uğradı. Lütfen sistem ayarlarınızı kontrol "
-#~ "edin."
-
 #~ msgid "Network client initialization failed."
 #~ msgstr "Ağ istemcisi başlatılamadı."
-
-#~ msgid "Network error while resolving city."
-#~ msgstr "Şehir çözümlenirken ağ hatası oluştu."
-
-#~ msgid "Invalid response from location service."
-#~ msgstr "Konum servisinden geçersiz yanıt alındı."
-
-#~ msgid "Could not find city name for these coordinates."
-#~ msgstr "Bu koordinatlar için şehir adı bulunamadı."
-
-#~ msgid "Network error. Please check your connection."
-#~ msgstr "Ağ hatası. Lütfen bağlantınızı kontrol edin."
