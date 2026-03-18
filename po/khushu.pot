@@ -1,14 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the khushu package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: khushu 1.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
-"POT-Creation-Date: 2026-03-18 01:11+0100\n"
+"POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +23,7 @@ msgstr ""
 msgid "Night"
 msgstr ""
 
+#
 #: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
 #: src/timer_controller.rs:160 src/timer_controller.rs:174
 #: src/timer_controller.rs:220 src/timer_controller.rs:240
@@ -721,6 +716,14 @@ msgstr ""
 msgid "Prayer;Islam;Salah;"
 msgstr ""
 
+msgid ""
+"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+"smartphones. It centralizes your daily worship by providing accurate "
+"prayer times, native staggered Adkar notifications, and a roadmap that "
+"includes a dedicated Holy Quran experience—all with uncompromising "
+"privacy and zero telemetry."
+msgstr ""
+
 msgid "Accurate prayer calculation methods (Offline)"
 msgstr ""
 
@@ -772,14 +775,3 @@ msgstr ""
 msgid "Assalamu Alaikum"
 msgstr ""
 
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate "
-"prayer times, native staggered Adkar notifications, and a roadmap that "
-"includes a dedicated Holy Quran experience—all with uncompromising "
-"privacy and zero telemetry."
-msgstr ""
-"تطبيق خشوع هو تطبيق إسلامي شامل لنظام لينكس، الأجهزة اللوحية، والهواتف "
-"الذكية. يجمع عباداتك اليومية من خلال توفير أوقات صلاة دقيقة، تنبيهات "
-"أذكار متتابعة، وخارطة طريق تشمل تجربة مخصصة للقرآن الكريم — كل ذلك مع "
-"خصوصية تامة وبدون أي تتبع."
