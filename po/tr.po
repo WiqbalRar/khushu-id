@@ -719,8 +719,10 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-msgid "An all-in-one Muslim app for Linux"
-msgstr "Linux için hepsi bir arada Müslüman uygulaması."
+
+# =============================================================================
+# SECTION 3: APPSTREAM METADATA
+# =============================================================================
 
 msgid "Prayer;Islam;Salah;"
 msgstr "Namaz;İslam;Salah;"
@@ -788,3 +790,15 @@ msgstr "islam"
 
 msgid "Assalamu Alaikum"
 msgstr "Esselamu Aleykum"
+
+msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
+msgstr "Tepsi simgesi çeviri çıkarımı düzeltildi (Khushu'yu Aç ve Çıkış girişleri)."
+
+msgid "Fixed AppStream metadata translation (descriptions and keywords)."
+msgstr "AppStream meta veri çevirileri (açıklamalar ve anahtar kelimeler) düzeltildi."
+
+msgid "Improved tray behavior to update labels immediately on language change."
+msgstr "Dil değişiminde etiketlerin anında güncellenmesi için tepsi davranışı iyileştirildi."
+
+msgid "Initial stable release of Khushu."
+msgstr "Khushu'nun ilk kararlı sürümü."

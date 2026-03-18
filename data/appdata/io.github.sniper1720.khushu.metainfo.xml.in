@@ -64,8 +64,22 @@
   </branding>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="1.0.1" date="2026-03-18" />
-    <release version="1.0.0" date="2026-02-24" />
+    <release version="1.0.1" date="2026-03-18">
+      <description>
+        <ul>
+          <li>Fixed tray icon translation extraction (Quit and Open Khushu entries).</li>
+          <li>Fixed AppStream metadata translation (descriptions and keywords).</li>
+          <li>Improved tray behavior to update labels immediately on language change.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.0" date="2026-02-24">
+      <description>
+        <ul>
+          <li>Initial stable release of Khushu.</li>
+        </ul>
+      </description>
+    </release>
   </releases>
   <requires>
     <display_length compare="ge">360</display_length>

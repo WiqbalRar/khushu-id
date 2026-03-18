@@ -726,8 +726,10 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
-msgid "An all-in-one Muslim app for Linux"
-msgstr "Une application musulmane tout-en-un pour Linux."
+
+# =============================================================================
+# SECTION 3: APPSTREAM METADATA
+# =============================================================================
 
 msgid "Prayer;Islam;Salah;"
 msgstr "Prière;Islam;Salah;"
@@ -799,3 +801,15 @@ msgstr "islam"
 
 msgid "Assalamu Alaikum"
 msgstr "Assalamu Alaikum"
+
+msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
+msgstr "Correction de l'extraction de la traduction de l'icône de la barre d'état (entrées Quitter et Ouvrir Khushu)."
+
+msgid "Fixed AppStream metadata translation (descriptions and keywords)."
+msgstr "Correction de la traduction des métadonnées AppStream (descriptions et mots-clés)."
+
+msgid "Improved tray behavior to update labels immediately on language change."
+msgstr "Amélioration du comportement de la barre d'état pour mettre à jour les étiquettes immédiatement lors du changement de langue."
+
+msgid "Initial stable release of Khushu."
+msgstr "Première version stable de Khushu."

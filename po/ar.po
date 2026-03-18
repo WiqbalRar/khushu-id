@@ -718,8 +718,6 @@ msgstr "نوفمبر"
 msgid "December"
 msgstr "ديسمبر"
 
-msgid "An all-in-one Muslim app for Linux"
-msgstr "تطبيق إسلامي شامل لنظام لينكس."
 
 msgid "Prayer;Islam;Salah;"
 msgstr "صلاة;إسلام;صلاح;"
@@ -786,3 +784,15 @@ msgstr "إسلام"
 
 msgid "Assalamu Alaikum"
 msgstr "السلام عليكم"
+
+msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
+msgstr "إصلاح استخراج ترجمة أيقونة شريط المهام (مدخلي الخروج وفتح خشوع)."
+
+msgid "Fixed AppStream metadata translation (descriptions and keywords)."
+msgstr "إصلاح ترجمة بيانات AppStream (الأوصاف والكلمات المفتاحية)."
+
+msgid "Improved tray behavior to update labels immediately on language change."
+msgstr "تحسين سلوك شريط المهام لتحديث التسميات فوراً عند تغيير اللغة."
+
+msgid "Initial stable release of Khushu."
+msgstr "الإصدار المستقر الأول لتطبيق خشوع."
