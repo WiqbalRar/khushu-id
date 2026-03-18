@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: khushu 1.0.0\n"
+"Project-Id-Version: khushu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-18 00:22+0100\n"
+"POT-Creation-Date: 2026-03-18 01:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -600,3 +600,186 @@ msgstr ""
 #: src/welcome.rs:336
 msgid "Continue"
 msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+msgid "Sat"
+msgstr ""
+
+msgid "Muharram"
+msgstr ""
+
+msgid "Safar"
+msgstr ""
+
+msgid "Rabi' al-Awwal"
+msgstr ""
+
+msgid "Rabi' al-Thani"
+msgstr ""
+
+msgid "Jumada al-Ula"
+msgstr ""
+
+msgid "Jumada al-Akhirah"
+msgstr ""
+
+msgid "Rajab"
+msgstr ""
+
+msgid "Sha'ban"
+msgstr ""
+
+msgid "Ramadan"
+msgstr ""
+
+msgid "Shawwal"
+msgstr ""
+
+msgid "Dhu al-Qi'dah"
+msgstr ""
+
+msgid "Dhu al-Hijjah"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "An all-in-one Muslim app for Linux"
+msgstr ""
+
+msgid "Prayer;Islam;Salah;"
+msgstr ""
+
+msgid "Accurate prayer calculation methods (Offline)"
+msgstr ""
+
+msgid "Morning, Evening, and Night Adkar with built-in counters"
+msgstr ""
+
+msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+msgstr ""
+
+msgid "Interactive Qibla compass"
+msgstr ""
+
+msgid "Hijri calendar mapping"
+msgstr ""
+
+msgid "Privacy-first local encryption for your location data"
+msgstr ""
+
+msgid "Modern Libadwaita interface with adaptive Dark Mode"
+msgstr ""
+
+msgid "Multi-language support"
+msgstr ""
+
+msgid "Djalel Oukid"
+msgstr ""
+
+msgid "prayer"
+msgstr ""
+
+msgid "salah"
+msgstr ""
+
+msgid "adhan"
+msgstr ""
+
+msgid "adkar"
+msgstr ""
+
+msgid "qibla"
+msgstr ""
+
+msgid "muslim"
+msgstr ""
+
+msgid "islam"
+msgstr ""
+
+msgid "Assalamu Alaikum"
+msgstr ""
+
+msgid ""
+"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+"smartphones. It centralizes your daily worship by providing accurate "
+"prayer times, native staggered Adkar notifications, and a roadmap that "
+"includes a dedicated Holy Quran experience—all with uncompromising "
+"privacy and zero telemetry."
+msgstr ""
+"تطبيق خشوع هو تطبيق إسلامي شامل لنظام لينكس، الأجهزة اللوحية، والهواتف "
+"الذكية. يجمع عباداتك اليومية من خلال توفير أوقات صلاة دقيقة، تنبيهات "
+"أذكار متتابعة، وخارطة طريق تشمل تجربة مخصصة للقرآن الكريم — كل ذلك مع "
+"خصوصية تامة وبدون أي تتبع."
