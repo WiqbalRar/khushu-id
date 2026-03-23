@@ -724,6 +724,12 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
+msgid "(no. "
+msgstr "(n.º "
+
+# =============================================================================
+# SECTION 3: APPSTREAM METADATA
+# =============================================================================
 
 msgid "Prayer;Islam;Salah;"
 msgstr "Oración;Islam;Salah;"
@@ -807,6 +813,3 @@ msgstr "Mejora del comportamiento de la bandeja para actualizar las etiquetas in
 
 msgid "Initial stable release of Khushu."
 msgstr "Lanzamiento estable inicial de Khushu."
-
-msgid "(no. "
-msgstr "(n.º "

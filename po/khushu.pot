@@ -152,6 +152,27 @@ msgstr ""
 msgid "Night Adkar"
 msgstr ""
 
+msgid "At-Tirmidhi"
+msgstr ""
+
+msgid "Ibn Majah"
+msgstr ""
+
+msgid "Abu Dawud"
+msgstr ""
+
+msgid "Al-Bukhari"
+msgstr ""
+
+msgid "Ibn As-Sunni"
+msgstr ""
+
+msgid "Muslim"
+msgstr ""
+
+msgid "(no. "
+msgstr ""
+
 # --- 1.4: Qibla Compass ---
 
 #: src/qibla_ui.rs:35
@@ -831,25 +852,4 @@ msgstr ""
 # --- 4.2: v1.0.0 Notes ---
 
 msgid "Initial stable release of Khushu."
-msgstr ""
-
-msgid "At-Tirmidhi"
-msgstr ""
-
-msgid "Ibn Majah"
-msgstr ""
-
-msgid "Abu Dawud"
-msgstr ""
-
-msgid "Al-Bukhari"
-msgstr ""
-
-msgid "Ibn As-Sunni"
-msgstr ""
-
-msgid "Muslim"
-msgstr ""
-
-msgid "(no. "
 msgstr ""

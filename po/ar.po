@@ -718,6 +718,30 @@ msgstr "نوفمبر"
 msgid "December"
 msgstr "ديسمبر"
 
+msgid "At-Tirmidhi"
+msgstr "الترمذي"
+
+msgid "Ibn Majah"
+msgstr "ابن ماجه"
+
+msgid "Abu Dawud"
+msgstr "أبو داود"
+
+msgid "Al-Bukhari"
+msgstr "البخاري"
+
+msgid "Ibn As-Sunni"
+msgstr "ابن السني"
+
+msgid "Muslim"
+msgstr "مسلم"
+
+msgid "(no. "
+msgstr "(رقم "
+
+# =============================================================================
+# SECTION 3: APPSTREAM METADATA
+# =============================================================================
 
 msgid "Prayer;Islam;Salah;"
 msgstr "صلاة;إسلام;صلاح;"
@@ -796,24 +820,3 @@ msgstr "تحسين سلوك شريط المهام لتحديث التسميات 
 
 msgid "Initial stable release of Khushu."
 msgstr "الإصدار المستقر الأول لتطبيق خشوع."
-
-msgid "At-Tirmidhi"
-msgstr "الترمذي"
-
-msgid "Ibn Majah"
-msgstr "ابن ماجه"
-
-msgid "Abu Dawud"
-msgstr "أبو داود"
-
-msgid "Al-Bukhari"
-msgstr "البخاري"
-
-msgid "Ibn As-Sunni"
-msgstr "ابن السني"
-
-msgid "Muslim"
-msgstr "مسلم"
-
-msgid "(no. "
-msgstr "(رقم "

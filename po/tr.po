@@ -719,6 +719,8 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
+msgid "(no. "
+msgstr "(no. "
 
 # =============================================================================
 # SECTION 3: APPSTREAM METADATA
@@ -802,6 +804,3 @@ msgstr "Dil değişiminde etiketlerin anında güncellenmesi için tepsi davran�
 
 msgid "Initial stable release of Khushu."
 msgstr "Khushu'nun ilk kararlı sürümü."
-
-msgid "(no. "
-msgstr "(no. "

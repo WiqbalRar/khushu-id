@@ -726,6 +726,8 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
+msgid "(no. "
+msgstr "(n° "
 
 # =============================================================================
 # SECTION 3: APPSTREAM METADATA
@@ -813,6 +815,3 @@ msgstr "Amélioration du comportement de la barre d'état pour mettre à jour le
 
 msgid "Initial stable release of Khushu."
 msgstr "Version stable initiale de Khushu."
-
-msgid "(no. "
-msgstr "(n° "
