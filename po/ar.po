@@ -796,3 +796,24 @@ msgstr "تحسين سلوك شريط المهام لتحديث التسميات 
 
 msgid "Initial stable release of Khushu."
 msgstr "الإصدار المستقر الأول لتطبيق خشوع."
+
+msgid "At-Tirmidhi"
+msgstr "الترمذي"
+
+msgid "Ibn Majah"
+msgstr "ابن ماجه"
+
+msgid "Abu Dawud"
+msgstr "أبو داود"
+
+msgid "Al-Bukhari"
+msgstr "البخاري"
+
+msgid "Ibn As-Sunni"
+msgstr "ابن السني"
+
+msgid "Muslim"
+msgstr "مسلم"
+
+msgid "(no. "
+msgstr "(رقم "

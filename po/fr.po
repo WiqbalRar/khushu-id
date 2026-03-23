@@ -812,4 +812,7 @@ msgid "Improved tray behavior to update labels immediately on language change."
 msgstr "Amélioration du comportement de la barre d'état pour mettre à jour les étiquettes immédiatement lors du changement de langue."
 
 msgid "Initial stable release of Khushu."
-msgstr "Première version stable de Khushu."
+msgstr "Version stable initiale de Khushu."
+
+msgid "(no. "
+msgstr "(n° "

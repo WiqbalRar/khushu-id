@@ -832,3 +832,24 @@ msgstr ""
 
 msgid "Initial stable release of Khushu."
 msgstr ""
+
+msgid "At-Tirmidhi"
+msgstr ""
+
+msgid "Ibn Majah"
+msgstr ""
+
+msgid "Abu Dawud"
+msgstr ""
+
+msgid "Al-Bukhari"
+msgstr ""
+
+msgid "Ibn As-Sunni"
+msgstr ""
+
+msgid "Muslim"
+msgstr ""
+
+msgid "(no. "
+msgstr ""

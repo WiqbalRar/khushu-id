@@ -807,3 +807,6 @@ msgstr "Mejora del comportamiento de la bandeja para actualizar las etiquetas in
 
 msgid "Initial stable release of Khushu."
 msgstr "Lanzamiento estable inicial de Khushu."
+
+msgid "(no. "
+msgstr "(n.º "

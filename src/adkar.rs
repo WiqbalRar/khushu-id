@@ -335,6 +335,30 @@ fn create_dikr_row(
         .css_classes(["caption"])
         .build();
 
+    let lang = config.borrow().language.clone();
+
+    let mut translated_source = dikr.reference.clone();
+
+    let books = [
+        "At-Tirmidhi",
+        "Ibn Majah",
+        "Abu Dawud",
+        "Al-Bukhari",
+        "Ibn As-Sunni",
+        "Muslim",
+    ];
+
+    for book in books.iter() {
+        if let Some(rest) = translated_source.strip_prefix(book) {
+            translated_source = format!("{}{}", tr(book, &lang), rest);
+            break;
+        }
+    }
+
+    if translated_source.contains("(no. ") {
+        translated_source = translated_source.replace("(no. ", &tr("(no. ", &lang));
+    }
+
     let hbox_meta = gtk::Box::new(gtk::Orientation::Horizontal, 12);
     hbox_meta.set_halign(gtk::Align::Center);
     hbox_meta.append(
@@ -345,7 +369,7 @@ fn create_dikr_row(
     );
     hbox_meta.append(
         &gtk::Label::builder()
-            .label(&dikr.reference)
+            .label(&translated_source)
             .css_classes(["dim-label", "caption-heading"])
             .build(),
     );
