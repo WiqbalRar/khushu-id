@@ -64,6 +64,12 @@ Khushu is under active development. Our goal is to build the premier all-in-one 
 
 ### Recommended Methods
 
+<p align="center">
+  <a href="https://flathub.org/apps/io.github.sniper1720.khushu">
+    <img src="https://flathub.org/api/badge?locale=en" alt="Get it on Flathub" width="240" />
+  </a>
+</p>
+
 | Format | Command |
 | :--- | :--- |
 | **Flatpak (Flathub)** | `flatpak install flathub io.github.sniper1720.khushu` |
