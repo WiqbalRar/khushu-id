@@ -335,7 +335,7 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
         .application_name(tr("Khushu", lang))
         .application_icon("io.github.sniper1720.khushu")
         .developer_name(tr("Djalel Oukid (sniper1720)", lang))
-        .version("1.0.1")
+        .version("1.0.2")
         .comments(tr("An all-in-one Muslim app for Linux.", lang))
         .website("https://github.com/sniper1720/khushu")
         .issue_url("https://github.com/sniper1720/khushu/issues")

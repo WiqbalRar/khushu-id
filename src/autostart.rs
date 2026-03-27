@@ -70,6 +70,7 @@ async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
     let response = Background::request()
         .reason("Allow Khushu to start automatically at login for prayer notifications.")
         .auto_start(enable)
+        .command(&["khushu", "--background"])
         .dbus_activatable(false)
         .send()
         .await?

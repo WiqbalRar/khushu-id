@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.0.1
+Version:        1.0.2
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -56,6 +56,11 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Tue Mar 24 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.0.2-1
+- Fixed Flatpak autostart failure and missing --background flag.
+- Fixed over-translation of proper nouns (e.g., Muslim).
+- Added new localized AppStream screenshots.
+
 * Wed Mar 18 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.0.1-1
 - Fixed tray icon translation extraction (Quit and Open Khushu).
 - Fixed AppStream metadata translation (descriptions, keywords).

@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: khushu 1.0.1\n"
+"Project-Id-Version: khushu 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-03-18 17:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -778,6 +778,24 @@ msgstr ""
 msgid "Accurate prayer calculation methods (Offline)"
 msgstr ""
 
+msgid "Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date."
+msgstr ""
+
+msgid "Adkar & Supplications: Access Daily Adkar with built-in counters and staggered notifications."
+msgstr ""
+
+msgid "Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor."
+msgstr ""
+
+msgid "Welcome & Onboarding: Easy first-time setup for location, language, and calculation method."
+msgstr ""
+
+msgid "App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications."
+msgstr ""
+
+msgid "Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping."
+msgstr ""
+
 msgid "adhan"
 msgstr ""
 
@@ -837,6 +855,17 @@ msgstr ""
 # =============================================================================
 # SECTION 4: RELEASE NOTES
 # =============================================================================
+
+# --- 4.0: v1.0.2 Notes ---
+
+msgid "Fixed Flatpak autostart failure and missing --background flag."
+msgstr ""
+
+msgid "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
+msgstr ""
+
+msgid "Added new localized AppStream screenshots for improved store presence."
+msgstr ""
 
 # --- 4.1: v1.0.1 Notes ---
 

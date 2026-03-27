@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.2] — 2026-03-24
+
+### Fixed
+- Fixed critical autostart bug where GNOME Background Portal would dynamically delete autostart entries.
+- Fixed Flatpak autostart command to launch silently in the background instead of popping open the main UI.
+- Fixed translation extraction pipeline for proper nouns (e.g., Muslim, At-Tirmidhi) to prevent unintended fuzzy matching across languages.
+
+### Added
+- Expanded AppStream metadata coverage with 3 additional screenshots.
+- Added comprehensive translations for all AppStream screenshot captions across all supported languages.
+
 ## [1.0.1] — 2026-03-18
 
 ### Fixed

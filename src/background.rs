@@ -86,11 +86,13 @@ impl Tray for KhushuTray {
 
 async fn request_background_portal() -> Result<(), ashpd::Error> {
     use ashpd::desktop::background::Background;
+    let config = crate::config::AppConfig::load();
 
     let response = Background::request()
         .reason("Khushu needs to run in the background to send prayer time notifications")
-        .auto_start(false)
-        .dbus_activatable(true)
+        .auto_start(config.autostart)
+        .command(&["khushu", "--background"])
+        .dbus_activatable(false)
         .send()
         .await?
         .response()?;

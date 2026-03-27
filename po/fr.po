@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.0.1\n"
+"Project-Id-Version: Khushu 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-03-18 01:52+0100\n"
@@ -753,6 +753,24 @@ msgstr ""
 msgid "Accurate prayer calculation methods (Offline)"
 msgstr "Méthodes de calcul de prière précises (Hors ligne)"
 
+msgid "Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date."
+msgstr "Tableau des horaires de prière : Consultez les horaires Salah précis, le compte à rebours et la date hégirien."
+
+msgid "Adkar & Supplications: Access Daily Adkar with built-in counters and staggered notifications."
+msgstr "Adkar & Invocations : Accédez aux Adkar quotidiens avec compteurs intégrés et notifications échelonnées."
+
+msgid "Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor."
+msgstr "Direction de la Qibla interactive : Une boussole pointant vers La Mecque via GPS ou capteur E-Compass."
+
+msgid "Welcome & Onboarding: Easy first-time setup for location, language, and calculation method."
+msgstr "Bienvenue & Configuration : Installation facile de la localisation, la langue et la méthode de calcul."
+
+msgid "App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications."
+msgstr "Paramètres : Configurez la localisation, la langue, l'apparence, le calcul de prière, l'Adhan et les notifications."
+
+msgid "Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping."
+msgstr "Calendrier Hégirien : Parcourez le calendrier islamique complet avec une correspondance précise des dates."
+
 msgid "Morning, Evening, and Night Adkar with built-in counters"
 msgstr "Adkar du matin, du soir et de la nuit avec compteurs intégrés"
 
@@ -803,6 +821,15 @@ msgstr "islam"
 
 msgid "Assalamu Alaikum"
 msgstr "Assalamu Alaikum"
+
+msgid "Fixed Flatpak autostart failure and missing --background flag."
+msgstr "Correction de l'échec du démarrage automatique Flatpak et de l'indicateur --background manquant."
+
+msgid "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
+msgstr "Correction de la sur-traduction des noms propres (par ex., Muslim) dans les autres langues."
+
+msgid "Added new localized AppStream screenshots for improved store presence."
+msgstr "Ajout de nouvelles captures d'écran localisées pour une meilleure présentation sur la boutique."
 
 msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
 msgstr "Correction de l'extraction de la traduction de l'icône de la barre d'état (entrées Quitter et Ouvrir Khushu)."

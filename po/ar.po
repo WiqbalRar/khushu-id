@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.0.1\n"
+"Project-Id-Version: Khushu 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-03-18 01:52+0100\n"
@@ -761,6 +761,24 @@ msgstr ""
 msgid "Accurate prayer calculation methods (Offline)"
 msgstr "طرق حساب صلاة دقيقة (بدون إنترنت)"
 
+msgid "Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date."
+msgstr "لوحة أوقات الصلاة: اعرض أوقات الصلاة اليومية الدقيقة، وعداد الصلاة القادمة، والتاريخ الهجري."
+
+msgid "Adkar & Supplications: Access Daily Adkar with built-in counters and staggered notifications."
+msgstr "الأذكار والأدعية: استعرض أذكار اليوم مع عدادات مدمجة وإشعارات متتالية."
+
+msgid "Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor."
+msgstr "اتجاه القبلة التفاعلي: بوصلة رائعة تشير إلى مكة عبر موقع GPS أو حساس البوصلة الإلكترونية."
+
+msgid "Welcome & Onboarding: Easy first-time setup for location, language, and calculation method."
+msgstr "مرحباً بك في تطبيق خشوع: إعداد سهل للمرة الأولى للموقع واللغة وطريقة الحساب."
+
+msgid "App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications."
+msgstr "إعدادات التطبيق: ضبط الموقع واللغة والمظهر وحساب الصلاة وصوت الأذان والإشعارات."
+
+msgid "Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping."
+msgstr "التقويم الهجري: تصفح التقويم الإسلامي الكامل مع تحويل دقيق للتواريخ الهجرية."
+
 msgid "Morning, Evening, and Night Adkar with built-in counters"
 msgstr "أذكار الصباح والمساء والنوم مع عدادات مدمجة"
 
@@ -808,6 +826,15 @@ msgstr "إسلام"
 
 msgid "Assalamu Alaikum"
 msgstr "السلام عليكم"
+
+msgid "Fixed Flatpak autostart failure and missing --background flag."
+msgstr "تم إصلاح فشل التشغيل التلقائي في فلاتباك وإضافة علامة --background المفقودة."
+
+msgid "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
+msgstr "تم إصلاح الترجمة الزائدة لأسماء الأعلام (مثل: مسلم) في اللغات غير الإنجليزية."
+
+msgid "Added new localized AppStream screenshots for improved store presence."
+msgstr "تمت إضافة لقطات شاشة مترجمة جديدة لتحسين مظهر التطبيق في المتاجر."
 
 msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
 msgstr "إصلاح استخراج ترجمة أيقونة شريط المهام (مدخلي الخروج وفتح خشوع)."

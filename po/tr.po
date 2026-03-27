@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.0.1\n"
+"Project-Id-Version: Khushu 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-03-18 01:52+0100\n"
@@ -745,6 +745,24 @@ msgstr ""
 msgid "Accurate prayer calculation methods (Offline)"
 msgstr "Doğru namaz hesaplama yöntemleri (Çevrimdışı)"
 
+msgid "Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date."
+msgstr "Namaz Vakitleri Paneli: Günlük Salah vakitlerini, bir sonraki namaza geri sayımı ve Hicri tarihi görüntüleyin."
+
+msgid "Adkar & Supplications: Access Daily Adkar with built-in counters and staggered notifications."
+msgstr "Zikir & Dualar: Yerleşik sayaçlar ve kademeli bildirimlerle günlük Zikirlere erişin."
+
+msgid "Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor."
+msgstr "Etkileşimli Kıble Yönü: GPS konumu veya E-Pusula sensorü aracılığıyla Mekke'yi gösteren güzel bir pusula."
+
+msgid "Welcome & Onboarding: Easy first-time setup for location, language, and calculation method."
+msgstr "Hoş Geldiniz & Kurulum: Konum, dil ve hesaplama yöntemi için kolay ilk kurulum."
+
+msgid "App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications."
+msgstr "Uygulama Ayarları: Konum, dil, görünüm, namaz hesaplaması, Ezan sesi ve bildirimleri yapılandırın."
+
+msgid "Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping."
+msgstr "Hicri Takvim: Doğru Hicri tarih eşleştirmesiyle tam İslami takvimi inceleyin."
+
 msgid "Morning, Evening, and Night Adkar with built-in counters"
 msgstr "Yerleşik sayaçlarla Sabah, Akşam ve Gece Zikirleri"
 
@@ -792,6 +810,15 @@ msgstr "islam"
 
 msgid "Assalamu Alaikum"
 msgstr "Esselamu Aleykum"
+
+msgid "Fixed Flatpak autostart failure and missing --background flag."
+msgstr "Flatpak otomatik başlatma hatası ve eksik --background bayrağı düzeltildi."
+
+msgid "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
+msgstr "İngilizce dışındaki dillerde özel isimlerin (ör. Muslim) aşırı çevrilmesi düzeltildi."
+
+msgid "Added new localized AppStream screenshots for improved store presence."
+msgstr "Mağaza varlığını iyileştirmek için yeni yerelleştirilmiş ekran görüntüleri eklendi."
 
 msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
 msgstr "Tepsi simgesi çeviri çıkarımı düzeltildi (Khushu'yu Aç ve Çıkış girişleri)."

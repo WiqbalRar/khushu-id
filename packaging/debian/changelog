@@ -1,3 +1,11 @@
+khushu (1.0.2) unstable; urgency=medium
+
+  * Fixed Flatpak autostart failure and missing --background flag.
+  * Fixed over-translation of proper nouns (e.g., Muslim).
+  * Added new localized AppStream screenshots.
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Tue, 24 Mar 2026 23:45:00 +0100
+
 khushu (1.0.1) unstable; urgency=medium
 
   * Fixed tray icon translation extraction (Quit and Open Khushu).
