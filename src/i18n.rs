@@ -32,22 +32,28 @@ pub fn update_locale(lang: &str) {
 }
 
 fn detect_system_locale() -> String {
-    if let Some(lang) = std::env::var_os("LANGUAGE").and_then(|s| s.into_string().ok()) {
-        if !lang.is_empty() && lang != "C" && lang != "POSIX" {
-            return lang.split(':').next().unwrap_or("en").to_string();
-        }
+    if let Some(lang) = std::env::var_os("LANGUAGE").and_then(|s| s.into_string().ok())
+        && !lang.is_empty()
+        && lang != "C"
+        && lang != "POSIX"
+    {
+        return lang.split(':').next().unwrap_or("en").to_string();
     }
 
-    if let Some(lang) = std::env::var_os("LC_ALL").and_then(|s| s.into_string().ok()) {
-        if !lang.is_empty() && lang != "C" && lang != "POSIX" {
-            return lang.split('.').next().unwrap_or("en").to_string();
-        }
+    if let Some(lang) = std::env::var_os("LC_ALL").and_then(|s| s.into_string().ok())
+        && !lang.is_empty()
+        && lang != "C"
+        && lang != "POSIX"
+    {
+        return lang.split('.').next().unwrap_or("en").to_string();
     }
 
-    if let Some(lang) = std::env::var_os("LANG").and_then(|s| s.into_string().ok()) {
-        if !lang.is_empty() && lang != "C" && lang != "POSIX" {
-            return lang.split('.').next().unwrap_or("en").to_string();
-        }
+    if let Some(lang) = std::env::var_os("LANG").and_then(|s| s.into_string().ok())
+        && !lang.is_empty()
+        && lang != "C"
+        && lang != "POSIX"
+    {
+        return lang.split('.').next().unwrap_or("en").to_string();
     }
 
     if let Some(actual) = setlocale(LocaleCategory::LcAll, "") {
