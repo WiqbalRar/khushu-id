@@ -1,12 +1,27 @@
 use gtk::prelude::*;
 use gtk4 as gtk;
 
+fn get_notification_icon() -> gtk::gio::Icon {
+    if let Ok(snap) = std::env::var("SNAP") {
+        let icon_path = format!(
+            "{}/usr/share/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg",
+            snap
+        );
+        if std::path::Path::new(&icon_path).exists() {
+            let file = gtk::gio::File::for_path(&icon_path);
+            let icon = gtk::gio::FileIcon::new(&file);
+            return icon.upcast();
+        }
+    }
+    gtk::gio::ThemedIcon::new("io.github.sniper1720.khushu").upcast()
+}
+
 pub fn show_notification(title: &str, body: &str, is_adhan: bool, open_lbl: &str, stop_lbl: &str) {
     if let Some(app) = gtk::gio::Application::default() {
         log::debug!("Sending notification via GApplication (Portal-compatible)");
         let notification = gtk::gio::Notification::new(title);
         notification.set_body(Some(body));
-        let icon = gtk::gio::ThemedIcon::new("io.github.sniper1720.khushu");
+        let icon = get_notification_icon();
         notification.set_icon(&icon);
         notification.set_default_action("app.open-main");
         notification.add_button(open_lbl, "app.open-main");
@@ -23,11 +38,23 @@ pub fn show_notification(title: &str, body: &str, is_adhan: bool, open_lbl: &str
         let stop_lbl = stop_lbl.to_string();
         std::thread::spawn(move || {
             let mut builder = notify_rust::Notification::new();
+            builder.summary(&title).body(&body).appname("Khushu");
+
+            if let Ok(snap) = std::env::var("SNAP") {
+                let icon_path = format!(
+                    "{}/usr/share/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg",
+                    snap
+                );
+                if std::path::Path::new(&icon_path).exists() {
+                    builder.icon(&icon_path);
+                } else {
+                    builder.icon("io.github.sniper1720.khushu");
+                }
+            } else {
+                builder.icon("io.github.sniper1720.khushu");
+            }
+
             builder
-                .summary(&title)
-                .body(&body)
-                .appname("Khushu")
-                .icon("io.github.sniper1720.khushu")
                 .hint(notify_rust::Hint::DesktopEntry(
                     "io.github.sniper1720.khushu".to_string(),
                 ))

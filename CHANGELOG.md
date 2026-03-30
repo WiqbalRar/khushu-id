@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] — 2026-03-30
+
+### Fixed
+- Fixed Snap autostart and notification icon rendering
+- Improved locale detection and fallback logic
+
 ## [1.0.2] — 2026-03-24
 
 ### Fixed

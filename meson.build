@@ -1,5 +1,5 @@
 project('khushu', 'rust',
-  version: '1.0.2',
+  version: '1.0.3',
   meson_version: '>= 1.2.0',
 )
 

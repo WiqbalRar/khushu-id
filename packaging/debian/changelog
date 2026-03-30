@@ -1,3 +1,10 @@
+khushu (1.0.3) unstable; urgency=medium
+
+  * Fixed Snap autostart and notification icon rendering.
+  * Improved locale detection and fallback logic.
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Mon, 30 Mar 2026 12:00:00 +0100
+
 khushu (1.0.2) unstable; urgency=medium
 
   * Fixed Flatpak autostart failure and missing --background flag.

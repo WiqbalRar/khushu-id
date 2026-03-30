@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.0.2\n"
+"Project-Id-Version: Khushu 1.0.3\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-03-18 00:22+0100\n"
 "PO-Revision-Date: 2026-03-18 01:52+0100\n"
@@ -819,6 +819,12 @@ msgstr "islam"
 
 msgid "Assalamu Alaikum"
 msgstr "Assalamu Alaikum"
+
+msgid "Fixed Snap autostart and notification icon rendering."
+msgstr "Corrección del inicio automático en Snap y la representación de iconos de notificación."
+
+msgid "Improved locale detection and fallback logic."
+msgstr "Mejora de la detección de configuración regional y la lógica de respaldo."
 
 msgid "Fixed Flatpak autostart failure and missing --background flag."
 msgstr "Se corrigió el error de inicio automático en Flatpak y la falta del indicador --background."

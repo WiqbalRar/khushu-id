@@ -10,8 +10,20 @@ fn get_autostart_path() -> PathBuf {
     path
 }
 
+fn get_snap_autostart_path() -> Option<PathBuf> {
+    std::env::var("SNAP_USER_DATA").ok().map(|snap_data| {
+        let mut path = PathBuf::from(snap_data);
+        path.push(".config/autostart/io.github.sniper1720.khushu.desktop");
+        path
+    })
+}
+
 fn is_sandboxed() -> bool {
     std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some()
+}
+
+fn is_snap_sandboxed() -> bool {
+    std::env::var_os("SNAP").is_some()
 }
 
 fn enable_fs() {
@@ -64,6 +76,45 @@ fn disable_fs() {
     }
 }
 
+fn enable_snap_autostart() {
+    if let Some(path) = get_snap_autostart_path() {
+        if let Some(parent) = path.parent().filter(|p| !p.exists()) {
+            let _ = fs::create_dir_all(parent);
+        }
+
+        let desktop_content = r#"[Desktop Entry]
+Name=Khushu
+Comment=An all-in-one Muslim app for Linux.
+Exec=khushu --background
+Icon=io.github.sniper1720.khushu
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=Prayer;Islam;Salah;
+StartupNotify=true
+"#;
+
+        if fs::write(&path, desktop_content).is_ok() {
+            if let Ok(mut perms) = fs::metadata(&path).map(|m| m.permissions()) {
+                perms.set_mode(0o644);
+                let _ = fs::set_permissions(&path, perms);
+            }
+            log::info!("Autostart enabled (snap native): {:?}", path);
+        } else {
+            log::error!("Failed to create snap autostart desktop file at {:?}", path);
+        }
+    }
+}
+
+fn disable_snap_autostart() {
+    if let Some(path) = get_snap_autostart_path()
+        && path.exists()
+        && fs::remove_file(&path).is_ok()
+    {
+        log::info!("Autostart disabled (snap native): removed {:?}", path);
+    }
+}
+
 async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
     use ashpd::desktop::background::Background;
 
@@ -85,13 +136,17 @@ async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
 }
 
 pub fn sync(should_enable: bool) {
-    if is_sandboxed() {
+    if is_snap_sandboxed() {
+        if should_enable {
+            enable_snap_autostart();
+        } else {
+            disable_snap_autostart();
+        }
+    } else if is_sandboxed() {
         glib::spawn_future_local(async move {
             match request_portal(should_enable).await {
                 Ok(_) => log::info!("XDG Portal successfully processed autostart request."),
-                Err(e) => log::error!(
-                    "Portal autostart failed: {e}. Cannot fall back to filesystem in sandbox."
-                ),
+                Err(e) => log::error!("Portal autostart failed: {e}"),
             }
         });
     } else if should_enable {

@@ -66,6 +66,8 @@ async fn main() {
 
     adw::init().expect("Failed to initialize Libadwaita");
 
+    crate::i18n::rebind_locale_after_adw_init();
+
     let app = Application::builder()
         .application_id(APP_ID)
         .flags(gtk::gio::ApplicationFlags::HANDLES_COMMAND_LINE)
@@ -335,7 +337,7 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
         .application_name(tr("Khushu", lang))
         .application_icon("io.github.sniper1720.khushu")
         .developer_name(tr("Djalel Oukid (sniper1720)", lang))
-        .version("1.0.2")
+        .version("1.0.3")
         .comments(tr("An all-in-one Muslim app for Linux.", lang))
         .website("https://github.com/sniper1720/khushu")
         .issue_url("https://github.com/sniper1720/khushu/issues")
