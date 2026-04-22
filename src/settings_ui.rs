@@ -566,17 +566,16 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
                             }
                         }
 
-                        if let Some(ref tz) = cache.timezone {
-                            if let Some(ref sys_tz) = crate::location::system_time_zone_id() {
-                                if !tz.eq_ignore_ascii_case(&sys_tz) {
-                                    c.timezone_mode = TimezoneMode::Named(tz.clone());
-                                    log::info!(
-                                        "Timezone auto-updated to {} (Mawaqit, different from system {})",
-                                        tz,
-                                        sys_tz
-                                    );
-                                }
-                            }
+                        if let Some(ref tz) = cache.timezone
+                            && let Some(ref sys_tz) = crate::location::system_time_zone_id()
+                            && !tz.eq_ignore_ascii_case(sys_tz)
+                        {
+                            c.timezone_mode = TimezoneMode::Named(tz.clone());
+                            log::info!(
+                                "Timezone auto-updated to {} (Mawaqit, different from system {})",
+                                tz,
+                                sys_tz
+                            );
                         }
                         c.sync_quran_state_from_disk();
                         c.save();

@@ -427,7 +427,10 @@ fn format_coordinates(lat: f64, lon: f64) -> String {
     format!("{:.2}°{}, {:.2}°{}", lat.abs(), lat_dir, lon.abs(), lon_dir)
 }
 
-pub async fn search_city(query: &str, lang: &str) -> Result<(f64, f64, String, Option<String>), String> {
+pub async fn search_city(
+    query: &str,
+    lang: &str,
+) -> Result<(f64, f64, String, Option<String>), String> {
     log::info!("Searching for city: {}", query);
     let http = client();
     let normalized_lang = icu_locale_key(lang);
@@ -479,7 +482,13 @@ pub async fn search_city(query: &str, lang: &str) -> Result<(f64, f64, String, O
             }
         }
 
-        log::info!("City found: {} ({}, {}) timezone: {:?}", display_name, lat, lon, res.timezone);
+        log::info!(
+            "City found: {} ({}, {}) timezone: {:?}",
+            display_name,
+            lat,
+            lon,
+            res.timezone
+        );
         Ok((lat, lon, display_name, res.timezone.clone()))
     } else {
         log::warn!("City not found for query: {}", query);
