@@ -2,7 +2,6 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use adw::ComboRow;
-use adw::PreferencesGroup;
 use adw::prelude::*;
 use gtk::{Box, Label, ListBox, Orientation, SelectionMode};
 use gtk4 as gtk;
@@ -26,7 +25,7 @@ pub struct PagesParams {
     pub compass_manager: Rc<crate::qibla::CompassManager>,
     pub window: adw::ApplicationWindow,
     pub sidebar_list: gtk::ListBox,
-    pub window_title: gtk::Label,
+    pub window_title: adw::WindowTitle,
 }
 
 pub struct PagesContext {
@@ -75,9 +74,8 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     hero_box.set_margin_top(12);
     hero_box.set_margin_bottom(12);
 
-    let initial_lang = current_lang.borrow().clone();
     let hero_label = Label::builder()
-        .label(tr("Loading...", &initial_lang))
+        .label("")
         .css_classes(["title-1"])
         .wrap(true)
         .justify(gtk::Justification::Center)
@@ -112,7 +110,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     let list_box_rc = Rc::new(list_box);
     home_content_box.append(list_box_rc.as_ref());
 
-    let hero_label_ref = hero_label.clone();
     let hijri_label_ref = hijri_label.clone();
     let location_label_ref = location_label.clone();
     let list_box_home = list_box_rc.clone();
@@ -120,7 +117,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     let refresh_home = Rc::new(move || {
         let lang = config_home_ref.borrow().language.clone();
         refresh_home_ui(
-            &hero_label_ref,
             &hijri_label_ref,
             &location_label_ref,
             &lang,
@@ -139,7 +135,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
 
     let config_loc = config.clone();
     let list_box_loc = list_box_rc.clone();
-    let hero_label_loc = hero_label.clone();
     let hijri_label_loc = hijri_label.clone();
     let location_label_loc = location_label.clone();
     let current_lang_loc = current_lang.clone();
@@ -153,18 +148,13 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
                 if let Some(name) = city {
                     cfg.city_name = Some(name);
                 }
+                cfg.sync_quran_state_from_disk();
                 cfg.save();
             }
 
             let cfg = config_loc.borrow();
             let lang = current_lang_loc.borrow();
-            refresh_home_ui(
-                &hero_label_loc,
-                &hijri_label_loc,
-                &location_label_loc,
-                &lang,
-                &cfg,
-            );
+            refresh_home_ui(&hijri_label_loc, &location_label_loc, &lang, &cfg);
             settings_ui::refresh_prayers(&cfg, &list_box_loc);
         }
         gtk::glib::ControlFlow::Continue
@@ -190,6 +180,27 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
 
     view_stack.add_named(&calendar_scroll, Some("calendar"));
 
+    let calendar_grid = calendar_page
+        .first_child()
+        .and_then(|c| c.next_sibling())
+        .and_then(|c| c.downcast::<gtk::Grid>().ok())
+        .expect("Could not find calendar grid");
+
+    let mut classes = calendar_grid.css_classes();
+    if !classes.contains(&"compact-calendar".into()) {
+        classes.push("compact-calendar".into());
+    }
+
+    let breakpoint = adw::Breakpoint::new(adw::BreakpointCondition::new_length(
+        adw::BreakpointConditionLengthType::MaxWidth,
+        370.0,
+        adw::LengthUnit::Px,
+    ));
+    breakpoint.add_setter(&split_view, "collapsed", Some(&true.to_value()));
+    breakpoint.add_setter(&calendar_grid, "css-classes", Some(&classes.to_value()));
+
+    window.add_breakpoint(breakpoint);
+
     let qibla_page = qibla_ui::create_qibla_page(config.clone(), compass_manager.clone());
 
     let qibla_clamp = adw::Clamp::builder()
@@ -208,8 +219,25 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     view_stack.add_named(&qibla_scroll, Some("qibla"));
     let refresh_qibla = qibla_page.refresh.clone();
 
+    let view_stack_for_compass = view_stack.clone();
+    let compass_for_compass = compass_manager.clone();
+    view_stack.connect_visible_child_name_notify(move |_| {
+        let name = view_stack_for_compass
+            .visible_child_name()
+            .map(|s| s.to_string())
+            .unwrap_or_default();
+        if name == "qibla" {
+            compass_for_compass.start_monitoring();
+        } else {
+            compass_for_compass.stop();
+        }
+    });
+
     let (adkar_box, refresh_adkar) = adkar::create_adkar_page(config.clone());
     view_stack.add_named(&adkar_box, Some("adkar"));
+
+    let quran_page = crate::quran::create_quran_page(&current_lang.borrow(), &view_stack);
+    view_stack.add_named(&quran_page, Some("quran"));
 
     let settings_box = Box::new(Orientation::Vertical, 0);
     settings_box.set_margin_top(24);
@@ -222,11 +250,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
         .tightening_threshold(600)
         .child(&settings_box)
         .build();
-
-    let lang_group = PreferencesGroup::builder()
-        .title(tr("Language", &current_lang.borrow()))
-        .build();
-    settings_box.append(&lang_group);
 
     let lang_model = gtk::StringList::new(&[
         &tr("System Default", &current_lang.borrow()),
@@ -241,7 +264,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
         .title(tr("Language", &current_lang.borrow()))
         .model(&*lang_model_rc)
         .build();
-    lang_group.add(&lang_row);
 
     let dynamic_settings_box = Box::new(Orientation::Vertical, 0);
     settings_box.append(&dynamic_settings_box);
@@ -263,7 +285,6 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     let is_updating_lang = Rc::new(RefCell::new(false));
 
     let sidebar_list_lang = sidebar_list.clone();
-    let lang_group_lang = lang_group.clone();
     let lang_row_model = lang_row.clone();
     let lang_model_lang = lang_model_rc.clone();
     let window_title_lang = window_title.clone();
@@ -274,6 +295,8 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
     let list_box_rc_settings = list_box_rc.clone();
     let refresh_home_settings = refresh_home.clone();
     let loc_tx_settings = loc_tx.clone();
+    let lang_row_for_settings = lang_row.clone();
+    let lang_row_for_settings_closure = lang_row.clone();
 
     let is_updating_lang_handler = is_updating_lang.clone();
     lang_row.connect_selected_notify(move |row| {
@@ -310,12 +333,25 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
             }
         }
         if should_save {
-            config_settings.borrow().save();
+            AppConfig::save_shared(&config_settings);
         }
 
-        crate::i18n::update_locale(&selected_lang);
+        let detected_lang = if selected_lang == "auto" || selected_lang.is_empty() {
+            crate::i18n::detect_system_locale()
+        } else {
+            selected_lang.clone()
+        };
 
-        if selected_lang == "ar" {
+        {
+            let mut lang = current_lang_settings.borrow_mut();
+            if *lang != detected_lang {
+                *lang = detected_lang.clone();
+            }
+        }
+
+        crate::i18n::update_locale(&detected_lang);
+
+        if detected_lang == "ar" {
             gtk::Widget::set_default_direction(gtk::TextDirection::Rtl);
             window_app_lang.set_direction(gtk::TextDirection::Rtl);
         } else {
@@ -323,7 +359,7 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
             window_app_lang.set_direction(gtk::TextDirection::Ltr);
         }
 
-        crate::apply_font_css(&selected_lang);
+        crate::apply_font_css(&detected_lang);
 
         let style_manager = adw::StyleManager::default();
         match config_settings.borrow().theme {
@@ -338,16 +374,15 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
             }
         }
 
-        lang_group_lang.set_title(&tr("Language", &selected_lang));
-        lang_row_model.set_title(&tr("Language", &selected_lang));
+        lang_row_model.set_title(&tr("Language", &detected_lang));
         let selected_index = row.selected();
         let lang_items = [
-            tr("System Default", &selected_lang),
-            tr("English", &selected_lang),
-            tr("Arabic", &selected_lang),
-            tr("French", &selected_lang),
-            tr("Spanish", &selected_lang),
-            tr("Turkish", &selected_lang),
+            tr("System Default", &detected_lang),
+            tr("English", &detected_lang),
+            tr("Arabic", &detected_lang),
+            tr("French", &detected_lang),
+            tr("Spanish", &detected_lang),
+            tr("Turkish", &detected_lang),
         ];
         let lang_item_refs: Vec<&str> = lang_items.iter().map(|s| s.as_str()).collect();
         *is_updating_lang_handler.borrow_mut() = true;
@@ -356,12 +391,13 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
         *is_updating_lang_handler.borrow_mut() = false;
 
         let mut curr = sidebar_list_lang.first_child();
-        let lang_val = selected_lang.clone();
+        let lang_val = detected_lang.clone();
         let labels = [
             tr("Home", &lang_val),
             tr("Calendar", &lang_val),
             tr("Qibla", &lang_val),
             tr("Adkar", &lang_val),
+            tr("Noble Quran", &lang_val),
             tr("Settings", &lang_val),
             tr("About", &lang_val),
         ];
@@ -385,10 +421,11 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
                 "calendar" => tr("Calendar", &selected_lang),
                 "qibla" => tr("Qibla", &selected_lang),
                 "adkar" => tr("Adkar", &selected_lang),
+                "quran" => tr("Noble Quran", &selected_lang),
                 "settings" => tr("Settings", &selected_lang),
                 _ => "Khushu".to_string(),
             };
-            window_title_lang.set_label(&title);
+            window_title_lang.set_title(&title);
         }
 
         window_app_lang.set_title(Some(&tr("Khushu", &selected_lang)));
@@ -397,30 +434,95 @@ pub fn build_pages(params: PagesParams) -> PagesContext {
         refresh_adkar_settings();
         refresh_qibla_settings();
         refresh_home_settings();
+        crate::quran::refresh_quran_ui(&view_stack_lang, &detected_lang);
+        let should_refresh_city = {
+            let cfg = config_settings.borrow();
+            cfg.city_name.is_some()
+                || (cfg.prayer_times_source == crate::config::PrayerTimesSource::Mawaqit
+                    && cfg.mawaqit_cache.is_some())
+        };
+        if should_refresh_city {
+            let tx = loc_tx_settings.clone();
+            let lang = detected_lang.clone();
+            let config_for_loc = config_settings.clone();
+            let settings_box_for_loc = dynamic_settings_box_closure.clone();
+            let list_box_for_loc = list_box_rc_settings.clone();
+            let window_for_loc = window_settings_closure.clone();
+            let current_lang_for_loc = current_lang_settings.clone();
+            let refresh_cal_for_loc = refresh_cal_settings.clone();
+            let lang_row_for_loc = lang_row_for_settings_closure.clone();
+            gtk::glib::spawn_future_local(async move {
+                let (lat, lon, mawaqit_city) = {
+                    let cfg = config_for_loc.borrow();
+                    let mawaqit_city =
+                        if cfg.prayer_times_source == crate::config::PrayerTimesSource::Mawaqit {
+                            cfg.mawaqit_cache.as_ref().and_then(|cache| {
+                                crate::location::localized_mawaqit_city_name(
+                                    cfg.city_name.as_deref(),
+                                    cache.timezone.as_deref(),
+                                    cache.mosque_name.as_deref(),
+                                    &lang,
+                                )
+                            })
+                        } else {
+                            None
+                        };
+                    (cfg.latitude, cfg.longitude, mawaqit_city)
+                };
+                let resolved_name = if let Some(name) = mawaqit_city {
+                    Some(name)
+                } else {
+                    crate::location::resolve_city_name(lat, lon, &lang)
+                        .await
+                        .ok()
+                };
+                if let Some(name) = resolved_name {
+                    {
+                        let mut cfg = config_for_loc.borrow_mut();
+                        cfg.city_name = Some(name.clone());
+                        cfg.sync_quran_state_from_disk();
+                        cfg.save();
+                    }
+                    let _ = tx.send((lat, lon, Some(name)));
+                    settings_ui::setup_settings_ui(settings_ui::SettingsUiParams {
+                        settings_box: &settings_box_for_loc,
+                        config: config_for_loc.clone(),
+                        list_box_rc: list_box_for_loc.clone(),
+                        window: &window_for_loc,
+                        current_lang: current_lang_for_loc.clone(),
+                        loc_tx: tx.clone(),
+                        refresh_calendar: refresh_cal_for_loc.clone(),
+                        lang_row: Some(&lang_row_for_loc),
+                    });
+                }
+            });
+        }
 
         while let Some(child) = dynamic_settings_box_closure.first_child() {
             dynamic_settings_box_closure.remove(&child);
         }
-        settings_ui::setup_settings_ui(
-            &dynamic_settings_box_closure,
-            config_settings.clone(),
-            list_box_rc_settings.clone(),
-            &window_settings_closure,
-            current_lang_settings.clone(),
-            loc_tx_settings.clone(),
-            refresh_cal_settings.clone(),
-        );
+        settings_ui::setup_settings_ui(settings_ui::SettingsUiParams {
+            settings_box: &dynamic_settings_box_closure,
+            config: config_settings.clone(),
+            list_box_rc: list_box_rc_settings.clone(),
+            window: &window_settings_closure,
+            current_lang: current_lang_settings.clone(),
+            loc_tx: loc_tx_settings.clone(),
+            refresh_calendar: refresh_cal_settings.clone(),
+            lang_row: Some(&lang_row_for_settings_closure),
+        });
     });
 
-    settings_ui::setup_settings_ui(
-        &dynamic_settings_box,
-        config.clone(),
-        list_box_rc.clone(),
-        &window,
-        current_lang.clone(),
-        loc_tx.clone(),
-        refresh_calendar.clone(),
-    );
+    settings_ui::setup_settings_ui(settings_ui::SettingsUiParams {
+        settings_box: &dynamic_settings_box,
+        config: config.clone(),
+        list_box_rc: list_box_rc.clone(),
+        window: &window,
+        current_lang: current_lang.clone(),
+        loc_tx: loc_tx.clone(),
+        refresh_calendar: refresh_calendar.clone(),
+        lang_row: Some(&lang_row_for_settings),
+    });
 
     let settings_scroll = gtk::ScrolledWindow::builder()
         .vexpand(true)

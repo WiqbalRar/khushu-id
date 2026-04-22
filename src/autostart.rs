@@ -35,7 +35,7 @@ fn enable_fs() {
 
     let desktop_content = r#"[Desktop Entry]
 Name=Khushu
-Comment=An all-in-one Muslim app for Linux.
+Comment=An all-in-one Muslim app for Linux
 Exec=khushu --background
 Icon=io.github.sniper1720.khushu
 Terminal=false
@@ -84,7 +84,7 @@ fn enable_snap_autostart() {
 
         let desktop_content = r#"[Desktop Entry]
 Name=Khushu
-Comment=An all-in-one Muslim app for Linux.
+Comment=An all-in-one Muslim app for Linux
 Exec=khushu --background
 Icon=io.github.sniper1720.khushu
 Terminal=false

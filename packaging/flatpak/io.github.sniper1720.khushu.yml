@@ -1,6 +1,6 @@
 app-id: io.github.sniper1720.khushu
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: "50"
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -21,9 +21,9 @@ modules:
       append-path: /usr/lib/sdk/rust-stable/bin
       env:
         CARGO_HOME: /run/build/khushu/cargo
-        CARGO_NET_OFFLINE: 'true'
-        CARGO_BUILD_OFFLINE: 'true'
-        GETTEXT_SYSTEM: '1'
+        CARGO_NET_OFFLINE: "true"
+        CARGO_BUILD_OFFLINE: "true"
+        GETTEXT_SYSTEM: "1"
     sources:
       - type: dir
         path: ../../

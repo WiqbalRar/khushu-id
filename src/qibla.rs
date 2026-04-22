@@ -59,32 +59,50 @@ impl CompassManager {
         let epoch_clone = self.epoch.clone();
 
         tokio::spawn(async move {
-            if let Ok(connection) = Connection::system().await
-                && let Ok(proxy) = SensorProxyProxy::new(&connection).await
-                && let Ok(has_compass) = proxy.has_compass().await
-                && has_compass
-            {
-                *available_clone.lock().unwrap_or_else(|e| {
-                    log::error!("Failed to lock available_clone: {e}");
-                    e.into_inner()
-                }) = true;
-                let _ = proxy.claim_compass().await;
+            loop {
+                if epoch_clone.load(Ordering::SeqCst) != my_epoch {
+                    log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
+                    break;
+                }
 
-                loop {
-                    if epoch_clone.load(Ordering::SeqCst) != my_epoch {
-                        let _ = proxy.release_compass().await;
-                        log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
-                        break;
+                if let Ok(connection) = Connection::system().await
+                    && let Ok(proxy) = SensorProxyProxy::new(&connection).await
+                    && let Ok(has_compass) = proxy.has_compass().await
+                    && has_compass
+                {
+                    *available_clone.lock().unwrap_or_else(|e| {
+                        log::error!("Failed to lock available_clone: {e}");
+                        e.into_inner()
+                    }) = true;
+                    let _ = proxy.claim_compass().await;
+
+                    loop {
+                        if epoch_clone.load(Ordering::SeqCst) != my_epoch {
+                            let _ = proxy.release_compass().await;
+                            log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
+                            return;
+                        }
+
+                        match proxy.compass_heading().await {
+                            Ok(heading) => {
+                                *heading_clone.lock().unwrap_or_else(|e| {
+                                    log::error!("Failed to lock heading_clone: {e}");
+                                    e.into_inner()
+                                }) = heading;
+                            }
+                            Err(_) => {
+                                log::error!(
+                                    "Compass proxy compass_heading failed. Reconnecting..."
+                                );
+                                break;
+                            }
+                        }
+
+                        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
                     }
-
-                    if let Ok(heading) = proxy.compass_heading().await {
-                        *heading_clone.lock().unwrap_or_else(|e| {
-                            log::error!("Failed to lock heading_clone: {e}");
-                            e.into_inner()
-                        }) = heading;
-                    }
-
-                    tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+                } else {
+                    *available_clone.lock().unwrap_or_else(|e| e.into_inner()) = false;
+                    tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
                 }
             }
         });

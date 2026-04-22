@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.0.3
+Version:        1.1.0
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -56,6 +56,14 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Fri Apr 10 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.0-1
+- Added a fully offline Noble Quran module featuring Uthmanic text, translations, mushaf-style navigation, diacritic-aware search, saved reading positions, and adjustable typography.
+- Added Mawaqit API integration as an alternative prayer times source.
+- Added ICU-backed localization for location and timezone labels.
+- Added validated custom IANA timezone editing with cleaner inline feedback.
+- Reorganized Settings into clearer General, Prayer Setup, and Alerts sections.
+- Fixed Snap tray icon visibility via an upstream patch to ksni (resolves AppArmor D-Bus blocking).
+
 * Mon Mar 30 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.0.3-1
 - Fixed Snap autostart and notification icon rendering.
 - Improved locale detection and fallback logic.

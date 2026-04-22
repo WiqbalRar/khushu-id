@@ -1,11 +1,11 @@
 name: khushu
 base: core24
-version: '1.0.3'
+version: "1.1.0"
 title: Khushu
-summary: An all-in-one Muslim app for Linux.
+summary: An all-in-one Muslim app for Linux
 description: |
   Khushu is your all-in-one Muslim app for Linux desktop, tablets, and smartphones.
-  It centralizes your daily worship by providing accurate prayer times, native staggered Adkar notifications, and a roadmap that includes a dedicated Holy Quran experience—all with uncompromising privacy and zero telemetry.
+  It centralizes your daily worship by providing accurate prayer times, native staggered Adkar notifications, and a dedicated Noble Quran reader—all with uncompromising privacy and zero telemetry.
 license: GPL-3.0-or-later
 website: https://github.com/sniper1720/khushu
 issues: https://github.com/sniper1720/khushu/issues
@@ -67,13 +67,12 @@ parts:
       - libpulse0
       - alsa-utils
       - libasound2-plugins
-      - libayatana-appindicator3-1
     override-build: |
       rustup default stable
       export PATH="$HOME/.cargo/bin:$PATH"
 
       craftctl default
-      
+
       # --- Fix GNOME Library Conflicts ---
       rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libharfbuzz*.so*
       rm -f $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpango*.so*
@@ -82,3 +81,18 @@ parts:
       # --- ALSA config ---
       mkdir -p $CRAFT_PART_INSTALL/assets
       echo -e "pcm.!default { type pulse }\nctl.!default { type pulse }" > $CRAFT_PART_INSTALL/assets/asound.conf
+
+      # --- Locale files ---
+      # Copy merged .mo files for app strings (works via gettext-rs)
+      for lang in ar fr es tr; do
+        merged_src="$CRAFT_PROJECT_DIR/target/locale/$lang/LC_MESSAGES"
+        dest_dir="$CRAFT_PART_INSTALL/usr/share/khushu/locale/$lang/LC_MESSAGES"
+        if [ -d "$merged_src" ]; then
+          mkdir -p "$dest_dir"
+          cp -f "$merged_src"/*.mo "$dest_dir/" 2>/dev/null || true
+        fi
+      done
+
+      # --- Icon fallback (prevent "..." tray icon in snap) ---
+      mkdir -p $CRAFT_PART_INSTALL/meta/gui/
+      cp $CRAFT_PART_SRC/data/icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg $CRAFT_PART_INSTALL/meta/gui/

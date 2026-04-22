@@ -1,657 +1,269 @@
 # Spanish translations for Khushu.
+# Copyright (C) 2026 Djalel Oukid
 # This file is distributed under the same license as the Khushu package.
-# Djalel Oukid <sniper1720@linuxtechmore.com>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.0.3\n"
-"Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
-"POT-Creation-Date: 2026-03-18 00:22+0100\n"
-"PO-Revision-Date: 2026-03-18 01:52+0100\n"
+"Project-Id-Version: Khushu 1.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-15 02:25+0100\n"
+"PO-Revision-Date: 2026-04-22 12:00+0100"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/adkar.rs:220 src/adkar.rs:240
-msgid "Morning"
-msgstr "Mañana"
 
-#: src/adkar.rs:227 src/adkar.rs:241
-msgid "Evening"
-msgstr "Tarde"
+# =============================================================================
+# SECTION 1: APPSTREAM METADATA
+# =============================================================================
 
-#: src/adkar.rs:231 src/adkar.rs:242
-msgid "Night"
-msgstr "Noche"
-
-#
-#: src/background.rs:121 src/background.rs:146 src/settings_ui.rs:523
-#: src/timer_controller.rs:160 src/timer_controller.rs:174
-#: src/timer_controller.rs:220 src/timer_controller.rs:240
-#: src/timer_controller.rs:261 src/timer_controller.rs:281
-#: src/timer_controller.rs:302 src/timer_controller.rs:322
-msgid "Open Khushu"
-msgstr "Abrir Khushu"
-
-#: src/background.rs:122 src/background.rs:147
-msgid "Quit"
-msgstr "Salir"
-
-#: src/calendar.rs:66 src/calendar.rs:124
-msgid "Date Details"
-msgstr "Detalles"
-
-#: src/calendar.rs:308
-msgid "First Day of Ramadan"
-msgstr "Primer Día de Ramadán"
-
-#: src/calendar.rs:309
-msgid "Eid al-Fitr"
-msgstr "Eid al-Fitr"
-
-#: src/calendar.rs:310
-msgid "Eid al-Adha"
-msgstr "Eid al-Adha"
-
-#: src/calendar.rs:311
-msgid "Day of Arafah"
-msgstr "Día de Arafah"
-
-#: src/calendar.rs:312
-msgid "Islamic New Year"
-msgstr "Año Nuevo Islámico"
-
-#: src/calendar.rs:313
-msgid "Ashura"
-msgstr "Ashura"
-
-#: src/calendar.rs:314
-msgid "Mawlid al-Nabi"
-msgstr "Mawlid al-Nabi"
-
-#: src/location.rs:53
-msgid "Location service unavailable. Please check system settings."
-msgstr ""
-"Servicio de ubicación no disponible. Por favor, compruebe la configuración "
-"del sistema."
-
-#: src/location.rs:63 src/location.rs:73
-msgid "Location access denied or unavailable."
-msgstr "Acceso a la ubicación denegado o no disponible."
-
-#: src/location.rs:68
-msgid "Failed to receive location updates."
-msgstr "Error al recibir actualizaciones de ubicación."
-
-#: src/location.rs:84
-msgid "Location service disconnected unexpectedly."
-msgstr "Servicio de ubicación desconectado inesperadamente."
-
-#: src/location.rs:90
-msgid "Location request timed out. Please check your system settings."
-msgstr ""
-"La solicitud de ubicación expiró. Por favor, compruebe la configuración de "
-"su sistema."
-
-#: src/location.rs:129
-msgid "Network error while resolving city."
-msgstr "Error de red al resolver la ciudad."
-
-#: src/location.rs:134 src/location.rs:166 src/location.rs:172
-#: src/location.rs:176
-msgid "Invalid response from location service."
-msgstr "Respuesta inválida del servicio de ubicación."
-
-#: src/location.rs:137
-msgid "Could not find city name for these coordinates."
-msgstr "No se pudo encontrar el nombre de la ciudad para estas coordenadas."
-
-#: src/location.rs:161
-msgid "Network error. Please check your connection."
-msgstr "Error de red. Por favor, compruebe su conexión."
-
-#: src/location.rs:182
-msgid "City not found. Please check the spelling."
-msgstr "Ciudad no encontrada. Por favor, compruebe la ortografía."
-
-#: src/main.rs:203 src/nav_ui.rs:126 src/pages.rs:384
-msgid "Prayer Times"
-msgstr "Horarios de oración"
-
-#: src/main.rs:208 src/main.rs:210
-msgid "Toggle Sidebar"
-msgstr "Alternar barra lateral"
-
-#: src/main.rs:231 src/main.rs:335 src/pages.rs:394
+#: data/io.github.sniper1720.khushu.desktop.in:2
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:6 src/main.rs:245
+#: src/main.rs:379 src/pages.rs:447
 msgid "Khushu"
 msgstr "Khushu"
 
-#: src/main.rs:337 src/main.rs:344
-msgid "Djalel Oukid (sniper1720)"
-msgstr "Djalel Oukid (sniper1720)"
+#: data/io.github.sniper1720.khushu.desktop.in:3
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:7 src/main.rs:383
+msgid "An all-in-one Muslim app for Linux"
+msgstr "Una aplicación musulmana todo en uno para Linux"
 
-#: src/main.rs:339
-msgid "An all-in-one Muslim app for Linux."
-msgstr "Una aplicación musulmana todo-en-uno para Linux."
+#: data/io.github.sniper1720.khushu.desktop.in:9
+msgid "Prayer;Islam;Salah;"
+msgstr "Oración;Islam;Salah;Corán;Adhan;"
 
-#: src/main.rs:342
-msgid "© 2026 Djalel Oukid"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:9
+msgid ""
+"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
+"smartphones. It centralizes your daily worship by providing accurate prayer "
+"times, native staggered Adkar notifications, and a dedicated Noble Quran "
+"reader—all with uncompromising privacy and zero telemetry."
+msgstr ""
+"Khushu es tu aplicación musulmana todo en uno para Linux (escritorio, "
+"tabletas y teléfonos). Centraliza tu adoración diaria con horarios de "
+"oración precisos, notificaciones de Adkar y un lector del Noble Corán — "
+"todo con total privacidad y sin telemetría."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:16
+msgid "Accurate prayer calculation methods (Offline)"
+msgstr "Métodos de cálculo de oración precisos (sin conexión)"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:17
+msgid "Morning, Evening, and Night Adkar with built-in counters"
+msgstr "Adkar de la mañana, tarde y noche con contadores integrados"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:18
+msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
+msgstr "Notificaciones de Adhan personalizables (audio de Makkah/Madinah)"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:19
+msgid ""
+"Dedicated Noble Quran reader with adjustable Arabic and translation "
+"typography"
+msgstr ""
+"Lector del Noble Corán dedicado con tipografía árabe y de traducción ajustables"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:20
+msgid "Interactive Qibla compass"
+msgstr "Brújula de Qibla interactiva"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:21
+msgid "Hijri calendar mapping"
+msgstr "Calendario Hijri"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:22
+msgid "Privacy-first local encryption for your location data"
+msgstr "Cifrado local de datos de ubicación con prioridad en la privacidad"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:23
+msgid "Modern Libadwaita interface with adaptive Dark Mode"
+msgstr "Interfaz Libadwaita moderna con modo oscuro adaptativo"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:24
+msgid "Multi-language support"
+msgstr "Soporte multilingüe"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:30
+msgid ""
+"Welcome & Onboarding: Easy first-time setup for location, language, and "
+"calculation method"
+msgstr ""
+"Bienvenida y configuración: ajuste inicial fácil de ubicación, idioma y "
+"método de cálculo"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:34
+msgid ""
+"Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer "
+"countdown, and Hijri date"
+msgstr ""
+"Panel de horarios de oración: consulta los horarios diarios precisos, la "
+"cuenta regresiva de la próxima oración y la fecha Hijri"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:38
+msgid ""
+"Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date "
+"mapping"
+msgstr ""
+"Calendario Hijri: navega por el calendario islámico completo con la "
+"conversión precisa de fechas"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:42
+msgid ""
+"Interactive Qibla compass pointing to Mecca via GPS or E-Compass sensor"
+msgstr ""
+"Brújula de Qibla interactiva que señala hacia La Meca mediante GPS o "
+"sensor electrónico"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:46
+msgid ""
+"Noble Quran: Read Arabic ayat and translations with adjustable typography"
+msgstr ""
+"Noble Corán: lee los versículos árabes y traducciones con tipografía "
+"ajustable"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:54
+msgid ""
+"App Settings: Configure your location, language, appearance, and prayer "
+"settings"
+msgstr ""
+"Configuración de la aplicación: configura tu ubicación, idioma, apariencia "
+"y ajustes de oración"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:50
+msgid ""
+"Adkar & Supplications: Access Daily Adkar with built-in counters and "
+"staggered notifications"
+msgstr ""
+"Adkar y súplicas: accede a los Adkar diarios con contadores integrados "
+"y notificaciones escalonadas"
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:63
+msgid "Djalel Oukid"
 msgstr "Djalel Oukid"
 
-#: src/main.rs:345
-msgid "translator-credits"
-msgstr "Djalel Oukid"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:70
+msgid "prayer"
+msgstr "oración"
 
-#: src/main.rs:349
-msgid "Location Policy"
-msgstr "Política de ubicación"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:71
+msgid "salah"
+msgstr "salah"
 
-#: src/main.rs:352
-msgid ""
-"Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual "
-"mode: zero network traffic."
-msgstr ""
-"Modo automático: GeoClue (sistema). Búsqueda de ciudades: Nominatim "
-"(OpenStreetMap). Modo manual: cero tráfico de red."
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:72
+msgid "adhan"
+msgstr "adhan"
 
-#: src/main.rs:355
-msgid "Privacy Policy"
-msgstr "Política de privacidad"
-
-#: src/main.rs:358
-msgid ""
-"Coordinates stay on this device and are not sent to any external servers. No "
-"analytics, no telemetry, no accounts."
-msgstr ""
-"Las coordenadas permanecen en este dispositivo y no se envían a ningún "
-"servidor externo. Sin análisis, sin telemetría, sin cuentas."
-
-#: src/nav_ui.rs:31 src/pages.rs:361
-msgid "Home"
-msgstr "Inicio"
-
-#: src/nav_ui.rs:36 src/nav_ui.rs:127 src/pages.rs:362 src/pages.rs:385
-msgid "Calendar"
-msgstr "Calendario"
-
-#: src/nav_ui.rs:41 src/nav_ui.rs:128 src/pages.rs:363 src/pages.rs:386
-msgid "Qibla"
-msgstr "qibla"
-
-#: src/nav_ui.rs:46 src/nav_ui.rs:129 src/pages.rs:364 src/pages.rs:387
-msgid "Adkar"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:73
+msgid "adkar"
 msgstr "adkar"
 
-#: src/nav_ui.rs:51 src/nav_ui.rs:130 src/pages.rs:365 src/pages.rs:388
-msgid "Settings"
-msgstr "Ajustes"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:74
+msgid "quran"
+msgstr "corán"
 
-#: src/nav_ui.rs:56 src/pages.rs:366
-msgid "About"
-msgstr "Acerca de"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:75
+msgid "qibla"
+msgstr "qibla"
 
-#: src/pages.rs:80
-msgid "Loading..."
-msgstr "Cargando..."
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:76
+msgid "muslim"
+msgstr "musulmán"
 
-#: src/pages.rs:227 src/pages.rs:241 src/pages.rs:341 src/pages.rs:342
-#: src/welcome.rs:279 src/welcome.rs:280
-msgid "Language"
-msgstr "Idioma"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:77
+msgid "islam"
+msgstr "islam"
 
-#: src/pages.rs:232 src/pages.rs:345 src/settings_ui.rs:39 src/welcome.rs:276
-#: src/welcome.rs:285
-msgid "System Default"
-msgstr "Predeterminado del sistema"
-
-#: src/pages.rs:233 src/pages.rs:346 src/welcome.rs:286
-msgid "English"
-msgstr "Inglés"
-
-#: src/pages.rs:234 src/pages.rs:347 src/welcome.rs:287
-msgid "Arabic"
-msgstr "Árabe"
-
-#: src/pages.rs:235 src/pages.rs:348 src/welcome.rs:288
-msgid "French"
-msgstr "Francés"
-
-#: src/pages.rs:236 src/pages.rs:349 src/welcome.rs:289
-msgid "Spanish"
-msgstr "Español"
-
-#: src/pages.rs:237 src/pages.rs:350 src/welcome.rs:290
-msgid "Turkish"
-msgstr "Turco"
-
-#: src/qibla_ui.rs:35
-msgid "Calculating..."
-msgstr "Calculando..."
-
-#: src/qibla_ui.rs:77
-msgid "N"
-msgstr "N"
-
-#: src/qibla_ui.rs:78
-msgid "E"
-msgstr "E"
-
-#: src/qibla_ui.rs:79
-msgid "S"
-msgstr "S"
-
-#: src/qibla_ui.rs:80
-msgid "W"
-msgstr "O"
-
-#: src/qibla_ui.rs:228
-msgid "Sensor Active (Smooth)"
-msgstr "Sensor activo (fluido)"
-
-#: src/qibla_ui.rs:230
-msgid "Manual Calculation"
-msgstr "Cálculo Manual"
-
-#: src/settings_ui.rs:34 src/settings_ui.rs:44 src/welcome.rs:272
-msgid "Theme"
-msgstr "Tema"
-
-#: src/settings_ui.rs:40 src/welcome.rs:276
-msgid "Light"
-msgstr "Claro"
-
-#: src/settings_ui.rs:41 src/welcome.rs:276
-msgid "Dark"
-msgstr "Oscuro"
-
-#: src/settings_ui.rs:79
-msgid "Autostart"
-msgstr "Inicio automático"
-
-#: src/settings_ui.rs:85
-msgid "Start Automatically"
-msgstr "Iniciar Automáticamente"
-
-#: src/settings_ui.rs:87
-msgid "Run Khushu in the background when you log in."
-msgstr "Ejecutar Khushu en segundo plano al iniciar sesión."
-
-#: src/settings_ui.rs:103 src/welcome.rs:294
-msgid "Location Settings"
-msgstr "Configuración de ubicación"
-
-#: src/settings_ui.rs:110 src/welcome.rs:300
-msgid "Manual Coordinates"
-msgstr "Coordenadas manuales"
-
-#: src/settings_ui.rs:111 src/welcome.rs:301
-msgid "City Selection"
-msgstr "Selección de ciudad"
-
-#: src/settings_ui.rs:112 src/welcome.rs:302
-msgid "Auto (GPS/Network)"
-msgstr "Auto (GPS/Red)"
-
-#: src/settings_ui.rs:117 src/welcome.rs:295
-msgid "Location Method"
-msgstr "Método de ubicación"
-
-#: src/settings_ui.rs:130 src/welcome.rs:306
-msgid "Latitude"
-msgstr "Latitud"
-
-#: src/settings_ui.rs:151 src/welcome.rs:307
-msgid "Longitude"
-msgstr "Longitud"
-
-#: src/settings_ui.rs:172
-msgid "Location Status"
-msgstr "Estado de la ubicación"
-
-#: src/settings_ui.rs:180
-msgid "City Search"
-msgstr "Buscar ciudad"
-
-#: src/settings_ui.rs:189 src/welcome.rs:337
-msgid "Search"
-msgstr "Buscar"
-
-#: src/settings_ui.rs:225
-msgid "City not found. Please try again."
-msgstr "Ciudad no encontrada. Por favor, compruebe la ortografía."
-
-#: src/settings_ui.rs:245
-msgid "Auto Detection"
-msgstr "Detección automática"
-
-#: src/settings_ui.rs:250
-msgid "Update Now"
-msgstr "Actualizar ahora"
-
-#: src/settings_ui.rs:298
-msgid "Calculation Settings"
-msgstr "Ajustes de cálculo"
-
-#: src/settings_ui.rs:313
-msgid "Hijri Date Correction"
-msgstr "Corrección de fecha Hijri"
-
-#: src/settings_ui.rs:314
-msgid "Adjust Hijri date by +/- days"
-msgstr "Ajustar día Hijri (+/- días)"
-
-#: src/settings_ui.rs:329
-msgid "MWL"
-msgstr "Liga Musulmana Mundial"
-
-#: src/settings_ui.rs:330
-msgid "ISNA"
-msgstr "ISNA"
-
-#: src/settings_ui.rs:331
-msgid "Egypt"
-msgstr "Egipto"
-
-#: src/settings_ui.rs:332
-msgid "Makkah"
-msgstr "La Meca (Umm al-Qura)"
-
-#: src/settings_ui.rs:333
-msgid "Karachi"
-msgstr "Karachi"
-
-#: src/settings_ui.rs:334
-msgid "Dubai"
-msgstr "Dubái"
-
-#: src/settings_ui.rs:335
-msgid "MoonsightingCommittee"
-msgstr "Comité Moonsighting"
-
-#: src/settings_ui.rs:336
-msgid "Kuwait"
-msgstr "Kuwait"
-
-#: src/settings_ui.rs:337
-msgid "Qatar"
-msgstr "Qatar"
-
-#: src/settings_ui.rs:338
-msgid "Singapore"
-msgstr "Singapur"
-
-#: src/settings_ui.rs:339
-msgid "Turkey"
-msgstr "Turquía (Diyanet)"
-
-#: src/settings_ui.rs:344
-msgid "Calculation Method"
-msgstr "Método de cálculo"
-
-#: src/settings_ui.rs:417
-msgid "Shafi (Standard/Maliki/Hanbali)"
-msgstr "Shafi (Estándar/Maliki/Hanbali)"
-
-#: src/settings_ui.rs:418
-msgid "Hanafi"
-msgstr "Hanafi"
-
-#: src/settings_ui.rs:423
-msgid "Asr Calculation (Madhab)"
-msgstr "Cálculo de Asr (Madhab)"
-
-#: src/settings_ui.rs:450
-msgid "Note"
-msgstr "Nota"
-
-#: src/settings_ui.rs:452
-msgid "Maliki/Hanbali use Standard (Shafi) for Asr."
-msgstr "Maliki/Hanbali usan Estándar (Shafi) para el Asr."
-
-#: src/settings_ui.rs:459
-msgid "Notifications"
-msgstr "Notificaciones"
-
-#: src/settings_ui.rs:465
-msgid "Pre-Prayer Alert"
-msgstr "Alerta previa a la oración"
-
-#: src/settings_ui.rs:466
-msgid "Get notified before the prayer time."
-msgstr "Recibe notificaciones antes de la oración."
-
-#: src/settings_ui.rs:478
-msgid "Alert Time"
-msgstr "Tiempo de alerta"
-
-#: src/settings_ui.rs:479
-msgid "Minutes before prayer"
-msgstr "Minutos antes de la oración"
-
-#: src/settings_ui.rs:505
-msgid "Test Notification"
-msgstr "Notificación de prueba"
-
-#: src/settings_ui.rs:514 src/timer_controller.rs:140
-#: src/timer_controller.rs:171
-msgid "It's time for"
-msgstr "Es hora de"
-
-#: src/settings_ui.rs:516
-msgid "This is a test notification from Khushu. May your prayers be accepted."
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
+msgid ""
+"Added a fully offline Noble Qur'an module featuring the Qur'anic text in "
+"Uthmanic orthography (rasm), translations, mushaf-style navigation, "
+"diacritic-aware search, saved reading positions, and adjustable typography."
 msgstr ""
-"Esta es una notificación de prueba de Khushu. Que tus oraciones sean "
-"aceptadas."
+"Se añadió un módulo completo del Noble Corán sin conexión, que incluye el "
+"texto coránico en ortografía uthmánica (rasm), traducciones, navegación tipo "
+"mushaf, búsqueda sensible a los diacríticos, guardado de la posición de "
+"lectura y tipografía ajustable."
 
-#: src/settings_ui.rs:524 src/timer_controller.rs:161
-#: src/timer_controller.rs:175 src/timer_controller.rs:221
-#: src/timer_controller.rs:241 src/timer_controller.rs:262
-#: src/timer_controller.rs:282 src/timer_controller.rs:303
-#: src/timer_controller.rs:323
-msgid "Stop Adhan"
-msgstr "Detener Adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:89
+msgid "Added Mawaqit API integration as an alternative prayer times source."
+msgstr ""
+"Se añadió la integración de Mawaqit API como fuente alternativa de horarios "
+"de oración."
 
-#: src/settings_ui.rs:538
-msgid "Audio"
-msgstr "Audio"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:90
+msgid ""
+"Added ICU-backed localization for location and timezone labels, plus "
+"validated custom IANA timezone editing."
+msgstr ""
+"Se añadió soporte de ICU para la localización de etiquetas de ubicación y "
+"zona horaria, junto con la validación de la edición personalizada de zonas "
+"horarias IANA."
 
-#: src/settings_ui.rs:545
-msgid "Default"
-msgstr "Predeterminado"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:91
+msgid ""
+"Reorganized settings into clearer General, Prayer Setup, and Alerts sections "
+"with improved inline editing behavior."
+msgstr ""
+"Se reorganizaron los ajustes en secciones más claras: General, Configuración "
+"de oración y Alertas, con mejoras en la edición en línea."
 
-#: src/settings_ui.rs:546
-msgid "Custom File..."
-msgstr "Archivo personalizado..."
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:92
+msgid ""
+"Fixed Snap tray icon visibility via an upstream patch to ksni (resolves "
+"AppArmor D-Bus blocking)."
+msgstr ""
+"Se corrigió la visibilidad del icono de la bandeja de Snap mediante un parche "
+"upstream en ksni (resuelve el bloqueo de D-Bus por AppArmor)."
 
-#: src/settings_ui.rs:555
-msgid "Adhan Sound"
-msgstr "Sonido de adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:99
+msgid "Fixed Snap autostart and notification icon rendering."
+msgstr "Corrección del inicio automático de Snap y la visualización del icono de notificaciones."
 
-#: src/settings_ui.rs:575 src/settings_ui.rs:589
-msgid "Using builtin default"
-msgstr "Usando el valor predeterminado incorporado"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:100
+msgid "Improved locale detection and fallback logic."
+msgstr "Mejora en la detección de idioma y lógica de respaldo."
 
-#: src/settings_ui.rs:592
-msgid "Audio Files"
-msgstr "Archivos de audio"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:107
+msgid "Fixed Flatpak autostart failure and missing --background flag."
+msgstr "Corrección del fallo del inicio automático de Flatpak y la bandera --background faltante."
 
-#: src/settings_ui.rs:601
-msgid "Select Adhan Sound"
-msgstr "Seleccionar sonido de adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:108
+msgid ""
+"Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
+msgstr ""
+"Corrección de la traducción excesiva de nombres propios (ej.: Muslim) en idiomas no ingleses."
 
-#: src/settings_ui.rs:635
-msgid "Mute Adhan"
-msgstr "Silenciar el Adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:109
+msgid "Added new localized AppStream screenshots for improved store presence."
+msgstr "Capturas de pantalla localizadas para una mejor presencia en la tienda."
 
-#: src/settings_ui.rs:636
-msgid "Silence the Adhan sound at prayer time."
-msgstr "Silenciar el sonido del Adhan en la oración."
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:116
+msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
+msgstr "Corrección de la extracción de traducciones del icono de bandeja (entradas Salir y Abrir Khushu)."
 
-#: src/settings_ui.rs:655
-msgid "Adhan Volume"
-msgstr "Volumen del Adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:117
+msgid "Fixed AppStream metadata translation (descriptions and keywords)."
+msgstr "Corrección de la traducción de metadatos de AppStream (descripciones y palabras clave)."
 
-#: src/settings_ui.rs:656
-msgid "Volume level (0–100%)"
-msgstr "Nivel de volumen (0-100%)"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:118
+msgid "Improved tray behavior to update labels immediately on language change."
+msgstr "Mejora del comportamiento de bandeja para actualizar etiquetas inmediatamente al cambiar de idioma."
 
-#: src/settings_ui.rs:675 src/settings_ui.rs:688
-msgid "▶ Preview Adhan"
-msgstr "▶ Previsualizar el Adhan"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:125
+msgid "Initial stable release of Khushu."
+msgstr "Primera versión estable de Khushu."
 
-#: src/settings_ui.rs:701
-msgid "⏹ Stop Adhan"
-msgstr "⏹ Detener Adhan"
 
-#: src/settings_ui.rs:714
-msgid "Makkah Adhan"
-msgstr "Adhan de La Meca"
+# =============================================================================
+# SECTION 2: HIJRI CALENDAR - MONTHS
+# =============================================================================
 
-#: src/settings_ui.rs:715
-msgid "Madinah Adhan"
-msgstr "Adhan de Medina"
-
-#: src/timer_controller.rs:134
-msgid "in"
-msgstr "en"
-
-#: src/timer_controller.rs:151
-msgid "Upcoming Prayer:"
-msgstr "Próxima oración:"
-
-#: src/timer_controller.rs:155
-msgid "is in"
-msgstr "es en"
-
-#: src/timer_controller.rs:157
-msgid "minutes"
-msgstr "minutos"
-
-#: src/timer_controller.rs:172
-msgid "It is now time for"
-msgstr "Es hora de"
-
-#: src/timer_controller.rs:217 src/timer_controller.rs:237
-msgid "Morning Adkar"
-msgstr "Mañana"
-
-#: src/timer_controller.rs:258 src/timer_controller.rs:278
-msgid "Evening Adkar"
-msgstr "Tarde"
-
-#: src/timer_controller.rs:299 src/timer_controller.rs:319
-msgid "Night Adkar"
-msgstr "Adkar"
-
-#: src/time.rs:74 src/time.rs:108
-msgid "Fajr"
-msgstr "Fajr"
-
-#: src/time.rs:78
-msgid "Sunrise"
-msgstr "Amanecer"
-
-#: src/time.rs:82
-msgid "Dhuhr"
-msgstr "Dhuhr"
-
-#: src/time.rs:86
-msgid "Asr"
-msgstr "Asr"
-
-#: src/time.rs:90
-msgid "Maghrib"
-msgstr "Maghrib"
-
-#: src/time.rs:94
-msgid "Isha"
-msgstr "Isha"
-
-#: src/welcome.rs:264 src/welcome.rs:265
-msgid "Welcome to Khushu"
-msgstr "Bienvenido a Khushu"
-
-#: src/welcome.rs:267
-msgid "Please configure your location to get accurate prayer times."
-msgstr "Configure su ubicación para obtener horarios de oración precisos."
-
-#: src/welcome.rs:271
-msgid "Appearance"
-msgstr "Apariencia"
-
-#: src/welcome.rs:308
-msgid "City Name"
-msgstr "Nombre de la ciudad"
-
-#: src/welcome.rs:310
-msgid "Status"
-msgstr "Estado"
-
-#: src/welcome.rs:316
-msgid "Enable location services in system settings."
-msgstr "Active los servicios de ubicación en la configuración del sistema."
-
-#: src/welcome.rs:319 src/welcome.rs:422
-msgid "Detecting..."
-msgstr "Detectando..."
-
-#: src/welcome.rs:324 src/welcome.rs:442
-msgid "Found"
-msgstr "Encontrado"
-
-#: src/welcome.rs:335
-msgid "Detect Now"
-msgstr "Detectar ahora"
-
-#: src/welcome.rs:336
-msgid "Continue"
-msgstr "Continuar"
-
-msgid "Sunday"
-msgstr "Domingo"
-
-msgid "Monday"
-msgstr "Lunes"
-
-msgid "Tuesday"
-msgstr "Martes"
-
-msgid "Wednesday"
-msgstr "Miércoles"
-
-msgid "Thursday"
-msgstr "Jueves"
-
-msgid "Friday"
-msgstr "Viernes"
-
-msgid "Saturday"
-msgstr "Sábado"
-
-msgid "Sun"
-msgstr "Dom"
-
-msgid "Mon"
-msgstr "Lun"
-
-msgid "Tue"
-msgstr "Mar"
-
-msgid "Wed"
-msgstr "Mié"
-
-msgid "Thu"
-msgstr "Jue"
-
-msgid "Fri"
-msgstr "Vie"
-
-msgid "Sat"
-msgstr "Sáb"
-
+#. Hijri Months
+#: src/calendar.rs:309
 msgid "Muharram"
 msgstr "Muharram"
 
@@ -688,6 +300,12 @@ msgstr "Dhu al-Qi'dah"
 msgid "Dhu al-Hijjah"
 msgstr "Dhu al-Hijjah"
 
+
+# =============================================================================
+# SECTION 3: GREGORIAN CALENDAR - MONTHS
+# =============================================================================
+
+#. Gregorian Months
 msgid "January"
 msgstr "Enero"
 
@@ -724,125 +342,1050 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
+
+# =============================================================================
+# SECTION 4: CALENDAR - WEEKDAYS
+# =============================================================================
+
+#. Weekdays (Full)
+msgid "Sunday"
+msgstr "Domingo"
+
+msgid "Monday"
+msgstr "Lunes"
+
+msgid "Tuesday"
+msgstr "Martes"
+
+msgid "Wednesday"
+msgstr "Miércoles"
+
+msgid "Thursday"
+msgstr "Jueves"
+
+msgid "Friday"
+msgstr "Viernes"
+
+msgid "Saturday"
+msgstr "Sábado"
+
+#. Weekdays (Short)
+msgid "Sun"
+msgstr "Dom"
+
+msgid "Mon"
+msgstr "Lun"
+
+msgid "Tue"
+msgstr "Mar"
+
+msgid "Wed"
+msgstr "Mié"
+
+msgid "Thu"
+msgstr "Jue"
+
+msgid "Fri"
+msgstr "Vie"
+
+msgid "Sat"
+msgstr "Sáb"
+
+
+# =============================================================================
+# SECTION 5: CALENDAR - EVENTS
+# =============================================================================
+
+msgid "First Day of Ramadan"
+msgstr "Primer día de Ramadán"
+
+#: src/calendar.rs:310
+msgid "Eid al-Fitr"
+msgstr "Eid al-Fitr"
+
+#: src/calendar.rs:311
+msgid "Eid al-Adha"
+msgstr "Eid al-Adha"
+
+#: src/calendar.rs:312
+msgid "Day of Arafah"
+msgstr "Día de Arafah"
+
+#: src/calendar.rs:313
+msgid "Islamic New Year"
+msgstr "Año Nuevo Islámico"
+
+#: src/calendar.rs:314
+msgid "Ashura"
+msgstr "Ashura"
+
+#: src/calendar.rs:315
+msgid "Mawlid al-Nabi"
+msgstr "Mawlid al-Nabi"
+
+
+# =============================================================================
+# SECTION 6: PRAYER - NAMES
+# =============================================================================
+
+#. Prayer Names
+msgid "Fajr"
+msgstr "Fajr"
+
+msgid "Dhuhr"
+msgstr "Dhuhr"
+
+msgid "Asr"
+msgstr "Asr"
+
+msgid "Maghrib"
+msgstr "Maghrib"
+
+msgid "Isha"
+msgstr "Isha"
+
+msgid "Sunrise"
+msgstr "Amanecer"
+
+
+# =============================================================================
+# SECTION 7: PRAYER - DASHBOARD & ACTIONS
+# =============================================================================
+
+#: src/main.rs:217 src/nav_ui.rs:138 src/pages.rs:436
+msgid "Prayer Times"
+msgstr "Horarios de oración"
+
+#: src/timer_controller.rs:210
+msgid "Upcoming Prayer:"
+msgstr "Próxima oración:"
+
+#: src/timer_controller.rs:192
+msgid "in"
+msgstr "en"
+
+#: src/timer_controller.rs:214
+msgid "is in"
+msgstr "es en"
+
+#: src/timer_controller.rs:216
+msgid "minutes"
+msgstr "minutos"
+
+#: src/settings_ui.rs:1048 src/timer_controller.rs:198
+#: src/timer_controller.rs:232
+msgid "It's time for"
+msgstr "Es hora de"
+
+#: src/timer_controller.rs:233
+msgid "It is now time for"
+msgstr "Ahora es hora de"
+
+#: src/main.rs:314 src/main.rs:358 src/settings_ui.rs:1055
+#: src/timer_controller.rs:220 src/timer_controller.rs:236
+#: src/timer_controller.rs:289 src/timer_controller.rs:309
+#: src/timer_controller.rs:330 src/timer_controller.rs:350
+#: src/timer_controller.rs:371 src/timer_controller.rs:391
+#: src/timer_controller.rs:448
+msgid "Stop Adhan"
+msgstr "Detener Adhan"
+
+#: src/settings_ui.rs:20
+msgid "⏹ Stop Adhan"
+msgstr "⏹ Detener Adhan"
+
+#: src/timer_controller.rs:416 src/timer_controller.rs:440
+msgid "Iqamah"
+msgstr "Iqamah"
+
+#: src/timer_controller.rs:443
+msgid "It is time for Iqamah of"
+msgstr "Es hora de la Iqamah de"
+
+
+# =============================================================================
+# SECTION 8: PRAYER - CALCULATION & SOURCE
+# =============================================================================
+
+#: src/settings_ui.rs:369
+msgid "Prayer Times Source"
+msgstr "Fuente de horarios de oración"
+
+#: src/settings_ui.rs:363
+msgid "Calculated (Offline)"
+msgstr "Calculado (sin conexión)"
+
+#: src/settings_ui.rs:364
+msgid "Connected Mosque (URL)"
+msgstr "Mezquita conectada (URL)"
+
+msgid "Calculation Settings"
+msgstr "Ajustes de cálculo"
+
+msgid "Calculation & Iqamah"
+msgstr "Cálculo e Iqamah"
+
+#: src/settings_ui.rs:791
+msgid "Calculation"
+msgstr "Cálculo"
+
+#: src/settings_ui.rs:837
+msgid "Calculation Method"
+msgstr "Método de cálculo"
+
+#: src/settings_ui.rs:822
+msgid "MWL"
+msgstr "MWL"
+
+#: src/settings_ui.rs:823
+msgid "ISNA"
+msgstr "ISNA"
+
+#: src/settings_ui.rs:824
+msgid "Egypt"
+msgstr "Egipto"
+
+#: src/settings_ui.rs:825
+msgid "Makkah"
+msgstr "La Meca"
+
+#: src/settings_ui.rs:826
+msgid "Karachi"
+msgstr "Karachi"
+
+#: src/settings_ui.rs:827
+msgid "Dubai"
+msgstr "Dubái"
+
+#: src/settings_ui.rs:828
+msgid "MoonsightingCommittee"
+msgstr "MoonsightingCommittee"
+
+#: src/settings_ui.rs:829
+msgid "Kuwait"
+msgstr "Kuwait"
+
+#: src/settings_ui.rs:830
+msgid "Qatar"
+msgstr "Catar"
+
+#: src/settings_ui.rs:831
+msgid "Singapore"
+msgstr "Singapur"
+
+#: src/settings_ui.rs:832
+msgid "Turkey"
+msgstr "Turquía"
+
+#: src/settings_ui.rs:939
+msgid "Asr Calculation (Madhab)"
+msgstr "Cálculo del Asr (Madhab)"
+
+#: src/settings_ui.rs:933
+msgid "Shafi (Standard/Maliki/Hanbali)"
+msgstr "Shafi (Estándar/Maliki/Hanbali)"
+
+#: src/settings_ui.rs:934
+msgid "Hanafi"
+msgstr "Hanafi"
+
+#: src/settings_ui.rs:966
+msgid "Note"
+msgstr "Nota"
+
+#: src/settings_ui.rs:968
+msgid "Maliki/Hanbali use Standard (Shafi) for Asr."
+msgstr "Las escuelas Maliki/Hanbali usan el estándar (Shafi) para el Asr."
+
+#: src/settings_ui.rs:806
+msgid "Hijri Date Correction"
+msgstr "Corrección de la fecha Hijri"
+
+#: src/settings_ui.rs:807
+msgid "Adjust Hijri date by +/- days"
+msgstr "Ajustar la fecha Hijri en +/- días"
+
+#: src/settings_ui.rs:975
+msgid "Iqamah Delays"
+msgstr "Retrasos de Iqamah"
+
+#: src/settings_ui.rs:977
+msgid "Minutes to wait after the Adhan before the Iqamah (second call to prayer)."
+msgstr "Minutos de espera tras el Adhan antes de la Iqamah (segundo llamado a la oración)."
+
+#: src/qibla_ui.rs:230
+msgid "Manual Calculation"
+msgstr "Cálculo manual"
+
+#: src/settings_ui.rs:379
+msgid "Connected Mosque URL (mawaqit.net)"
+msgstr "URL de la mezquita conectada (mawaqit.net)"
+
+#: src/settings_ui.rs:390
+msgid "Auto refresh daily"
+msgstr "Actualización automática diaria"
+
+#: src/settings_ui.rs:392
+msgid "Refresh mosque prayer times once per day while the app is open."
+msgstr "Actualizar los horarios de la mezquita una vez al día mientras la aplicación esté abierta."
+
+#: src/settings_ui.rs:401
+msgid "Connected Mosque"
+msgstr "Mezquita conectada"
+
+#: src/settings_ui.rs:416 src/settings_ui.rs:421 src/settings_ui.rs:565
+#: src/settings_ui.rs:570
+msgid "Last updated"
+msgstr "Última actualización"
+
+#: src/settings_ui.rs:428
+msgid "Not configured"
+msgstr "No configurada"
+
+#: src/settings_ui.rs:431
+msgid "Refresh now"
+msgstr "Actualizar ahora"
+
+#: src/settings_ui.rs:487
+msgid "Invalid Mawaqit URL"
+msgstr "URL de Mawaqit inválida"
+
+#: src/settings_ui.rs:492
+msgid "Fetching..."
+msgstr "Obteniendo..."
+
+msgid "Mawaqit fetch failed"
+msgstr "Error al obtener datos de Mawaqit"
+
+
+# =============================================================================
+# SECTION 9: QIBLA COMPASS
+# =============================================================================
+
+#: src/nav_ui.rs:41 src/nav_ui.rs:140 src/pages.rs:414 src/pages.rs:438
+msgid "Qibla"
+msgstr "Qibla"
+
+#: src/qibla_ui.rs:35
+msgid "Calculating..."
+msgstr "Calculando..."
+
+#: src/qibla_ui.rs:77
+msgid "N"
+msgstr "N"
+
+#: src/qibla_ui.rs:78
+msgid "E"
+msgstr "E"
+
+#: src/qibla_ui.rs:79
+msgid "S"
+msgstr "S"
+
+#: src/qibla_ui.rs:80
+msgid "W"
+msgstr "O"
+
+#: src/qibla_ui.rs:81
+msgid "NE"
+msgstr "NE"
+
+#: src/qibla_ui.rs:82
+msgid "NW"
+msgstr "NO"
+
+#: src/qibla_ui.rs:83
+msgid "SE"
+msgstr "SE"
+
+#: src/qibla_ui.rs:84
+msgid "SW"
+msgstr "SO"
+
+#: src/qibla_ui.rs:228
+msgid "Sensor Active (Smooth)"
+msgstr "Sensor activo (suave)"
+
+
+# =============================================================================
+# SECTION 10: NOBLE QURAN - NAVIGATION
+# =============================================================================
+
+#: src/nav_ui.rs:51 src/nav_ui.rs:142 src/pages.rs:416 src/pages.rs:440
+msgid "Noble Quran"
+msgstr "Noble Corán"
+
+msgid "Surahs"
+msgstr "Suras"
+
+#: src/quran.rs:754
+msgid "Search surahs"
+msgstr "Buscar suras"
+
+#: src/quran.rs:808 src/quran.rs:1450 src/quran.rs:1482 src/quran.rs:1748
+#: src/quran.rs:1881
+msgid "Meccan"
+msgstr "Mecana"
+
+#: src/quran.rs:815 src/quran.rs:1452 src/quran.rs:1484 src/quran.rs:1750
+#: src/quran.rs:1883
+msgid "Medinan"
+msgstr "Medinesa"
+
+#: src/quran.rs:810 src/quran.rs:817
+msgid "Verses"
+msgstr "Versículos"
+
+#: src/quran.rs:1271 src/quran.rs:2098
+msgid "page"
+msgstr "página"
+
+#: src/quran.rs:1353
+msgid "Juz"
+msgstr "Juz"
+
+#: src/quran.rs:1361
+msgid "Hizb"
+msgstr "Hizb"
+
+#: src/quran.rs:1369
+msgid "Quarter"
+msgstr "Cuarto"
+
+#: src/quran.rs:1427
+msgid "Back"
+msgstr "Volver"
+
+#: src/quran.rs:1432
+msgid "Start of Surah"
+msgstr "Inicio de la sura"
+
+msgid "Sajdah"
+msgstr "Sajdah"
+
+msgid " ۩"
+msgstr " ۩"
+
+#: src/quran.rs:2473 src/quran.rs:2479
+msgid "Invalid page number"
+msgstr "Número de página inválido"
+
+
+# =============================================================================
+# SECTION 11: NOBLE QURAN - TYPOGRAPHY & SETTINGS
+# =============================================================================
+
+#: src/quran.rs:1519
+msgid "Typography Options"
+msgstr "Opciones de tipografía"
+
+#: src/quran.rs:1529
+msgid "Reading Display"
+msgstr "Pantalla de lectura"
+
+#: src/quran.rs:1538
+msgid "Arabic Font Size"
+msgstr "Tamaño de fuente árabe"
+
+#: src/quran.rs:1539
+msgid "Size in pixels (16–40)"
+msgstr "Tamaño en píxeles (16–40)"
+
+#: src/quran.rs:1563
+msgid "Translation Font Size"
+msgstr "Tamaño de fuente de traducción"
+
+#: src/quran.rs:1564
+msgid "Size in pixels (10–28)"
+msgstr "Tamaño en píxeles (10–28)"
+
+#: src/quran.rs:1581
+msgid "Line Spacing"
+msgstr "Espaciado de líneas"
+
+#: src/quran.rs:1582
+msgid "Multiplier (1.0–3.0)"
+msgstr "Multiplicador (1.0–3.0)"
+
+#. Reset to Default button
+#: src/quran.rs:1597
+msgid "Reset to Default"
+msgstr "Restablecer valores predeterminados"
+
+
+# =============================================================================
+# SECTION 12: NOBLE QURAN - BOOKMARKS & ACTIONS
+# =============================================================================
+
+#: src/quran.rs:846 src/quran.rs:1508
+msgid "Bookmarks"
+msgstr "Marcadores"
+
+#: src/quran.rs:1504
+msgid "Bookmark"
+msgstr "Marcador"
+
+#: src/quran.rs:2381
+msgid "Bookmark removed"
+msgstr "Marcador eliminado"
+
+#: src/quran.rs:2383
+msgid "Bookmark added"
+msgstr "Marcador añadido"
+
+#: src/quran.rs:2449
+msgid "No bookmarks yet"
+msgstr "Aún sin marcadores"
+
+#: src/quran.rs:2451
+msgid "Bookmark pages by clicking the bookmark icon"
+msgstr "Añade páginas a marcadores pulsando el icono de marcador"
+
+#: src/quran.rs:1146
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/quran.rs:1148
+msgid "Select All"
+msgstr "Seleccionar todo"
+
+#: src/main.rs:411
+msgid "Quran Text"
+msgstr "Texto del Corán"
+
+#: src/main.rs:420
+msgid "Quran Translations Disclaimer"
+msgstr "Aviso sobre las traducciones del Corán"
+
+#: src/main.rs:415
+msgid "Arabic text and translations from Tanzil.net."
+msgstr "Texto árabe y traducciones de Tanzil.net."
+
+#: src/main.rs:423 src/quran.rs:2026
+msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
+msgstr "Ninguna traducción del Corán puede ser totalmente precisa ni puede usarse como sustituto del texto coránico. Las traducciones provienen del sitio web Tanzil.net; no podemos garantizar su autenticidad ni exactitud. Utilícelas bajo su propia responsabilidad."
+
+
+# =============================================================================
+# SECTION 13: ADKAR - CATEGORIES
+# =============================================================================
+
+#: src/adkar.rs:220 src/adkar.rs:240
+msgid "Morning"
+msgstr "Mañana"
+
+#: src/adkar.rs:227 src/adkar.rs:241
+msgid "Evening"
+msgstr "Tarde"
+
+#: src/adkar.rs:231 src/adkar.rs:242
+msgid "Night"
+msgstr "Noche"
+
+#: src/timer_controller.rs:285 src/timer_controller.rs:305
+msgid "Morning Adkar"
+msgstr "Adkar de la mañana"
+
+#: src/timer_controller.rs:326 src/timer_controller.rs:346
+msgid "Evening Adkar"
+msgstr "Adkar de la tarde"
+
+#: src/timer_controller.rs:367 src/timer_controller.rs:387
+msgid "Night Adkar"
+msgstr "Adkar de la noche"
+
+
+# =============================================================================
+# SECTION 14: ADKAR - SOURCES
+# =============================================================================
+
+#. Adkar Sources
+msgid "Al-Bukhari"
+msgstr "Al-Bukhari"
+
+msgid "Muslim"
+msgstr "Muslim"
+
+msgid "Abu Dawud"
+msgstr "Abu Dawud"
+
+msgid "At-Tirmidhi"
+msgstr "At-Tirmidhi"
+
+msgid "Ibn Majah"
+msgstr "Ibn Majah"
+
+msgid "Ibn As-Sunni"
+msgstr "Ibn As-Sunni"
+
+#: src/adkar.rs:360
 msgid "(no. "
-msgstr "(n.º "
+msgstr "(núm. "
+
 
 # =============================================================================
-# SECTION 3: APPSTREAM METADATA
+# SECTION 15: SETTINGS - GENERAL & APPEARANCE
 # =============================================================================
 
-msgid "Prayer;Islam;Salah;"
-msgstr "Oración;Islam;Salah;"
+#: src/pages.rs:257 src/pages.rs:392
+msgid "General"
+msgstr "General"
 
-msgid ""
-"Khushu is your all-in-one Muslim app for Linux desktop, tablets, and "
-"smartphones. It centralizes your daily worship by providing accurate "
-"prayer times, native staggered Adkar notifications, and a roadmap that "
-"includes a dedicated Holy Quran experience—all with uncompromising "
-"privacy and zero telemetry."
-msgstr ""
-"Khushu es tu aplicación musulmana todo en uno para el escritorio Linux, "
-"tabletas y teléfonos inteligentes. Centraliza tu adoración diaria "
-"proporcionando horarios de oración precisos, notificaciones de Adkar "
-"escalonadas nativas y una hoja de ruta que incluye una experiencia "
-"dedicada al Sagrado Corán, todo con una privacidad sin concesiones y cero "
-"telemetría."
+#: src/settings_ui.rs:113
+msgid "Customize the app's appearance and startup behavior."
+msgstr "Personalice la apariencia de la aplicación y el comportamiento de inicio."
 
-msgid "Accurate prayer calculation methods (Offline)"
-msgstr "Métodos de cálculo de oración precisos (Fuera de línea)"
+#: src/settings_ui.rs:189
+msgid "Prayer Setup"
+msgstr "Configuración de oración"
 
-msgid "Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date."
-msgstr "Panel de horarios de oración: Consulta los horarios de Salah, la cuenta regresiva y la fecha del Hégira."
+#: src/settings_ui.rs:189
+msgid "Set your location, prayer times source, timezone, calculation methods, and Iqamah delays for each prayer."
+msgstr "Defina su ubicación, fuente de horarios de oración, zona horaria, métodos de cálculo y retrasos de Iqamah para cada oración."
 
-msgid "Adkar & Supplications: Access Daily Adkar with built-in counters and staggered notifications."
-msgstr "Adkar & Súplicas: Accede a los Adkar diarios con contadores integrados y notificaciones escalonadas."
+#. Settings / Headers
+msgid "Alerts"
+msgstr "Alertas"
 
-msgid "Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor."
-msgstr "Dirección interactiva de la Qibla: Una brújula que apunta a La Meca mediante GPS o sensor E-Compass."
+#: src/settings_ui.rs:105 src/welcome.rs:286
+msgid "Theme"
+msgstr "Tema"
 
-msgid "Welcome & Onboarding: Easy first-time setup for location, language, and calculation method."
-msgstr "Bienvenida y Configuración: Configuración inicial fácil para ubicación, idioma y método de cálculo."
+#: src/settings_ui.rs:101 src/welcome.rs:290
+msgid "Light"
+msgstr "Claro"
 
-msgid "App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications."
-msgstr "Ajustes de la App: Configura ubicación, idioma, apariencia, cálculo de oración, audio del Adhan y notificaciones."
+#: src/settings_ui.rs:102 src/welcome.rs:290
+msgid "Dark"
+msgstr "Oscuro"
 
-msgid "Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping."
-msgstr "Calendario Hijri: Explora el calendario islámico completo con una correspondencia precisa de fechas hijri."
+msgid "Autostart"
+msgstr "Inicio automático"
 
-msgid "Morning, Evening, and Night Adkar with built-in counters"
-msgstr "Adkar de mañana, tarde y noche con contadores integrados"
+msgid "Startup"
+msgstr "Arranque"
 
-msgid "Customizable Adhan system notifications (Makkah/Madinah audio)"
-msgstr ""
-"Notificaciones del sistema de Adhan personalizables (audio de La Meca/"
-"Medina)"
+#: src/settings_ui.rs:140
+msgid "Start Automatically"
+msgstr "Iniciar automáticamente"
 
-msgid "Interactive Qibla compass"
-msgstr "Brújula de Qibla interactiva"
+#: src/settings_ui.rs:142
+msgid "Run Khushu in the background when you log in."
+msgstr "Ejecutar Khushu en segundo plano al iniciar sesión."
 
-msgid "Hijri calendar mapping"
-msgstr "Mapeo del calendario Hijri"
+#: src/settings_ui.rs:1277
+msgid "Makkah Adhan"
+msgstr "Adhan de La Meca"
 
-msgid "Privacy-first local encryption for your location data"
-msgstr ""
-"Cifrado local de tus datos de ubicación para una privacidad absoluta"
+#: src/settings_ui.rs:1278
+msgid "Madinah Adhan"
+msgstr "Adhan de Medina"
 
-msgid "Modern Libadwaita interface with adaptive Dark Mode"
-msgstr "Interfaz moderna de Libadwaita con modo oscuro adaptable"
 
-msgid "Multi-language support"
-msgstr "Soporte para múltiples idiomas"
+# =============================================================================
+# SECTION 16: SETTINGS - LOCATION
+# =============================================================================
 
-msgid "Djalel Oukid"
+#: src/settings_ui.rs:201
+msgid "Location & Source"
+msgstr "Ubicación y fuente"
+
+#: src/settings_ui.rs:204
+msgid "Set your location and choose the prayer times data source."
+msgstr "Defina su ubicación y elija la fuente de datos de horarios de oración."
+
+#: src/settings_ui.rs:217 src/welcome.rs:309
+msgid "Location Method"
+msgstr "Método de ubicación"
+
+#: src/settings_ui.rs:170 src/welcome.rs:314
+msgid "Manual Coordinates"
+msgstr "Coordenadas manuales"
+
+#: src/settings_ui.rs:171 src/welcome.rs:315
+msgid "City Selection"
+msgstr "Selección de ciudad"
+
+#: src/settings_ui.rs:172 src/welcome.rs:316
+msgid "Auto (GPS/Network)"
+msgstr "Auto (GPS/Red)"
+
+#: src/settings_ui.rs:189 src/welcome.rs:320
+msgid "Latitude"
+msgstr "Latitud"
+
+#: src/settings_ui.rs:210 src/welcome.rs:321
+msgid "Longitude"
+msgstr "Longitud"
+
+#: src/settings_ui.rs:231
+msgid "Location Status"
+msgstr "Estado de ubicación"
+
+#: src/settings_ui.rs:239
+msgid "City Search"
+msgstr "Buscar ciudad"
+
+#: src/settings_ui.rs:259 src/welcome.rs:351
+msgid "Search"
+msgstr "Buscar"
+
+#: src/settings_ui.rs:295
+msgid "City not found. Please try again."
+msgstr "Ciudad no encontrada. Inténtelo de nuevo."
+
+#: src/settings_ui.rs:316
+msgid "Auto Detection"
+msgstr "Detección automática"
+
+#: src/settings_ui.rs:321
+msgid "Update Now"
+msgstr "Actualizar ahora"
+
+#: src/welcome.rs:308
+msgid "Location Settings"
+msgstr "Ajustes de ubicación"
+
+#: src/welcome.rs:322
+msgid "City Name"
+msgstr "Nombre de la ciudad"
+
+#: src/welcome.rs:324
+msgid "Status"
+msgstr "Estado"
+
+#: src/welcome.rs:330
+msgid "Enable location services in system settings."
+msgstr "Active los servicios de ubicación en los ajustes del sistema."
+
+#: src/welcome.rs:333 src/welcome.rs:442
+msgid "Detecting..."
+msgstr "Detectando..."
+
+#: src/welcome.rs:338 src/welcome.rs:462
+msgid "Found"
+msgstr "Encontrado"
+
+#: src/welcome.rs:349
+msgid "Detect Now"
+msgstr "Detectar ahora"
+
+#: src/location.rs:290
+msgid "Location service unavailable. Please check system settings."
+msgstr "Servicio de ubicación no disponible. Verifique los ajustes del sistema."
+
+#: src/location.rs:300 src/location.rs:310
+msgid "Location access denied or unavailable."
+msgstr "Acceso a la ubicación denegado o no disponible."
+
+#: src/location.rs:305
+msgid "Failed to receive location updates."
+msgstr "Error al recibir actualizaciones de ubicación."
+
+#: src/location.rs:321
+msgid "Location service disconnected unexpectedly."
+msgstr "El servicio de ubicación se desconectó inesperadamente."
+
+#: src/location.rs:327
+msgid "Location request timed out. Please check your system settings."
+msgstr "Se agotó el tiempo de espera de ubicación. Verifique los ajustes del sistema."
+
+#: src/location.rs:366
+msgid "Network error while resolving city."
+msgstr "Error de red al resolver la ciudad."
+
+#: src/location.rs:371 src/location.rs:403 src/location.rs:409
+#: src/location.rs:413
+msgid "Invalid response from location service."
+msgstr "Respuesta inválida del servicio de ubicación."
+
+#: src/location.rs:374
+msgid "Could not find city name for these coordinates."
+msgstr "No se encontró el nombre de la ciudad para estas coordenadas."
+
+#: src/location.rs:398
+msgid "Network error. Please check your connection."
+msgstr "Error de red. Verifique su conexión."
+
+#: src/location.rs:419
+msgid "City not found. Please check the spelling."
+msgstr "Ciudad no encontrada. Verifique la ortografía."
+
+#: src/main.rs:399
+msgid "Location Policy"
+msgstr "Política de ubicación"
+
+#: src/main.rs:405
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+
+# =============================================================================
+# SECTION 17: SETTINGS - TIMEZONE
+# =============================================================================
+
+#: src/settings_ui.rs:609
+msgid "Timezone & Travel"
+msgstr "Zona horaria y viaje"
+
+#: src/settings_ui.rs:613
+msgid "Override the timezone for prayer time calculations."
+msgstr "Reemplazar la zona horaria para el cálculo de horarios de oración."
+
+#: src/settings_ui.rs:622
+msgid "Automatic (System)"
+msgstr "Automático (sistema)"
+
+#: src/settings_ui.rs:623
+msgid "Custom Timezone (IANA)"
+msgstr "Zona horaria personalizada (IANA)"
+
+#: src/settings_ui.rs:624
+msgid "Manual UTC Offset"
+msgstr "Desfase UTC manual"
+
+#: src/settings_ui.rs:629
+msgid "Timezone Mode"
+msgstr "Modo de zona horaria"
+
+#: src/settings_ui.rs:631
+msgid "How prayer times are adjusted for your timezone."
+msgstr "Cómo se ajustan los horarios de oración a su zona horaria."
+
+#: src/settings_ui.rs:652
+msgid "IANA Timezone"
+msgstr "Zona horaria IANA"
+
+#: src/settings_ui.rs:691
+msgid "UTC Offset (hours)"
+msgstr "Desfase UTC (horas)"
+
+#: src/settings_ui.rs:692
+msgid "Example: +2.0 for UTC+2, -5.0 for UTC-5"
+msgstr "Ejemplo: +2.0 para UTC+2, -5.0 para UTC-5"
+
+
+# =============================================================================
+# SECTION 18: SETTINGS - NOTIFICATIONS & AUDIO
+# =============================================================================
+
+#: src/settings_ui.rs:1019
+msgid "Notifications & Audio"
+msgstr "Notificaciones y audio"
+
+#: src/settings_ui.rs:1021
+msgid "Choose when and how you receive prayer reminders and the Adhan sound."
+msgstr "Elija cuándo y cómo recibe recordatorios de oración y el sonido del Adhan."
+
+msgid "Notifications"
+msgstr "Notificaciones"
+
+msgid "Audio"
+msgstr "Audio"
+
+#: src/settings_ui.rs:1035
+msgid "Pre-Prayer Alert"
+msgstr "Alerta previa a la oración"
+
+#: src/settings_ui.rs:994
+msgid "Get notified before the prayer time."
+msgstr "Recibir una notificación antes de la hora de oración."
+
+#: src/settings_ui.rs:1006
+msgid "Alert Time"
+msgstr "Tiempo de alerta"
+
+#: src/settings_ui.rs:1007
+msgid "Minutes before prayer"
+msgstr "Minutos antes de la oración"
+
+#: src/settings_ui.rs:1033
+msgid "Test Notification"
+msgstr "Notificación de prueba"
+
+#: src/settings_ui.rs:1050
+msgid "This is a test notification from Khushu. May your prayers be accepted."
+msgstr "Esta es una notificación de prueba de Khushu. Que tus oraciones sean aceptadas."
+
+#: src/settings_ui.rs:1088
+msgid "Minutes"
+msgstr "Minutos"
+
+#: src/settings_ui.rs:1112
+msgid "Default"
+msgstr "Predeterminado"
+
+#: src/settings_ui.rs:1113
+msgid "Custom File..."
+msgstr "Archivo personalizado..."
+
+#: src/settings_ui.rs:1122
+msgid "Adhan Sound"
+msgstr "Sonido del Adhan"
+
+#: src/settings_ui.rs:1142 src/settings_ui.rs:1156
+msgid "Using builtin default"
+msgstr "Usando el predeterminado integrado"
+
+#: src/settings_ui.rs:1159
+msgid "Audio Files"
+msgstr "Archivos de audio"
+
+#: src/settings_ui.rs:1168
+msgid "Select Adhan Sound"
+msgstr "Seleccionar sonido del Adhan"
+
+#: src/settings_ui.rs:1202
+msgid "Mute Adhan"
+msgstr "Silenciar Adhan"
+
+#: src/settings_ui.rs:1203
+msgid "Silence the Adhan sound at prayer time."
+msgstr "Silenciar el sonido del Adhan a la hora de oración."
+
+#: src/settings_ui.rs:1222
+msgid "Adhan Volume"
+msgstr "Volumen del Adhan"
+
+#: src/settings_ui.rs:1223
+msgid "Volume level (0–100%)"
+msgstr "Nivel de volumen (0–100 %)"
+
+#: src/settings_ui.rs:1242
+msgid "▶ Preview Adhan"
+msgstr "▶ Preescuchar Adhan"
+
+
+# =============================================================================
+# SECTION 19: APP UI & SYSTEM ACTIONS
+# =============================================================================
+
+#: src/nav_ui.rs:31 src/pages.rs:412
+msgid "Home"
+msgstr "Inicio"
+
+#: src/nav_ui.rs:36 src/nav_ui.rs:139 src/pages.rs:413 src/pages.rs:437
+msgid "Calendar"
+msgstr "Calendario"
+
+#: src/nav_ui.rs:46 src/nav_ui.rs:141 src/pages.rs:415 src/pages.rs:439
+msgid "Adkar"
+msgstr "Adkar"
+
+#: src/nav_ui.rs:56 src/nav_ui.rs:143 src/pages.rs:417 src/pages.rs:441
+msgid "Settings"
+msgstr "Ajustes"
+
+#: src/nav_ui.rs:61 src/pages.rs:418
+msgid "About"
+msgstr "Acerca de"
+
+#: src/main.rs:222 src/main.rs:224
+msgid "Toggle Sidebar"
+msgstr "Mostrar/ocultar barra lateral"
+
+#: src/background.rs:149 src/background.rs:180 src/settings_ui.rs:1054
+#: src/timer_controller.rs:219 src/timer_controller.rs:235
+#: src/timer_controller.rs:288 src/timer_controller.rs:308
+#: src/timer_controller.rs:329 src/timer_controller.rs:349
+#: src/timer_controller.rs:370 src/timer_controller.rs:390
+#: src/timer_controller.rs:447
+msgid "Open Khushu"
+msgstr "Abrir Khushu"
+
+#: src/background.rs:150 src/background.rs:181
+msgid "Quit"
+msgstr "Salir"
+
+#: src/welcome.rs:278 src/welcome.rs:279
+msgid "Welcome to Khushu"
+msgstr "Bienvenido a Khushu"
+
+#: src/welcome.rs:281
+msgid "Please configure your location to get accurate prayer times."
+msgstr "Configure su ubicación para obtener horarios de oración precisos."
+
+#: src/welcome.rs:285
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: src/welcome.rs:350
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/main.rs:381 src/main.rs:388
+msgid "Djalel Oukid (sniper1720)"
+msgstr "Djalel Oukid (sniper1720)"
+
+#: src/main.rs:386
+msgid "© 2026 Djalel Oukid"
+msgstr "© 2026 Djalel Oukid"
+
+#: src/main.rs:389
+msgid "translator-credits"
 msgstr "Djalel Oukid"
 
-msgid "prayer"
-msgstr "oración"
+#: src/main.rs:402
+msgid "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic."
+msgstr "Modo auto: GeoClue (sistema). Búsqueda de ciudad: Nominatim (OpenStreetMap). Modo manual: sin tráfico de red."
 
-msgid "salah"
-msgstr "salah"
+#: src/main.rs:408
+msgid "Coordinates stay on this device and are not sent to any external servers. No analytics, no telemetry, no accounts."
+msgstr "Las coordenadas permanecen en este dispositivo y no se envían a ningún servidor externo. Sin análisis, sin telemetría, sin cuentas."
 
-msgid "adhan"
-msgstr "adhan"
 
-msgid "adkar"
-msgstr "adkar"
+# =============================================================================
+# SECTION 20: GENERAL & MISCELLANEOUS
+# =============================================================================
 
-msgid "qibla"
-msgstr "qibla"
-
-msgid "muslim"
-msgstr "musulmán"
-
-msgid "islam"
-msgstr "islam"
+#: src/calendar.rs:67 src/calendar.rs:125
+msgid "Date Details"
+msgstr "Detalles de la fecha"
 
 msgid "Assalamu Alaikum"
 msgstr "Assalamu Alaikum"
 
-msgid "Fixed Snap autostart and notification icon rendering."
-msgstr "Corrección del inicio automático en Snap y la representación de iconos de notificación."
+msgid "Recommended"
+msgstr "Recomendado"
 
-msgid "Improved locale detection and fallback logic."
-msgstr "Mejora de la detección de configuración regional y la lógica de respaldo."
+msgid "Obligatory"
+msgstr "Obligatorio"
 
-msgid "Fixed Flatpak autostart failure and missing --background flag."
-msgstr "Se corrigió el error de inicio automático en Flatpak y la falta del indicador --background."
+#.  Dynamic UI States & Labels
+msgid "Loading..."
+msgstr "Cargando..."
 
-msgid "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
-msgstr "Se corrigió la sobretraducción de nombres propios (p. ej., Muslim) en otros idiomas."
+#. Ensure we have a locale dir set up
+#. This test just checks that tr doesn't panic
+#: src/i18n.rs:346
+msgid "nonexistent_key_xyz123"
+msgstr ""
 
-msgid "Added new localized AppStream screenshots for improved store presence."
-msgstr "Se agregaron nuevas capturas de pantalla localizadas para mejorar la presencia en la tienda."
+#: src/pages.rs:266 src/pages.rs:396 src/settings_ui.rs:100 src/welcome.rs:290
+#: src/welcome.rs:299
+msgid "System Default"
+msgstr "Predeterminado del sistema"
 
-msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
-msgstr "Corrección de la extracción de traducción del icono de bandeja (entradas Salir y Abrir Khushu)."
+#: src/pages.rs:267 src/pages.rs:397 src/welcome.rs:300
+msgid "English"
+msgstr "Inglés"
 
-msgid "Fixed AppStream metadata translation (descriptions and keywords)."
-msgstr "Corrección de la traducción de metadatos de AppStream (descripciones y palabras clave)."
+#: src/pages.rs:268 src/pages.rs:398 src/welcome.rs:301
+msgid "Arabic"
+msgstr "Árabe"
 
-msgid "Improved tray behavior to update labels immediately on language change."
-msgstr "Mejora del comportamiento de la bandeja para actualizar las etiquetas inmediatamente al cambiar el idioma."
+#: src/pages.rs:269 src/pages.rs:399 src/welcome.rs:302
+msgid "French"
+msgstr "Francés"
 
-msgid "Initial stable release of Khushu."
-msgstr "Lanzamiento estable inicial de Khushu."
+#: src/pages.rs:270 src/pages.rs:400 src/welcome.rs:303
+msgid "Spanish"
+msgstr "Español"
+
+#: src/pages.rs:271 src/pages.rs:401 src/welcome.rs:304
+msgid "Turkish"
+msgstr "Turco"
+
+#: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
+msgid "Language"
+msgstr "Idioma"

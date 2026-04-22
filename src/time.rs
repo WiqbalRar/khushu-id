@@ -1,8 +1,8 @@
-use crate::i18n::tr;
-use chrono::{DateTime, Local, NaiveDate, Utc};
+use chrono::{DateTime, Datelike, Local, NaiveDate, TimeZone, Timelike, Utc};
+use chrono_tz::Tz;
 use salah::{Configuration, Coordinates, Madhab, Method, Parameters, Prayer, PrayerTimes};
 
-use crate::config::{CalculationMethod, MadhabChoice};
+use crate::config::{AppConfig, CalculationMethod, MadhabChoice, PrayerTimesSource, TimezoneMode};
 
 #[derive(Clone, Debug)]
 pub struct PrayerSchedule {
@@ -65,53 +65,192 @@ impl PrayerEngine {
         })
     }
 
-    pub fn next_prayer(&self, date: NaiveDate) -> Option<(String, DateTime<Local>)> {
-        let times = PrayerTimes::new(date, self.location, self.params);
-        let now = Local::now();
-
-        let prayers = [
-            (
-                tr("Fajr", ""),
-                self.convert_to_local(times.time(Prayer::Fajr)),
-            ),
-            (
-                tr("Sunrise", ""),
-                self.convert_to_local(times.time(Prayer::Sunrise)),
-            ),
-            (
-                tr("Dhuhr", ""),
-                self.convert_to_local(times.time(Prayer::Dhuhr)),
-            ),
-            (
-                tr("Asr", ""),
-                self.convert_to_local(times.time(Prayer::Asr)),
-            ),
-            (
-                tr("Maghrib", ""),
-                self.convert_to_local(times.time(Prayer::Maghrib)),
-            ),
-            (
-                tr("Isha", ""),
-                self.convert_to_local(times.time(Prayer::Isha)),
-            ),
-        ];
-
-        for (name, time) in prayers {
-            if time > now {
-                return Some((name.to_string(), time));
-            }
-        }
-
-        let next_day = date.succ_opt().unwrap();
-        let next_times = PrayerTimes::new(next_day, self.location, self.params);
-        Some((
-            tr("Fajr", "").to_string(),
-            self.convert_to_local(next_times.time(Prayer::Fajr)),
-        ))
-    }
-
     fn convert_to_local(&self, time: DateTime<Utc>) -> DateTime<Local> {
         DateTime::from(time)
+    }
+}
+
+fn parse_hm(s: &str) -> Option<(u32, u32)> {
+    let mut it = s.split(':');
+    let h = it.next()?.parse::<u32>().ok()?;
+    let m = it.next()?.parse::<u32>().ok()?;
+    if h > 23 || m > 59 {
+        return None;
+    }
+    Some((h, m))
+}
+
+pub fn schedule_from_hm(
+    date: NaiveDate,
+    fajr: &str,
+    shurooq: &str,
+    dhuhr: &str,
+    asr: &str,
+    maghrib: &str,
+    isha: &str,
+) -> Option<PrayerSchedule> {
+    let (fh, fm) = parse_hm(fajr)?;
+    let (sh, sm) = parse_hm(shurooq)?;
+    let (dh, dm) = parse_hm(dhuhr)?;
+    let (ah, am) = parse_hm(asr)?;
+    let (mh, mm) = parse_hm(maghrib)?;
+    let (ih, im) = parse_hm(isha)?;
+
+    let fajr = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), fh, fm, 0)
+        .single()?;
+    let shurooq = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), sh, sm, 0)
+        .single()?;
+    let dhuhr = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), dh, dm, 0)
+        .single()?;
+    let asr = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), ah, am, 0)
+        .single()?;
+    let maghrib = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), mh, mm, 0)
+        .single()?;
+    let isha = Local
+        .with_ymd_and_hms(date.year(), date.month(), date.day(), ih, im, 0)
+        .single()?;
+
+    Some(PrayerSchedule {
+        fajr,
+        shurooq,
+        dhuhr,
+        asr,
+        maghrib,
+        isha,
+    })
+}
+
+pub fn schedule_for_config(config: &AppConfig, date: NaiveDate) -> Option<PrayerSchedule> {
+    if config.prayer_times_source == PrayerTimesSource::Mawaqit
+        && let Some(cache) = config.mawaqit_cache.as_ref()
+        && cache.year == date.year()
+    {
+        let month_idx = date.month0() as usize;
+        if let Some(month) = cache.months.get(month_idx)
+            && let Some(arr) = month.get(&date.day())
+        {
+            return schedule_from_hm(date, &arr[0], &arr[1], &arr[2], &arr[3], &arr[4], &arr[5])
+                .map(|s| apply_timezone_override(config, s));
+        }
+    }
+
+    PrayerEngine::new(
+        config.latitude,
+        config.longitude,
+        &config.method,
+        &config.madhab,
+    )
+    .get_prayer_times(date)
+    .map(|s| apply_timezone_override(config, s))
+}
+
+pub fn next_prayer_from_schedule(
+    schedule: &PrayerSchedule,
+    now: DateTime<Local>,
+) -> Option<(String, DateTime<Local>)> {
+    let prayers = [
+        ("Fajr".to_string(), schedule.fajr),
+        ("Sunrise".to_string(), schedule.shurooq),
+        ("Dhuhr".to_string(), schedule.dhuhr),
+        ("Asr".to_string(), schedule.asr),
+        ("Maghrib".to_string(), schedule.maghrib),
+        ("Isha".to_string(), schedule.isha),
+    ];
+    for (name, time) in prayers {
+        if time > now {
+            return Some((name, time));
+        }
+    }
+    None
+}
+
+pub fn effective_now(config: &AppConfig) -> DateTime<Local> {
+    match &config.timezone_mode {
+        TimezoneMode::Auto => Local::now(),
+        TimezoneMode::Named(tz_str) => {
+            if let Ok(tz) = tz_str.parse::<Tz>() {
+                let utc_now = Utc::now();
+                let in_tz = utc_now.with_timezone(&tz);
+                Local
+                    .with_ymd_and_hms(
+                        in_tz.year(),
+                        in_tz.month(),
+                        in_tz.day(),
+                        in_tz.hour(),
+                        in_tz.minute(),
+                        in_tz.second(),
+                    )
+                    .single()
+                    .unwrap_or_else(Local::now)
+            } else {
+                Local::now()
+            }
+        }
+        TimezoneMode::UtcOffset(mins) => {
+            let now = Local::now();
+            let local_off = now.offset().local_minus_utc() / 60;
+            let delta = mins - local_off;
+            now + chrono::Duration::minutes(delta as i64)
+        }
+    }
+}
+
+pub fn effective_today(config: &AppConfig) -> NaiveDate {
+    effective_now(config).date_naive()
+}
+
+fn apply_timezone_override(config: &AppConfig, schedule: PrayerSchedule) -> PrayerSchedule {
+    match &config.timezone_mode {
+        TimezoneMode::Auto => schedule,
+        TimezoneMode::Named(tz_str) => {
+            if let Ok(tz) = tz_str.parse::<Tz>() {
+                let shift_time = |dt: DateTime<Local>| -> DateTime<Local> {
+                    let in_target = dt.with_timezone(&tz);
+                    Local
+                        .with_ymd_and_hms(
+                            in_target.year(),
+                            in_target.month(),
+                            in_target.day(),
+                            in_target.hour(),
+                            in_target.minute(),
+                            in_target.second(),
+                        )
+                        .single()
+                        .unwrap_or(dt)
+                };
+                PrayerSchedule {
+                    fajr: shift_time(schedule.fajr),
+                    shurooq: shift_time(schedule.shurooq),
+                    dhuhr: shift_time(schedule.dhuhr),
+                    asr: shift_time(schedule.asr),
+                    maghrib: shift_time(schedule.maghrib),
+                    isha: shift_time(schedule.isha),
+                }
+            } else {
+                schedule
+            }
+        }
+        TimezoneMode::UtcOffset(target) => {
+            let local_off = Local::now().offset().local_minus_utc() / 60;
+            let delta = target - local_off;
+            if delta == 0 {
+                return schedule;
+            }
+            let shift = chrono::Duration::minutes(delta as i64);
+            PrayerSchedule {
+                fajr: schedule.fajr + shift,
+                shurooq: schedule.shurooq + shift,
+                dhuhr: schedule.dhuhr + shift,
+                asr: schedule.asr + shift,
+                maghrib: schedule.maghrib + shift,
+                isha: schedule.isha + shift,
+            }
+        }
     }
 }
 
@@ -187,17 +326,18 @@ mod tests {
         let engine = PrayerEngine::new(36.75, 3.05, &CalculationMethod::MWL, &MadhabChoice::Shafi);
 
         let today = engine.get_prayer_times(date).unwrap();
-        let result = engine.next_prayer(date);
-        assert!(result.is_some());
+        let now = today.isha + chrono::Duration::minutes(1);
+        let result = next_prayer_from_schedule(&today, now);
+        assert!(result.is_none());
 
-        let (name, time) = result.unwrap();
-        let valid_names = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
-        assert!(
-            valid_names.contains(&name.as_str()),
-            "Unexpected prayer name: {}",
-            name
+        let next_day = date.succ_opt().unwrap();
+        let tomorrow = engine.get_prayer_times(next_day).unwrap();
+        assert_eq!(
+            next_prayer_from_schedule(&tomorrow, tomorrow.fajr - chrono::Duration::minutes(1))
+                .unwrap()
+                .0,
+            "Fajr"
         );
-        assert!(time >= today.fajr);
     }
 
     #[test]

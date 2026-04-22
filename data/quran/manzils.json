@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "surah": 1,
+      "verse": 1
+    },
+    {
+      "id": 2,
+      "surah": 5,
+      "verse": 1
+    },
+    {
+      "id": 3,
+      "surah": 10,
+      "verse": 1
+    },
+    {
+      "id": 4,
+      "surah": 17,
+      "verse": 1
+    },
+    {
+      "id": 5,
+      "surah": 26,
+      "verse": 1
+    },
+    {
+      "id": 6,
+      "surah": 37,
+      "verse": 1
+    },
+    {
+      "id": 7,
+      "surah": 50,
+      "verse": 1
+    }
+  ]
+}

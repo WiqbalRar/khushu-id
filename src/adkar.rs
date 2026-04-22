@@ -287,6 +287,7 @@ fn create_dikr_row(
         } else {
             cfg.favorites.push(dikr_id_signal.clone());
         }
+        cfg.sync_quran_state_from_disk();
         cfg.save();
 
         let new_fav_status = !currently_fav;

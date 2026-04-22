@@ -1,15 +1,16 @@
 [package]
 name = "khushu"
-version = "1.0.3"
+version = "1.1.0"
 authors = ["Djalel Oukid <sniper1720@linuxtechmore.com>"]
 edition = "2024"
 license = "GPL-3.0-or-later"
-description = "An all-in-one Muslim app for Linux."
+description = "An all-in-one Muslim app for Linux"
 homepage = "https://github.com/sniper1720/khushu"
 repository = "https://github.com/sniper1720/khushu"
 
 [dependencies]
 chrono = "0.4"
+chrono-tz = "0.10"
 gtk4 = { version = "0.9", features = ["v4_10"] }
 ksni = "0.3"
 libadwaita = { version = "0.7", features = ["v1_5"] }
@@ -21,6 +22,9 @@ tokio = { version = "1", features = ["rt", "macros", "rt-multi-thread"] }
 gettext-rs = { version = "0.7", features = ["gettext-system"] }
 reqwest = { version = "0.12", features = ["json"] }
 urlencoding = "2.1"
+icu = { version = "2.2", features = ["unstable"] }
+icu_experimental = "0.5.0"
+icu_locale = "2.2.0"
 notify-rust = "4.12"
 base64 = "0.22"
 hijri_date = "0.5"

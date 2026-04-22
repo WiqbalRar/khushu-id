@@ -1,3 +1,14 @@
+khushu (1.1.0) unstable; urgency=medium
+
+  * Added a fully offline Noble Quran module featuring Uthmanic text, translations, mushaf-style navigation, diacritic-aware search, saved reading positions, and adjustable typography.
+  * Added Mawaqit API integration as an alternative prayer times source
+  * Added ICU-backed localization for location and timezone labels.
+  * Added validated custom IANA timezone editing with cleaner inline feedback.
+  * Reorganized Settings into clearer General, Prayer Setup, and Alerts sections.
+  * Fixed Snap tray icon visibility via an upstream patch to ksni (resolves AppArmor D-Bus blocking).
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Fri, 10 Apr 2026 12:00:00 +0100
+
 khushu (1.0.3) unstable; urgency=medium
 
   * Fixed Snap autostart and notification icon rendering.

@@ -7,11 +7,13 @@ mod calendar;
 mod config;
 mod home_ui;
 mod location;
+mod mawaqit;
 mod nav_ui;
 mod notifications;
 mod pages;
 mod qibla;
 mod qibla_ui;
+mod quran;
 mod security;
 mod settings_ui;
 mod time;
@@ -33,12 +35,20 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use timer_controller::start_prayer_timer;
 
-use gtk::{Button, Label};
+use gtk::Button;
 
 const APP_ID: &str = match option_env!("APP_ID") {
     Some(id) => id,
     None => "io.github.sniper1720.khushu",
 };
+
+fn resolved_language_code(lang: &str) -> String {
+    if lang == "auto" || lang.is_empty() {
+        crate::i18n::detect_system_locale()
+    } else {
+        lang.to_string()
+    }
+}
 
 #[tokio::main]
 async fn main() {
@@ -62,6 +72,7 @@ async fn main() {
 
     crate::autostart::sync(config.borrow().autostart);
 
+    crate::i18n::save_original_locale();
     crate::i18n::update_locale(&config.borrow().language);
 
     adw::init().expect("Failed to initialize Libadwaita");
@@ -144,13 +155,14 @@ async fn main() {
     let config_activate = config.clone();
     let app_hold_activate = app_hold.clone();
     app.connect_activate(move |app| {
-        if config_activate.borrow().language == "ar" {
+        let resolved_lang = resolved_language_code(&config_activate.borrow().language);
+        if resolved_lang == "ar" {
             gtk::Widget::set_default_direction(gtk::TextDirection::Rtl);
         } else {
             gtk::Widget::set_default_direction(gtk::TextDirection::Ltr);
         }
 
-        apply_font_css(&config_activate.borrow().language);
+        apply_font_css(&resolved_lang);
 
         if !config_activate.borrow().is_configured {
             let app_clone = app.clone();
@@ -195,7 +207,7 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
         });
     }
 
-    let initial_lang = config.borrow().language.clone();
+    let initial_lang = resolved_language_code(&config.borrow().language);
     let current_lang = Rc::new(RefCell::new(initial_lang));
 
     let split_view = adw::OverlaySplitView::new();
@@ -203,7 +215,7 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
 
     let header_bar = HeaderBar::new();
     let initial_title = tr("Prayer Times", &current_lang.borrow());
-    let window_title = Label::new(Some(&initial_title));
+    let window_title = adw::WindowTitle::new(&initial_title, "");
     header_bar.set_title_widget(Some(&window_title));
 
     let menu_btn = Button::from_icon_name("open-menu-symbolic");
@@ -234,6 +246,8 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
         .icon_name("io.github.sniper1720.khushu")
         .default_width(1000)
         .default_height(700)
+        .width_request(360)
+        .height_request(294)
         .content(&toolbar_view)
         .build();
 
@@ -244,8 +258,6 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
     ));
     breakpoint.add_setter(&split_view, "collapsed", Some(&true.to_value()));
     window.add_breakpoint(breakpoint);
-
-    window.set_size_request(360, 360);
 
     let compass_manager_close = compass_manager.clone();
     window.connect_close_request(move |win| {
@@ -297,6 +309,14 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
     let hijri = pages_context.hijri_label.clone();
     let loc = pages_context.location_label.clone();
     let lb = pages_context.list_box.clone();
+    let stop_btn = gtk::Button::from_icon_name("media-playback-stop-symbolic");
+    stop_btn.add_css_class("flat");
+    stop_btn.set_tooltip_text(Some(&tr("Stop Adhan", &current_lang.borrow())));
+    let stop_btn_rc = Rc::new(stop_btn);
+    let stop_btn_for_click = stop_btn_rc.clone();
+    stop_btn_for_click.connect_clicked(move |_| {
+        crate::audio::stop();
+    });
 
     start_prayer_timer(config.clone(), move |state| {
         use timer_controller::PrayerState;
@@ -305,11 +325,18 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
             hijri_text,
             location_text,
             next_prayer_name,
+            adhan_playing,
+            adhan_prayer_name,
         } = state;
 
         hero.set_label(&hero_text);
         hijri.set_label(&hijri_text);
         loc.set_label(&location_text);
+
+        if stop_btn_rc.parent().is_some() {
+            stop_btn_rc.unparent();
+        }
+        stop_btn_rc.set_visible(false);
 
         let mut child = lb.first_child();
         while let Some(row) = child {
@@ -317,6 +344,17 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
                 row.add_css_class("accent");
             } else {
                 row.remove_css_class("accent");
+            }
+
+            if adhan_playing
+                && adhan_prayer_name
+                    .as_deref()
+                    .is_some_and(|n| row.widget_name() == n)
+                && let Ok(action_row) = row.clone().downcast::<adw::ActionRow>()
+            {
+                stop_btn_rc.set_tooltip_text(Some(&tr("Stop Adhan", &current_lang.borrow())));
+                stop_btn_rc.set_visible(true);
+                action_row.add_suffix(&*stop_btn_rc);
             }
             child = row.next_sibling();
         }
@@ -333,34 +371,93 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
 }
 
 fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
+    let resolved_lang = resolved_language_code(lang);
     let about = adw::AboutDialog::builder()
-        .application_name(tr("Khushu", lang))
+        .application_name(tr("Khushu", &resolved_lang))
         .application_icon("io.github.sniper1720.khushu")
-        .developer_name(tr("Djalel Oukid (sniper1720)", lang))
-        .version("1.0.3")
-        .comments(tr("An all-in-one Muslim app for Linux.", lang))
+        .developer_name(tr("Djalel Oukid (sniper1720)", &resolved_lang))
+        .version("1.1.0")
+        .comments(tr("An all-in-one Muslim app for Linux", &resolved_lang))
         .website("https://github.com/sniper1720/khushu")
         .issue_url("https://github.com/sniper1720/khushu/issues")
-        .copyright(tr("© 2026 Djalel Oukid", lang))
+        .copyright(tr("© 2026 Djalel Oukid", &resolved_lang))
         .license_type(gtk::License::Gpl30)
-        .developers(vec![tr("Djalel Oukid (sniper1720)", lang)])
-        .translator_credits(tr("translator-credits", lang))
+        .developers(vec![tr("Djalel Oukid (sniper1720)", &resolved_lang)])
+        .translator_credits(tr("translator-credits", &resolved_lang))
         .build();
 
+    about.set_direction(if resolved_lang == "ar" {
+        gtk::TextDirection::Rtl
+    } else {
+        gtk::TextDirection::Ltr
+    });
+
     about.add_legal_section(
-            &tr("Location Policy", lang),
+            &tr("Location Policy", &resolved_lang),
             None,
             gtk::License::Custom,
-            Some(&tr("Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic.", lang)),
+            Some(&tr("Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic.", &resolved_lang)),
         );
     about.add_legal_section(
-            &tr("Privacy Policy", lang),
+            &tr("Privacy Policy", &resolved_lang),
             None,
             gtk::License::Custom,
-            Some(&tr("Coordinates stay on this device and are not sent to any external servers. No analytics, no telemetry, no accounts.", lang)),
+            Some(&tr("Coordinates stay on this device and are not sent to any external servers. No analytics, no telemetry, no accounts.", &resolved_lang)),
         );
+    about.add_legal_section(
+        &tr("Quran Text", &resolved_lang),
+        None,
+        gtk::License::Custom,
+        Some(&tr(
+            "Arabic text and translations from Tanzil.net.",
+            &resolved_lang,
+        )),
+    );
+    about.add_legal_section(
+        &tr("Quran Translations Disclaimer", &resolved_lang),
+        None,
+        gtk::License::Custom,
+        Some(&tr("No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion.", &resolved_lang)),
+    );
 
     about.present(Some(parent));
+}
+
+pub fn generate_font_css(
+    lang: &str,
+    arabic_font: &str,
+    ui_font: &str,
+    arabic_px: f64,
+    trans_px: f64,
+    line_height: f64,
+) -> String {
+    let base_font = if lang == "ar" {
+        format!("window, popover.background {{ font-family: {arabic_font}, sans-serif; }}\n")
+    } else {
+        if !ui_font.is_empty() && ui_font != "Cantarell, sans-serif" {
+            format!("window {{ font-family: {ui_font}, sans-serif; }}\n")
+        } else {
+            String::new()
+        }
+    };
+
+    let dropdown_font_css = if lang == "ar" {
+        format!(
+            "popover.background list row label, \
+             popover list row label, \
+             .combo list row label {{ font-family: {arabic_font}, sans-serif; }}\n"
+        )
+    } else {
+        String::new()
+    };
+
+    format!(
+        "{base_font}{dropdown_font_css}.arabic-text {{ font-family: {arabic_font}, sans-serif; }}\n\
+.marker-row {{ padding: 8px 12px; }}\n\
+.quran-highlight {{ background-color: alpha(@accent_bg_color, 0.25); border-radius: 12px; }}\n\
+.quran-arabic {{ font-family: 'Amiri Quran', {arabic_font}, sans-serif; font-size: {arabic_px}px; line-height: {line_height}; }}\n\
+.quran-translation {{ font-size: {trans_px}px; line-height: {line_height}; }}\n"
+    )
 }
 
 pub fn apply_font_css(lang: &str) {
@@ -384,11 +481,134 @@ pub fn apply_font_css(lang: &str) {
         }
 
         if let Some(provider) = provider_opt.as_ref() {
-            if lang == "ar" {
-                provider.load_from_data("* { font-family: 'Amiri', 'Amiri-Regular', sans-serif; }");
-            } else {
-                provider.load_from_data("");
-            }
+            let cfg = crate::config::AppConfig::load();
+            let arabic_px = cfg.quran_arabic_font_px.clamp(16.0, 40.0);
+            let trans_px = cfg.quran_translation_font_px.clamp(10.0, 28.0);
+            let line_height = cfg.quran_line_height.clamp(1.0, 2.6);
+            let arabic_font = cfg.global_arabic_font_family;
+            let ui_font = cfg.global_ui_font_family;
+
+            let css = generate_font_css(
+                lang,
+                &arabic_font,
+                &ui_font,
+                arabic_px,
+                trans_px,
+                line_height,
+            );
+            provider.load_from_data(&css);
+            add_calendar_compact_styles();
+        }
+    });
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_font_css_arabic() {
+        let css = generate_font_css(
+            "ar",
+            "Amiri, Noto Sans Arabic",
+            "Cantarell, sans-serif",
+            22.0,
+            14.0,
+            1.0,
+        );
+        assert!(css.contains("font-family: Amiri, Noto Sans Arabic"));
+        assert!(css.contains("window, popover.background"));
+        assert!(css.contains("popover.background list row label"));
+        assert!(css.contains(".arabic-text { font-family: Amiri, Noto Sans Arabic"));
+    }
+
+    #[test]
+    fn test_generate_font_css_english_custom_font() {
+        let css = generate_font_css(
+            "en",
+            "Amiri, Noto Sans Arabic",
+            "CustomFont, sans-serif",
+            22.0,
+            14.0,
+            1.0,
+        );
+        assert!(css.contains("font-family: Amiri, Noto Sans Arabic"));
+        assert!(!css.contains("window, popover.background"));
+        assert!(css.contains("window { font-family: CustomFont"));
+        assert!(css.contains(".arabic-text { font-family: Amiri, Noto Sans Arabic"));
+    }
+
+    #[test]
+    fn test_generate_font_css_english_default_font() {
+        let css = generate_font_css(
+            "en",
+            "Amiri, Noto Sans Arabic",
+            "Cantarell, sans-serif",
+            22.0,
+            14.0,
+            1.0,
+        );
+        assert!(css.contains("font-family: Amiri, Noto Sans Arabic"));
+        assert!(!css.contains("window { font-family:"));
+        assert!(css.contains(".arabic-text { font-family: Amiri, Noto Sans Arabic"));
+    }
+
+    #[test]
+    fn test_generate_font_css_quran_classes() {
+        let css = generate_font_css(
+            "ar",
+            "Amiri, Noto Sans Arabic",
+            "Cantarell, sans-serif",
+            22.0,
+            14.0,
+            1.5,
+        );
+        assert!(css.contains(
+            ".quran-arabic { font-family: 'Amiri Quran', Amiri, Noto Sans Arabic, sans-serif;"
+        ));
+        assert!(css.contains("font-size: 22px"));
+        assert!(css.contains("line-height: 1.5"));
+        assert!(css.contains(".quran-translation { font-size: 14px"));
+    }
+
+    #[test]
+    fn test_generate_font_css_rtl_not_applied_via_css() {
+        let css = generate_font_css(
+            "ar",
+            "Amiri, Noto Sans Arabic",
+            "Cantarell, sans-serif",
+            22.0,
+            14.0,
+            1.0,
+        );
+        assert!(!css.contains("direction:"));
+        assert!(!css.contains("rtl"));
+    }
+}
+
+pub fn add_calendar_compact_styles() {
+    thread_local! {
+        static CALENDAR_PROVIDER: std::cell::RefCell<Option<gtk::CssProvider>> = const { std::cell::RefCell::new(None) };
+    }
+
+    CALENDAR_PROVIDER.with(|cell| {
+        let mut provider_opt = cell.borrow_mut();
+        if provider_opt.is_none() {
+            let provider = gtk::CssProvider::new();
+            gtk::style_context_add_provider_for_display(
+                &gtk::gdk::Display::default().expect("Could not get default display"),
+                &provider,
+                gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
+            );
+            *provider_opt = Some(provider);
+        }
+        if let Some(provider) = provider_opt.as_ref() {
+            let css = "\
+.calendar-grid button { min-height: 24px; min-width: 24px; font-size: 0.9em; padding: 0; }\
+.calendar-grid.compact-calendar button { min-height: 20px; min-width: 20px; font-size: 0.8em; }\
+.calendar-grid.compact-calendar .dim-label { font-size: 0.8em; }\
+";
+            provider.load_from_data(css);
         }
     });
 }

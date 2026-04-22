@@ -1,7 +1,7 @@
 use crate::config::AppConfig;
 use crate::i18n::tr;
 use adw::prelude::*;
-use chrono::{Datelike, Duration, Local, NaiveDate};
+use chrono::{Datelike, Duration, NaiveDate};
 use gtk::{Box, Button, Frame, Grid, Label, Orientation};
 use gtk4 as gtk;
 use hijri_date::HijriDate;
@@ -18,7 +18,7 @@ pub fn create_calendar_page(
     language: Rc<RefCell<String>>,
     config: Rc<RefCell<AppConfig>>,
 ) -> (Box, Rc<dyn Fn()>) {
-    let now = Local::now().date_naive();
+    let now = crate::time::effective_today(&config.borrow());
     let offset_days = config.borrow().hijri_offset;
     let adjusted_now = now + Duration::days(offset_days);
     let initial_hijri = HijriDate::from_gr(
@@ -61,6 +61,7 @@ pub fn create_calendar_page(
     grid.set_row_spacing(2);
     grid.set_column_homogeneous(true);
     grid.set_hexpand(true);
+    grid.add_css_class("calendar-grid");
     container.append(&grid);
 
     let details_frame = Frame::new(Some(&tr("Date Details", &language.borrow())));
@@ -104,7 +105,7 @@ pub fn create_calendar_page(
     let refresh_inner: Rc<dyn Fn(bool)> = Rc::new(move |recenter_on_today: bool| {
         let lang = lang_refresh.borrow();
         let hijri_offset = config_for_calendar.borrow().hijri_offset;
-        let today_phys = Local::now().date_naive();
+        let today_phys = crate::time::effective_today(&config_for_calendar.borrow());
         let corrected_today = today_phys + Duration::days(hijri_offset);
         let today_hijri = HijriDate::from_gr(
             corrected_today.year() as usize,

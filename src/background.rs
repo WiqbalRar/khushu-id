@@ -27,9 +27,35 @@ fn get_tray_data() -> Arc<RwLock<KhushuTrayData>> {
         .clone()
 }
 
+fn tray_icon_theme_path() -> String {
+    if let Ok(snap) = std::env::var("SNAP") {
+        return format!("{snap}/usr/share/icons");
+    }
+
+    if std::path::Path::new("/app/share/icons").exists() {
+        return "/app/share/icons".to_string();
+    }
+
+    if std::path::Path::new("/usr/share/icons").exists() {
+        return "/usr/share/icons".to_string();
+    }
+
+    String::new()
+}
+
 impl Tray for KhushuTray {
     fn icon_name(&self) -> String {
-        "io.github.sniper1720.khushu-symbolic".into()
+        if let Ok(snap) = std::env::var("SNAP") {
+            let svg_path = format!("{snap}/meta/gui/io.github.sniper1720.khushu.svg");
+            if std::path::Path::new(&svg_path).exists() {
+                return svg_path;
+            }
+        }
+        "io.github.sniper1720.khushu".into()
+    }
+
+    fn icon_theme_path(&self) -> String {
+        tray_icon_theme_path()
     }
 
     fn id(&self) -> String {
@@ -110,7 +136,13 @@ async fn setup_tray_icon() {
     use std::sync::atomic::{AtomicBool, Ordering};
 
     static TRAY_SPAWNED: AtomicBool = AtomicBool::new(false);
-    if TRAY_SPAWNED.swap(true, Ordering::SeqCst) {
+    if TRAY_HANDLE.get().is_some() {
+        return;
+    }
+    if TRAY_SPAWNED
+        .compare_exchange(false, true, Ordering::SeqCst, Ordering::SeqCst)
+        .is_err()
+    {
         return;
     }
 
@@ -126,9 +158,14 @@ async fn setup_tray_icon() {
 
     let tray = KhushuTray { data };
 
-    let is_sandboxed = std::path::Path::new("/.flatpak-info").exists();
+    let is_sandboxed =
+        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
 
-    match tray.disable_dbus_name(is_sandboxed).spawn().await {
+    let tray_builder = tray
+        .disable_dbus_name(is_sandboxed)
+        .assume_sni_available(is_sandboxed);
+
+    match tray_builder.spawn().await {
         Ok(handle) => {
             let _ = TRAY_HANDLE.set(handle);
             tokio::spawn(async move {
@@ -136,6 +173,7 @@ async fn setup_tray_icon() {
             });
         }
         Err(e) => {
+            TRAY_SPAWNED.store(false, Ordering::SeqCst);
             log::error!("Failed to spawn KSNI tray icon: {}", e);
         }
     }

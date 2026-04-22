@@ -6,7 +6,7 @@
   [![Rust](https://img.shields.io/badge/Language-Rust-fa4f28?style=flat-square&logo=rust)](https://www.rust-lang.org/)
   [![GTK4](https://img.shields.io/badge/GUI-GTK4-4a86cf?style=flat-square&logo=gnome)](https://gtk.org/)
   [![Libadwaita](https://img.shields.io/badge/Style-Libadwaita-62a0ea?style=flat-square&logo=gnome)](https://gnome.pages.gitlab.gnome.org/libadwaita/)
-  [![Version](https://img.shields.io/badge/Version-1.0.3-success?style=flat-square)](#)
+  [![Version](https://img.shields.io/badge/Version-1.1.0-success?style=flat-square)](#)
   [![License](https://img.shields.io/badge/License-GPL_v3-blue?style=flat-square)](LICENSE)
   [![Translations](https://img.shields.io/badge/Languages-5_Supported-9cf?style=flat-square)](#)
 
@@ -29,8 +29,12 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
     <td align="center"><img src="screenshots/qibla.png" width="380" alt="Qibla"/><br/><sub>Qibla Compass</sub></td>
   </tr>
   <tr>
+    <td align="center"><img src="screenshots/noble_quran.png" width="380" alt="Noble Quran"/><br/><sub>Noble Quran</sub></td>
     <td align="center"><img src="screenshots/adkar.png" width="380" alt="Adkar"/><br/><sub>Adkar</sub></td>
+  </tr>
+  <tr>
     <td align="center"><img src="screenshots/settings.png" width="380" alt="Settings"/><br/><sub>Settings</sub></td>
+    <td></td>
   </tr>
 </table>
 </div>
@@ -47,6 +51,7 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
     - **Audio Presets**: Select from bundled sounds or use your own custom MP3.
     - **Pre-Prayer Alerts**: Get notified before the prayer starts.
     - **System Integration**: Native desktop notifications.
+- **Noble Quran**: Read the Quran with adjustable Arabic and translation typography, line spacing, and a clean reading layout.
 - **Adkar**: Built-in Morning and Evening Adkar module.
 - **Hijri Calendar**: Current Hijri date displayed on dashboard.
 - **Secure Configuration**: Your sensitive settings (like latitude/longitude) are obfuscated locally using XOR and Base64 encoding.
@@ -56,8 +61,9 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
 
 Khushu is under active development. Our goal is to build the premier all-in-one Islamic ecosystem for Linux.
 
-- **The Holy Quran & Travel (v1.1.0)**: We want to build a truly beautiful, offline-first Quran reader with sharp typography and a search function that feels fast and useful. We also plan to add a **timezone override** setting for travelers whose system clock may not match their physical location.
-- **Islamic Essentials (v1.2.0)**: We are working on a few more tools, including a simple Zakat calculator, a way to reflect on the 99 Names of Allah, and a collection of the Forty Hadith of Nawawi.
+✓ v1.1.0 delivered the Noble Quran reader, traveler timezone controls, ICU-backed location localization, and typography customization.
+
+- **Islamic Essentials (v1.2.0)**: We are working on a few more tools, including a **Global Typography** customizer (Arabic & UI fonts), a simple Zakat calculator, a way to reflect on the 99 Names of Allah, and a collection of the Forty Hadith of Nawawi.
 - **Beyond the Desktop (v2.0.0)**: We want Khushu to be wherever you are. This means perfecting the experience for Linux mobile (Phosh/Plasma) and exploring an Android version by leveraging the same core logic we already built.
 
 ## Installation

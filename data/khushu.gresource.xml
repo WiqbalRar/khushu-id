@@ -7,5 +7,18 @@
     <file compressed="true">icons/hicolor/scalable/apps/io.github.sniper1720.khushu.svg</file>
     <file compressed="true">icons/hicolor/symbolic/apps/io.github.sniper1720.khushu-symbolic.svg</file>
     <file compressed="true">icons/hicolor/scalable/actions/qibla-symbolic.svg</file>
+    <file compressed="true">icons/hicolor/scalable/actions/noble-quran-symbolic.svg</file>
+    <file compressed="true">quran/chapters.json</file>
+    <file compressed="true">quran/pages_index.json</file>
+    <file compressed="true">quran/juzs.json</file>
+    <file compressed="true">quran/hizbs.json</file>
+    <file compressed="true">quran/manzils.json</file>
+    <file compressed="true">quran/sajdas.json</file>
+    <file compressed="true">quran/quran_pages_index.json</file>
+    <file compressed="true">quran/ar.json</file>
+    <file compressed="true">quran/translations/en.json</file>
+    <file compressed="true">quran/translations/fr.json</file>
+    <file compressed="true">quran/translations/es.json</file>
+    <file compressed="true">quran/translations/tr.json</file>
   </gresource>
 </gresources>

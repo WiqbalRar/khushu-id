@@ -17,6 +17,12 @@ enum LocationState {
     Error(String),
 }
 
+fn finish_entry_row_interaction(row: &EntryRow) {
+    if let Some(root) = row.root() {
+        root.set_focus(Option::<&gtk::Widget>::None);
+    }
+}
+
 pub fn build_welcome_window<F>(app: &Application, config: Rc<RefCell<AppConfig>>, on_done: F)
 where
     F: Fn() + 'static,
@@ -29,6 +35,8 @@ where
         .title("Welcome to Khushu")
         .default_width(600)
         .default_height(650)
+        .width_request(360)
+        .height_request(294)
         .build();
 
     let content_box = gtk::Box::new(Orientation::Vertical, 0);
@@ -249,7 +257,12 @@ where
 
         let location_state = location_state.clone();
         move |lang_code: &str| {
-            let l = lang_code;
+            let detected = if lang_code == "auto" || lang_code.is_empty() {
+                crate::i18n::detect_system_locale()
+            } else {
+                lang_code.to_string()
+            };
+            let l = &detected;
 
             if l == "ar" {
                 gtk::Widget::set_default_direction(gtk::TextDirection::Rtl);
@@ -259,6 +272,7 @@ where
                 window.set_direction(gtk::TextDirection::Ltr);
             }
 
+            crate::i18n::update_locale(&detected);
             crate::apply_font_css(l);
 
             window.set_title(Some(&tr("Welcome to Khushu", l)));
@@ -358,8 +372,13 @@ where
             {
                 *current_lang_clone.borrow_mut() = next_lang.clone();
             }
-            crate::i18n::update_locale(&next_lang);
-            update_translations_clone(&next_lang);
+            let detected_for_locale = if next_lang == "auto" || next_lang.is_empty() {
+                crate::i18n::detect_system_locale()
+            } else {
+                next_lang.clone()
+            };
+            crate::i18n::update_locale(&detected_for_locale);
+            update_translations_clone(&detected_for_locale);
         }
     });
 
@@ -384,7 +403,7 @@ where
         gtk::glib::spawn_future_local(async move {
             let lang = current_lang_clone_search.borrow().clone();
             let result = location::search_city(&query, &lang).await;
-            if let Ok((lat, lon, name)) = result {
+            if let Ok((lat, lon, name, _detected_tz)) = result {
                 let mut cfg = config_clone.borrow_mut();
                 cfg.latitude = lat;
                 cfg.longitude = lon;
@@ -400,8 +419,9 @@ where
     });
 
     let perform_city_search_entry = perform_city_search.clone();
-    city_row.connect_entry_activated(move |_| {
+    city_row.connect_entry_activated(move |row| {
         perform_city_search_entry();
+        finish_entry_row_interaction(row);
     });
 
     let perform_city_search_btn = perform_city_search.clone();
@@ -503,6 +523,7 @@ where
             };
 
             cfg.is_configured = true;
+            cfg.sync_quran_state_from_disk();
             cfg.save();
         }
 

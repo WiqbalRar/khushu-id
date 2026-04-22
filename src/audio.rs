@@ -4,10 +4,12 @@ use rodio::{Decoder, OutputStreamBuilder, Sink};
 use std::collections::HashMap;
 
 use std::sync::OnceLock;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, Sender, channel};
 use std::thread;
 
 static AUDIO_SENDER: OnceLock<Sender<AudioCommand>> = OnceLock::new();
+static IS_PLAYING: AtomicBool = AtomicBool::new(false);
 
 enum AudioCommand {
     Play(String, f32),
@@ -32,6 +34,10 @@ pub fn stop() {
     let _ = ensure_audio_thread().send(AudioCommand::Stop);
 }
 
+pub fn is_playing() -> bool {
+    IS_PLAYING.load(Ordering::Relaxed)
+}
+
 type CachedAudio = (Vec<f32>, u16, u32);
 
 fn run_audio_loop(rx: Receiver<AudioCommand>) {
@@ -46,34 +52,53 @@ fn run_audio_loop(rx: Receiver<AudioCommand>) {
     let mut _current_sink: Option<Sink> = None;
     let mut cache: HashMap<String, CachedAudio> = HashMap::new();
 
-    while let Ok(command) = rx.recv() {
-        match command {
-            AudioCommand::Play(path_str, volume) => {
-                _current_sink = None;
+    loop {
+        match rx.recv_timeout(std::time::Duration::from_millis(200)) {
+            Ok(command) => match command {
+                AudioCommand::Play(path_str, volume) => {
+                    _current_sink = None;
+                    IS_PLAYING.store(true, Ordering::Relaxed);
 
-                let sink = Sink::connect_new(stream.mixer());
-                sink.set_volume(volume.clamp(0.0, 1.0));
+                    let sink = Sink::connect_new(stream.mixer());
+                    sink.set_volume(volume.clamp(0.0, 1.0));
 
-                if let Some((samples, channels, rate)) = cache.get(&path_str) {
-                    let source = SamplesBuffer::new(*channels, *rate, samples.clone());
-                    sink.append(source);
-                    _current_sink = Some(sink);
-                    continue;
-                }
+                    if let Some((samples, channels, rate)) = cache.get(&path_str) {
+                        let source = SamplesBuffer::new(*channels, *rate, samples.clone());
+                        sink.append(source);
+                        _current_sink = Some(sink);
+                        continue;
+                    }
 
-                let is_asset = path_str.starts_with("assets/");
+                    let is_asset = path_str.starts_with("assets/");
 
-                if is_asset {
-                    let resource_path = format!(
-                        "/io/github/sniper1720/khushu/{}",
-                        path_str.trim_start_matches("assets/")
-                    );
-                    if let Ok(bytes) = gtk4::gio::resources_lookup_data(
-                        &resource_path,
-                        gtk4::gio::ResourceLookupFlags::NONE,
-                    ) {
-                        let reader = std::io::Cursor::new(bytes.to_vec());
-                        if let Ok(decoder) = Decoder::new(reader) {
+                    if is_asset {
+                        let resource_path = format!(
+                            "/io/github/sniper1720/khushu/{}",
+                            path_str.trim_start_matches("assets/")
+                        );
+                        if let Ok(bytes) = gtk4::gio::resources_lookup_data(
+                            &resource_path,
+                            gtk4::gio::ResourceLookupFlags::NONE,
+                        ) {
+                            let reader = std::io::Cursor::new(bytes.to_vec());
+                            if let Ok(decoder) = Decoder::new(reader) {
+                                let channels = decoder.channels();
+                                let rate = decoder.sample_rate();
+                                let samples: Vec<f32> = decoder.collect();
+
+                                cache.insert(path_str.clone(), (samples.clone(), channels, rate));
+
+                                let source = SamplesBuffer::new(channels, rate, samples);
+                                sink.append(source);
+                                _current_sink = Some(sink);
+                            } else {
+                                log::error!("Failed to decode audio resource: {}", resource_path);
+                            }
+                        } else {
+                            log::error!("Audio resource not found in binary: {}", resource_path);
+                        }
+                    } else if let Ok(file) = std::fs::File::open(&path_str) {
+                        if let Ok(decoder) = Decoder::new(std::io::BufReader::new(file)) {
                             let channels = decoder.channels();
                             let rate = decoder.sample_rate();
                             let samples: Vec<f32> = decoder.collect();
@@ -84,32 +109,26 @@ fn run_audio_loop(rx: Receiver<AudioCommand>) {
                             sink.append(source);
                             _current_sink = Some(sink);
                         } else {
-                            log::error!("Failed to decode audio resource: {}", resource_path);
+                            log::error!("Failed to decode audio file: {}", path_str);
                         }
                     } else {
-                        log::error!("Audio resource not found in binary: {}", resource_path);
+                        log::error!("Failed to open audio file: {}", path_str);
                     }
-                } else if let Ok(file) = std::fs::File::open(&path_str) {
-                    if let Ok(decoder) = Decoder::new(std::io::BufReader::new(file)) {
-                        let channels = decoder.channels();
-                        let rate = decoder.sample_rate();
-                        let samples: Vec<f32> = decoder.collect();
-
-                        cache.insert(path_str.clone(), (samples.clone(), channels, rate));
-
-                        let source = SamplesBuffer::new(channels, rate, samples);
-                        sink.append(source);
-                        _current_sink = Some(sink);
-                    } else {
-                        log::error!("Failed to decode audio file: {}", path_str);
-                    }
-                } else {
-                    log::error!("Failed to open audio file: {}", path_str);
+                }
+                AudioCommand::Stop => {
+                    _current_sink = None;
+                    IS_PLAYING.store(false, Ordering::Relaxed);
+                }
+            },
+            Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {
+                if let Some(sink) = _current_sink.as_ref()
+                    && sink.empty()
+                {
+                    IS_PLAYING.store(false, Ordering::Relaxed);
+                    _current_sink = None;
                 }
             }
-            AudioCommand::Stop => {
-                _current_sink = None;
-            }
+            Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break,
         }
     }
 }

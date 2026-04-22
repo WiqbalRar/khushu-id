@@ -3,7 +3,7 @@ use std::rc::Rc;
 
 use adw::ActionRow;
 use adw::prelude::*;
-use gtk::{Box, Label, ListBox, ListBoxRow, Orientation, SelectionMode};
+use gtk::{Box, ListBox, ListBoxRow, Orientation, SelectionMode};
 use gtk4 as gtk;
 use libadwaita as adw;
 
@@ -45,6 +45,11 @@ pub fn build_sidebar(
             "adkar",
             tr("Adkar", &current_lang.borrow()),
             "emblem-documents-symbolic",
+        ),
+        (
+            "quran",
+            tr("Noble Quran", &current_lang.borrow()),
+            "noble-quran-symbolic",
         ),
         (
             "settings",
@@ -91,7 +96,7 @@ pub fn build_sidebar(
 pub fn connect_sidebar_navigation(
     sidebar_list: &ListBox,
     view_stack: Rc<adw::ViewStack>,
-    window_title: &Label,
+    window_title: &adw::WindowTitle,
     current_lang: Rc<RefCell<String>>,
     split_view: &adw::OverlaySplitView,
     window: &adw::ApplicationWindow,
@@ -115,7 +120,14 @@ pub fn connect_sidebar_navigation(
             }
         } else if !name.is_empty() {
             *last_valid_row_act.borrow_mut() = Some(row.clone());
-            view_stack_clone.set_visible_child_name(&name);
+            if name == "quran" {
+                crate::quran::open_last_read_or_list(
+                    &view_stack_clone,
+                    &current_lang_sidebar.borrow(),
+                );
+            } else {
+                view_stack_clone.set_visible_child_name(&name);
+            }
 
             if split_view_hide.is_collapsed() {
                 split_view_hide.set_show_sidebar(false);
@@ -127,10 +139,11 @@ pub fn connect_sidebar_navigation(
                 "calendar" => tr("Calendar", &lang),
                 "qibla" => tr("Qibla", &lang),
                 "adkar" => tr("Adkar", &lang),
+                "quran" => tr("Noble Quran", &lang),
                 "settings" => tr("Settings", &lang),
                 _ => "Khushu".to_string(),
             };
-            window_title_sidebar.set_label(&title);
+            window_title_sidebar.set_title(&title);
         }
     });
 

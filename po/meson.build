@@ -1,4 +1,4 @@
-i18n.gettext('khushu', preset: 'glib', args: ['--keyword=tr:1', '--language=Rust'])
+i18n.gettext('khushu', preset: 'glib', args: ['--keyword=tr:1'])
 
 if get_option('extra_translations')
   msgfmt = find_program('msgfmt')
@@ -17,14 +17,22 @@ if get_option('extra_translations')
         build_by_default: true,
       )
 
-      meson.add_install_script(
-        'sh', '-c',
-        'mkdir -p "$DESTDIR@0@" && cp -v "@1@" "$DESTDIR@0@/@2@.mo"'.format(
-           get_option('prefix') / get_option('datadir') / 'khushu' / 'locale' / lang / 'LC_MESSAGES',
-           mo_target.full_path(),
-           domain
+      if domain == 'gtk40'
+        aliases = ['gtk40']
+      else
+        aliases = ['libadwaita']
+      endif
+
+      foreach alias : aliases
+        meson.add_install_script(
+          'sh', '-c',
+          'mkdir -p "$DESTDIR@0@" && cp -v "@1@" "$DESTDIR@0@/@2@.mo"'.format(
+             get_option('prefix') / get_option('datadir') / 'khushu' / 'locale' / lang / 'LC_MESSAGES',
+             mo_target.full_path(),
+             alias
+          )
         )
-      )
+      endforeach
     endforeach
   endforeach
 endif

@@ -1,21 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <component type="desktop-application">
   <id>io.github.sniper1720.khushu</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Khushu</name>
-  <summary>An all-in-one Muslim app for Linux.</summary>
+  <summary>An all-in-one Muslim app for Linux</summary>
   <description>
     <p>
       Khushu is your all-in-one Muslim app for Linux desktop, tablets, and smartphones.
-      It centralizes your daily worship by providing accurate prayer times, native staggered 
-      Adkar notifications, and a roadmap that includes a dedicated Holy Quran experience—all 
+      It centralizes your daily worship by providing accurate prayer times, native staggered
+      Adkar notifications, and a dedicated Noble Quran reader—all
       with uncompromising privacy and zero telemetry.
     </p>
     <ul>
       <li>Accurate prayer calculation methods (Offline)</li>
       <li>Morning, Evening, and Night Adkar with built-in counters</li>
       <li>Customizable Adhan system notifications (Makkah/Madinah audio)</li>
+      <li>Dedicated Noble Quran reader with adjustable Arabic and translation typography</li>
       <li>Interactive Qibla compass</li>
       <li>Hijri calendar mapping</li>
       <li>Privacy-first local encryption for your location data</li>
@@ -26,27 +27,31 @@
   <launchable type="desktop-id">io.github.sniper1720.khushu.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <caption>Welcome &amp; Onboarding: Easy first-time setup for location, language, and calculation method.</caption>
+      <caption>Welcome &amp; Onboarding: Easy first-time setup for location, language, and calculation method</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/welcome.png</image>
     </screenshot>
     <screenshot>
-      <caption>Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date.</caption>
+      <caption>Prayer Times Dashboard: View accurate daily Salah times, upcoming prayer countdown, and Hijri date</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/prayer-times.png</image>
     </screenshot>
     <screenshot>
-      <caption>Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping.</caption>
+      <caption>Hijri Calendar: Browse the full Islamic calendar with accurate Hijri date mapping</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/hijri.png</image>
     </screenshot>
     <screenshot>
-      <caption>Interactive Qibla Direction: A beautifully rendered compass pointing to Mecca via GPS location or E-Compass sensor.</caption>
+      <caption>Interactive Qibla compass pointing to Mecca via GPS or E-Compass sensor</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/qibla.png</image>
     </screenshot>
     <screenshot>
-      <caption>Adkar &amp; Supplications: Access Daily Adkar with built-in counters and staggered notifications.</caption>
+      <caption>Noble Quran: Read Arabic ayat and translations with adjustable typography</caption>
+      <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/noble_quran.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Adkar &amp; Supplications: Access Daily Adkar with built-in counters and staggered notifications</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/adkar.png</image>
     </screenshot>
     <screenshot>
-      <caption>App Settings: Configure location, language, appearance, prayer calculation, Adhan audio, and notifications.</caption>
+      <caption>App Settings: Configure your location, language, appearance, and prayer settings</caption>
       <image>https://raw.githubusercontent.com/sniper1720/khushu/main/screenshots/settings.png</image>
     </screenshot>
   </screenshots>
@@ -66,6 +71,7 @@
     <keyword>salah</keyword>
     <keyword>adhan</keyword>
     <keyword>adkar</keyword>
+    <keyword>quran</keyword>
     <keyword>qibla</keyword>
     <keyword>muslim</keyword>
     <keyword>islam</keyword>
@@ -76,6 +82,17 @@
   </branding>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="1.1.0" date="2026-04-22">
+      <description>
+        <ul>
+          <li>Added a fully offline Noble Qur'an module featuring the Qur'anic text in Uthmanic orthography (rasm), translations, mushaf-style navigation, diacritic-aware search, saved reading positions, and adjustable typography.</li>
+          <li>Added Mawaqit API integration as an alternative prayer times source.</li>
+          <li>Added ICU-backed localization for location and timezone labels, plus validated custom IANA timezone editing.</li>
+          <li>Reorganized settings into clearer General, Prayer Setup, and Alerts sections with improved inline editing behavior.</li>
+          <li>Fixed Snap tray icon visibility via an upstream patch to ksni (resolves AppArmor D-Bus blocking).</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.3" date="2026-03-30">
       <description>
         <ul>

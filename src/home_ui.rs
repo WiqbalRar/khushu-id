@@ -1,21 +1,32 @@
-use chrono::{Datelike, Duration, Local};
+use chrono::Datelike;
+use chrono::Duration;
 use gtk::Label;
 use gtk4 as gtk;
+use gtk4::prelude::WidgetExt;
 use hijri_date::HijriDate;
 
 use crate::config::AppConfig;
 use crate::i18n::tr;
 use crate::location;
-use crate::time::PrayerEngine;
+
+fn contains_arabic(text: &str) -> bool {
+    text.chars().any(|c| {
+        let code = c as u32;
+        (0x0600..=0x06FF).contains(&code)
+            || (0x0750..=0x077F).contains(&code)
+            || (0x08A0..=0x08FF).contains(&code)
+            || (0xFB50..=0xFDFF).contains(&code)
+            || (0xFE70..=0xFEFF).contains(&code)
+    })
+}
 
 pub fn refresh_home_ui(
-    hero_label: &Label,
     hijri_label: &Label,
     location_label: &Label,
     lang: &str,
     config: &AppConfig,
 ) {
-    let now = Local::now();
+    let now = crate::time::effective_now(config);
     let adjusted_now = now + Duration::days(config.hijri_offset);
     let hijri_result = HijriDate::from_gr(
         adjusted_now.year() as usize,
@@ -54,33 +65,23 @@ pub fn refresh_home_ui(
     };
     hijri_label.set_label(&hijri_text);
 
-    if let Some(city) = &config.city_name {
-        location_label.set_label(&location::short_city_with_country(city));
+    let mawaqit_cache = if config.prayer_times_source == crate::config::PrayerTimesSource::Mawaqit {
+        config.mawaqit_cache.as_ref()
+    } else {
+        None
+    };
+
+    if let Some(text) =
+        location::display_city_label(config.city_name.as_deref(), mawaqit_cache, lang)
+    {
+        location_label.set_label(&text);
+        if contains_arabic(&text) {
+            location_label.add_css_class("arabic-text");
+        } else {
+            location_label.remove_css_class("arabic-text");
+        }
     } else {
         location_label.set_label(&format!("{:.2}, {:.2}", config.latitude, config.longitude));
-    }
-
-    let engine = PrayerEngine::new(
-        config.latitude,
-        config.longitude,
-        &config.method,
-        &config.madhab,
-    );
-    if let Some(next) = engine.next_prayer(now.date_naive()) {
-        let name = tr(&next.0, lang);
-        let time_str = next.1.format("%H:%M").to_string();
-
-        let diff = next.1.signed_duration_since(Local::now());
-        let hours = diff.num_hours();
-        let minutes = diff.num_minutes() % 60;
-
-        let label_text = if hours > 0 {
-            format!("{} {} ({}h {}m)", name, time_str, hours, minutes)
-        } else {
-            format!("{} {} ({}m)", name, time_str, minutes)
-        };
-        hero_label.set_label(&label_text);
-    } else {
-        hero_label.set_label("");
+        location_label.remove_css_class("arabic-text");
     }
 }
