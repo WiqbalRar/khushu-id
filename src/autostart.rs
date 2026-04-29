@@ -1,3 +1,4 @@
+use crate::platform::{is_sandboxed, is_snap};
 use gtk4::glib;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
@@ -16,14 +17,6 @@ fn get_snap_autostart_path() -> Option<PathBuf> {
         path.push(".config/autostart/io.github.sniper1720.khushu.desktop");
         path
     })
-}
-
-fn is_sandboxed() -> bool {
-    std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some()
-}
-
-fn is_snap_sandboxed() -> bool {
-    std::env::var_os("SNAP").is_some()
 }
 
 fn enable_fs() {
@@ -136,7 +129,7 @@ async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
 }
 
 pub fn sync(should_enable: bool) {
-    if is_snap_sandboxed() {
+    if is_snap() {
         if should_enable {
             enable_snap_autostart();
         } else {

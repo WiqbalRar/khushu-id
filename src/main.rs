@@ -11,6 +11,7 @@ mod mawaqit;
 mod nav_ui;
 mod notifications;
 mod pages;
+mod platform;
 mod qibla;
 mod qibla_ui;
 mod quran;
@@ -24,6 +25,7 @@ use qibla::CompassManager;
 
 mod i18n;
 use crate::i18n::tr;
+use crate::platform::is_sandboxed;
 use adw::prelude::*;
 use adw::{Application, ApplicationWindow, HeaderBar};
 use background_tasks::start_background_tasks;
@@ -54,8 +56,7 @@ fn resolved_language_code(lang: &str) -> String {
 async fn main() {
     env_logger::init();
 
-    let is_sandboxed =
-        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
+    let is_sandboxed = is_sandboxed();
 
     if !is_sandboxed {
         gtk::glib::set_prgname(Some("khushu"));
@@ -200,7 +201,7 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
     if config.borrow().location_mode == LocationMode::Auto {
         let tx = loc_tx.clone();
         let lang = config.borrow().language.clone();
-        tokio::spawn(async move {
+        gtk::glib::spawn_future_local(async move {
             if let Ok((lat, lon, name)) = location::fetch_auto_location(&lang).await {
                 let _ = tx.send((lat, lon, Some(name)));
             }
@@ -376,7 +377,7 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
         .application_name(tr("Khushu", &resolved_lang))
         .application_icon("io.github.sniper1720.khushu")
         .developer_name(tr("Djalel Oukid (sniper1720)", &resolved_lang))
-        .version("1.1.0")
+        .version("1.1.1")
         .comments(tr("An all-in-one Muslim app for Linux", &resolved_lang))
         .website("https://github.com/sniper1720/khushu")
         .issue_url("https://github.com/sniper1720/khushu/issues")

@@ -40,6 +40,9 @@ impl PrayerEngine {
             CalculationMethod::Qatar => Method::Qatar,
             CalculationMethod::Singapore => Method::Singapore,
             CalculationMethod::Turkey => Method::Turkey,
+            CalculationMethod::Kemenag => Method::Singapore,
+            CalculationMethod::France => Method::Other,
+            CalculationMethod::Algeria => Method::Other,
         };
 
         let salah_madhab = match madhab {
@@ -47,7 +50,24 @@ impl PrayerEngine {
             MadhabChoice::Shafi => Madhab::Shafi,
         };
 
-        let params = Configuration::with(salah_method, salah_madhab);
+        let mut params = Configuration::with(salah_method, salah_madhab);
+
+        match method {
+            CalculationMethod::Kemenag => {
+                params.fajr_angle = 20.0;
+                params.isha_angle = 18.0;
+            }
+            CalculationMethod::France => {
+                params.fajr_angle = 12.0;
+                params.isha_angle = 12.0;
+            }
+            CalculationMethod::Algeria => {
+                params.fajr_angle = 18.0;
+                params.isha_angle = 17.0;
+                params.method_adjustments.maghrib = 3;
+            }
+            _ => {}
+        }
 
         Self { params, location }
     }

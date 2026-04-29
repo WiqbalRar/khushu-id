@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.1.0\n"
+"Project-Id-Version: Khushu 1.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 02:25+0100\n"
 "PO-Revision-Date: 2026-04-22 12:00+0100"
@@ -536,7 +536,7 @@ msgstr "رابطة العالم الإسلامي"
 
 #: src/settings_ui.rs:823
 msgid "ISNA"
-msgstr "ISNA"
+msgstr "أمريكا الشمالية (ISNA)"
 
 #: src/settings_ui.rs:824
 msgid "Egypt"
@@ -573,6 +573,18 @@ msgstr "سنغافورة"
 #: src/settings_ui.rs:832
 msgid "Turkey"
 msgstr "تركيا"
+
+#: src/settings_ui.rs:881
+msgid "KEMENAG"
+msgstr "وزارة الشؤون الدينية الإندونيسية"
+
+#: src/settings_ui.rs:882
+msgid "France (UOIF)"
+msgstr "فرنسا (UOIF)"
+
+#: src/settings_ui.rs:883
+msgid "Algeria"
+msgstr "الجزائر"
 
 #: src/settings_ui.rs:939
 msgid "Asr Calculation (Madhab)"
@@ -1195,6 +1207,30 @@ msgstr "تنبيه قبل الصلاة"
 msgid "Get notified before the prayer time."
 msgstr "تلقي تنبيه قبل وقت الصلاة."
 
+#: src/settings_ui.rs:1088
+msgid "Iqamah Alert"
+msgstr "تنبيه الإقامة"
+
+#: src/settings_ui.rs:1089
+msgid "Get notified when it's time for Iqamah."
+msgstr "تلقي تنبيه عند حلول وقت الإقامة."
+
+#: src/settings_ui.rs:1100
+msgid "Adkar Reminders"
+msgstr "تذكيرات الأذكار"
+
+#: src/settings_ui.rs:1101
+msgid "Morning, evening, and night invocation reminders."
+msgstr "تذكيرات الأذكار صباحاً ومساءً وليلاً."
+
+#: src/settings_ui.rs:1113
+msgid "Adhan Only Mode"
+msgstr "وضع الأذان فقط"
+
+#: src/settings_ui.rs:1114
+msgid "Show only the Adhan notification. Disables all other notifications."
+msgstr "إظهار إشعار الأذان فقط. تعطيل جميع الإشعارات الأخرى."
+
 #: src/settings_ui.rs:1006
 msgid "Alert Time"
 msgstr "وقت التنبيه"
@@ -1399,3 +1435,23 @@ msgstr "التركية"
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
 msgid "Language"
 msgstr "اللغة"
+
+#: CHANGELOG
+msgid "Added Adhan Only Mode toggle to keep only Adhan alerts"
+msgstr "إضافة وضع الأذان فقط للاكتفاء بإشعارات الأذان"
+
+#: CHANGELOG
+msgid "Added Iqamah Alert toggle to separately control Iqamah notifications"
+msgstr "إضافة خيار تنبيه الإقامة للتحكم بشكل منفصل في إشعارات الإقامة"
+
+#: CHANGELOG
+msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)"
+msgstr "إضافة طرق حساب جديدة: فرنسا (UOIF)، الجزائر (وزارة الشؤون الدينية والأوقاف)، وKEMENAG (إندونيسيا)"
+
+#: CHANGELOG
+msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support"
+msgstr "إصلاح ظهور أيقونة Flatpak عبر دعم مسارات الأيقونات في XDG Portal"
+
+#: CHANGELOG
+msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window"
+msgstr "تحسين فتح التطبيق من شريط النظام: خيار \"فتح خشوع\" يعرض نافذة التطبيق مباشرة"

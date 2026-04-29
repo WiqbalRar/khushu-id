@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.1] — 2026-04-25
+
+### Added
+- Added **Adhan Only Mode** toggle - disables pre-prayer, Iqamah, and Adkar notifications, keeping only Adhan notifications
+- Added **Iqamah Alert** toggle - separate control for Iqamah notifications
+- Added **new calculation methods** for Muslim communities:
+  - France (UOIF): 12°/12° angles
+  - Algeria (Ministry of Religious Affairs): 18°/17° angles with +3min Maghrib adjustment
+  - KEMENAG (Indonesian Ministry of Religious Affairs): 20°/18° angles
+
+### Fixed
+- Fixed Flatpak tray icon visibility by implementing XDG portal icon path support with proper filesystem permissions
+
+### Changed
+- Improved tray activation: clicking "Open Khushu" from system tray now directly shows the app window (in foreground) instead of first showing a "ready" notification
+
 ## [1.1.0] — 2026-04-22
 
 ### Added

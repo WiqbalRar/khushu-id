@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.1.0\n"
+"Project-Id-Version: Khushu 1.1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 02:25+0100\n"
 "PO-Revision-Date: 2026-04-22 12:00+0100"
@@ -574,6 +574,18 @@ msgstr "Singapur"
 #: src/settings_ui.rs:832
 msgid "Turkey"
 msgstr "Türkiye (Diyanet)"
+
+#: src/settings_ui.rs:881
+msgid "KEMENAG"
+msgstr "KEMENAG (Endonezya)"
+
+#: src/settings_ui.rs:882
+msgid "France (UOIF)"
+msgstr "Fransa (UOIF)"
+
+#: src/settings_ui.rs:883
+msgid "Algeria"
+msgstr "Cezayir"
 
 #: src/settings_ui.rs:939
 msgid "Asr Calculation (Madhab)"
@@ -1189,6 +1201,30 @@ msgstr "Namaz Öncesi Uyarı"
 msgid "Get notified before the prayer time."
 msgstr "Namaz vaktinden önce bildirim alın."
 
+#: src/settings_ui.rs:1088
+msgid "Iqamah Alert"
+msgstr "İkamah Uyarısı"
+
+#: src/settings_ui.rs:1089
+msgid "Get notified when it's time for Iqamah."
+msgstr "İkamah vakti geldiğinde bildirim alın."
+
+#: src/settings_ui.rs:1100
+msgid "Adkar Reminders"
+msgstr "Zikir Hatırlatıcıları"
+
+#: src/settings_ui.rs:1101
+msgid "Morning, evening, and night invocation reminders."
+msgstr "Sabah, akşam ve gece zikir hatırlatıcıları."
+
+#: src/settings_ui.rs:1113
+msgid "Athan Only Mode"
+msgstr "Yalnızca Ezan Modu"
+
+#: src/settings_ui.rs:1114
+msgid "Show only the Adhan notification. Disables all other notifications."
+msgstr "Yalnızca Ezan bildirimini gösterir. Diğer tüm bildirimleri devre dışı bırakır."
+
 #: src/settings_ui.rs:1006
 msgid "Alert Time"
 msgstr "Uyarı Zamanı"
@@ -1387,3 +1423,23 @@ msgstr "Türkçe"
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
 msgid "Language"
 msgstr "Dil"
+
+#: CHANGELOG
+msgid "Added Adhan Only Mode toggle to keep only Adhan alerts"
+msgstr "Yalnızca Ezan bildirimleri için Ezan Modu seçeneği eklendi"
+
+#: CHANGELOG
+msgid "Added Iqamah Alert toggle to separately control Iqamah notifications"
+msgstr "Kamet bildirimleri için ayrı kontrol sağlayan Kamet Uyarısı seçeneği eklendi"
+
+#: CHANGELOG
+msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)"
+msgstr "Fransa (UOIF), Cezayir (Din İşleri ve Vakıflar Bakanlığı) ve KEMENAG (Endonezya) için yeni hesaplama yöntemleri eklendi"
+
+#: CHANGELOG
+msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support"
+msgstr "Flatpak tepsi simgesi görünürlüğü, XDG portal simge yolu desteği ile düzeltildi"
+
+#: CHANGELOG
+msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window"
+msgstr "Sistem tepsisindeki \"Open Khushu\" seçeneği artık uygulama penceresini doğrudan açıyor"

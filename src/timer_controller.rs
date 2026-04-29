@@ -199,6 +199,7 @@ pub fn start_prayer_timer(
 
             if is_core_timer
                 && config.pre_prayer_notify
+                && !config.adhan_only_mode
                 && total_seconds > 0
                 && total_seconds <= (config.pre_prayer_minutes as i64 * 60)
                 && name != "Sunrise"
@@ -255,7 +256,7 @@ pub fn start_prayer_timer(
                 }
             }
 
-            if is_core_timer && config.adkar_notification_enabled {
+            if is_core_timer && config.adkar_notification_enabled && !config.adhan_only_mode {
                 let mut d_lists = daily_adkar_lists.borrow_mut();
                 if d_lists.date != today {
                     d_lists.morning = adkar::get_n_random_dikrs("morning", 2);
@@ -428,7 +429,11 @@ pub fn start_prayer_timer(
                         remaining <= 0 && remaining > -60 && notified.as_deref() != Some(iq_name)
                     })
                 };
-                if should_notify && let Some((iq_name, _)) = iqamah_state.borrow().as_ref() {
+                if should_notify
+                    && config.iqamah_notify
+                    && !config.adhan_only_mode
+                    && let Some((iq_name, _)) = iqamah_state.borrow().as_ref()
+                {
                     show_notification(
                         &format!("{} {}", tr("Iqamah", &lang), tr(iq_name, &lang)),
                         &format!(

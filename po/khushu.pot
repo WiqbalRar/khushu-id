@@ -546,6 +546,18 @@ msgstr ""
 msgid "Turkey"
 msgstr ""
 
+#: src/settings_ui.rs:881
+msgid "KEMENAG"
+msgstr ""
+
+#: src/settings_ui.rs:882
+msgid "France (UOIF)"
+msgstr ""
+
+#: src/settings_ui.rs:883
+msgid "Algeria"
+msgstr ""
+
 #: src/settings_ui.rs:939
 msgid "Asr Calculation (Madhab)"
 msgstr ""
@@ -1160,12 +1172,36 @@ msgstr ""
 msgid "Get notified before the prayer time."
 msgstr ""
 
-#: src/settings_ui.rs:1006
+#: src/settings_ui.rs:1100
+msgid "Adkar Reminders"
+msgstr ""
+
+#: src/settings_ui.rs:1069
 msgid "Alert Time"
 msgstr ""
 
-#: src/settings_ui.rs:1007
+#: src/settings_ui.rs:1070
 msgid "Minutes before prayer"
+msgstr ""
+
+#: src/settings_ui.rs:1058
+msgid "Iqamah Alert"
+msgstr ""
+
+#: src/settings_ui.rs:1059
+msgid "Get notified when it's time for Iqamah."
+msgstr ""
+
+#: src/settings_ui.rs:1063
+msgid "Show morning/evening adhkar after prayers."
+msgstr ""
+
+#: src/settings_ui.rs:1103
+msgid "Adhan Only Mode"
+msgstr ""
+
+#: src/settings_ui.rs:1104
+msgid "Show only the Adhan notification. Disables all other notifications."
 msgstr ""
 
 #: src/settings_ui.rs:1033
@@ -1357,4 +1393,24 @@ msgstr ""
 
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
 msgid "Language"
+msgstr ""
+
+#: CHANGELOG
+msgid "Added Adhan Only Mode toggle to keep only Adhan alerts"
+msgstr ""
+
+#: CHANGELOG
+msgid "Added Iqamah Alert toggle to separately control Iqamah notifications"
+msgstr ""
+
+#: CHANGELOG
+msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)"
+msgstr ""
+
+#: CHANGELOG
+msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support"
+msgstr ""
+
+#: CHANGELOG
+msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window"
 msgstr ""

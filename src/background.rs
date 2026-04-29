@@ -1,4 +1,5 @@
 use crate::i18n::tr;
+use crate::platform::{get_flatpak_tray_icon_path, is_flatpak, is_sandboxed, is_snap};
 use adw::prelude::*;
 use ksni::{MenuItem, Tray};
 use libadwaita as adw;
@@ -27,20 +28,11 @@ fn get_tray_data() -> Arc<RwLock<KhushuTrayData>> {
         .clone()
 }
 
-fn tray_icon_theme_path() -> String {
-    if let Ok(snap) = std::env::var("SNAP") {
-        return format!("{snap}/usr/share/icons");
+fn get_flatpak_tray_icon() -> Option<std::path::PathBuf> {
+    if !is_flatpak() {
+        return None;
     }
-
-    if std::path::Path::new("/app/share/icons").exists() {
-        return "/app/share/icons".to_string();
-    }
-
-    if std::path::Path::new("/usr/share/icons").exists() {
-        return "/usr/share/icons".to_string();
-    }
-
-    String::new()
+    get_flatpak_tray_icon_path()
 }
 
 impl Tray for KhushuTray {
@@ -51,19 +43,27 @@ impl Tray for KhushuTray {
                 return svg_path;
             }
         }
+        if let Some(path) = get_flatpak_tray_icon() {
+            return path.to_string_lossy().to_string();
+        }
         "io.github.sniper1720.khushu".into()
     }
 
     fn icon_theme_path(&self) -> String {
-        tray_icon_theme_path()
+        if is_snap() {
+            return format!("{}/usr/share/icons", std::env::var("SNAP").unwrap());
+        }
+        if is_flatpak() {
+            return "/app/share/icons".to_string();
+        }
+        if std::path::Path::new("/usr/share/icons").exists() {
+            return "/usr/share/icons".to_string();
+        }
+        String::new()
     }
 
     fn id(&self) -> String {
         "io.github.sniper1720.khushu".into()
-    }
-
-    fn icon_pixmap(&self) -> Vec<ksni::Icon> {
-        Vec::new()
     }
 
     fn activate(&mut self, _x: i32, _y: i32) {
@@ -158,8 +158,7 @@ async fn setup_tray_icon() {
 
     let tray = KhushuTray { data };
 
-    let is_sandboxed =
-        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
+    let is_sandboxed = is_sandboxed();
 
     let tray_builder = tray
         .disable_dbus_name(is_sandboxed)
@@ -168,9 +167,6 @@ async fn setup_tray_icon() {
     match tray_builder.spawn().await {
         Ok(handle) => {
             let _ = TRAY_HANDLE.set(handle);
-            tokio::spawn(async move {
-                std::future::pending::<()>().await;
-            });
         }
         Err(e) => {
             TRAY_SPAWNED.store(false, Ordering::SeqCst);
@@ -188,15 +184,14 @@ pub fn update_tray_labels(lang: &str) {
     }
 
     if let Some(handle) = TRAY_HANDLE.get().cloned() {
-        tokio::spawn(async move {
+        gtk4::glib::spawn_future_local(async move {
             let _ = handle.update(|_| {}).await;
         });
     }
 }
 
 pub fn setup_background() {
-    let is_sandboxed =
-        std::path::Path::new("/.flatpak-info").exists() || std::env::var_os("SNAP").is_some();
+    let is_sandboxed = is_sandboxed();
 
     gtk4::glib::spawn_future_local(async move {
         if is_sandboxed && let Err(e) = request_background_portal().await {

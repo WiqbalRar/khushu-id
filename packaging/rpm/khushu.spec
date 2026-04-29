@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -56,6 +56,13 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Sat Apr 25 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.1-1
+- Added Adhan Only Mode toggle to keep only Adhan alerts
+- Added Iqamah Alert toggle to separately control Iqamah notifications
+- Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)
+- Fixed Flatpak tray icon visibility with XDG portal icon path support
+- Improved tray activation: clicking "Open Khushu" from system tray now directly shows the app window
+
 * Fri Apr 10 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.0-1
 - Added a fully offline Noble Quran module featuring Uthmanic text, translations, mushaf-style navigation, diacritic-aware search, saved reading positions, and adjustable typography.
 - Added Mawaqit API integration as an alternative prayer times source.

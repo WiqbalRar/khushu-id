@@ -82,6 +82,17 @@
   </branding>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="1.1.1" date="2026-04-25">
+      <description>
+        <ul>
+          <li>Added Adhan Only Mode toggle to keep only Adhan alerts.</li>
+          <li>Added Iqamah Alert toggle to separately control Iqamah notifications.</li>
+          <li>Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia).</li>
+          <li>Fixed Flatpak tray icon visibility with XDG portal icon path support.</li>
+          <li>Improved tray activation: clicking "Open Khushu" from system tray now directly shows the app window.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0" date="2026-04-22">
       <description>
         <ul>

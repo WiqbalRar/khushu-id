@@ -6,7 +6,7 @@
   [![Rust](https://img.shields.io/badge/Language-Rust-fa4f28?style=flat-square&logo=rust)](https://www.rust-lang.org/)
   [![GTK4](https://img.shields.io/badge/GUI-GTK4-4a86cf?style=flat-square&logo=gnome)](https://gtk.org/)
   [![Libadwaita](https://img.shields.io/badge/Style-Libadwaita-62a0ea?style=flat-square&logo=gnome)](https://gnome.pages.gitlab.gnome.org/libadwaita/)
-  [![Version](https://img.shields.io/badge/Version-1.1.0-success?style=flat-square)](#)
+  [![Version](https://img.shields.io/badge/Version-1.1.1-success?style=flat-square)](#)
   [![License](https://img.shields.io/badge/License-GPL_v3-blue?style=flat-square)](LICENSE)
   [![Translations](https://img.shields.io/badge/Languages-5_Supported-9cf?style=flat-square)](#)
 
@@ -61,7 +61,7 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
 
 Khushu is under active development. Our goal is to build the premier all-in-one Islamic ecosystem for Linux.
 
-✓ v1.1.0 delivered the Noble Quran reader, traveler timezone controls, ICU-backed location localization, and typography customization.
+✓ v1.1.1 includes notification filtering with Adhan-only mode, Iqamah alerts toggle, Flatpak tray icon fix, and new France (UOIF) and Algeria calculation methods.
 
 - **Islamic Essentials (v1.2.0)**: We are working on a few more tools, including a **Global Typography** customizer (Arabic & UI fonts), a simple Zakat calculator, a way to reflect on the 99 Names of Allah, and a collection of the Forty Hadith of Nawawi.
 - **Beyond the Desktop (v2.0.0)**: We want Khushu to be wherever you are. This means perfecting the experience for Linux mobile (Phosh/Plasma) and exploring an Android version by leveraging the same core logic we already built.
@@ -81,6 +81,27 @@ Khushu is under active development. Our goal is to build the premier all-in-one 
 | **Flatpak (Flathub)** | `flatpak install flathub io.github.sniper1720.khushu` |
 | **Snap (Snap Store)** | `sudo snap install khushu` |
 | **Arch Linux (AUR)** | `yay -S khushu` |
+
+#### Testing Flatpak Builds Locally
+
+To build and test Flatpak packages locally:
+
+```bash
+# Build the Flatpak from local manifest
+flatpak-builder --user --install build-dir packaging/flatpak/io.github.sniper1720.khushu.yml
+
+# Run the installed Flatpak
+flatpak run io.github.sniper1720.khushu
+
+# Or build a bundle for testing
+flatpak-builder --force-clean --bundle-filters=runtime packaging/flatpak/io.github.sniper1720.khushu.yml khushu.flatpak
+flatpak install --user khushu.flatpak
+```
+
+To validate the Flatpak manifest:
+```bash
+flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest packaging/flatpak/io.github.sniper1720.khushu.yml
+```
 
 ### Binary Packages
 Pre-compiled **.deb** and **.rpm** binaries are available on the [GitHub Releases](https://github.com/sniper1720/khushu/releases) page for manual installation on Debian, Ubuntu, Fedora, and openSUSE.

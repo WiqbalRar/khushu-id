@@ -878,6 +878,9 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
         tr("Qatar", &lang_val),
         tr("Singapore", &lang_val),
         tr("Turkey", &lang_val),
+        tr("KEMENAG", &lang_val),
+        tr("France (UOIF)", &lang_val),
+        tr("Algeria", &lang_val),
     ];
     let methods_slices: Vec<&str> = methods_strings.iter().map(|s| s.as_str()).collect();
     let methods = StringList::new(&methods_slices);
@@ -899,6 +902,9 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
         CalculationMethod::Qatar => 8,
         CalculationMethod::Singapore => 9,
         CalculationMethod::Turkey => 10,
+        CalculationMethod::Kemenag => 11,
+        CalculationMethod::France => 12,
+        CalculationMethod::Algeria => 13,
     });
 
     let config_method = config.clone();
@@ -916,6 +922,9 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
             8 => CalculationMethod::Qatar,
             9 => CalculationMethod::Singapore,
             10 => CalculationMethod::Turkey,
+            11 => CalculationMethod::Kemenag,
+            12 => CalculationMethod::France,
+            13 => CalculationMethod::Algeria,
             _ => CalculationMethod::MWL,
         };
         config_method.borrow_mut().method = method;
@@ -1047,11 +1056,68 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
         .build();
     notify_toggle.set_active(config.borrow().pre_prayer_notify);
 
-    let config_notify = config.clone();
-    notify_toggle.connect_active_notify(move |row| {
-        config_notify.borrow_mut().pre_prayer_notify = row.is_active();
-        AppConfig::save_shared(&config_notify);
+    let iqamah_notify_toggle = adw::SwitchRow::builder()
+        .title(tr("Iqamah Alert", &lang_val))
+        .subtitle(tr("Get notified when it's time for Iqamah.", &lang_val))
+        .build();
+    let adkar_toggle = adw::SwitchRow::builder()
+        .title(tr("Adkar", &lang_val))
+        .subtitle(tr(
+            "Morning, evening, and night invocation reminders.",
+            &lang_val,
+        ))
+        .build();
+
+    iqamah_notify_toggle.set_active(config.borrow().iqamah_notify);
+    adkar_toggle.set_active(config.borrow().adkar_notification_enabled);
+
+    let notify_toggle_for_sync = notify_toggle.clone();
+    let iqamah_toggle_for_sync = iqamah_notify_toggle.clone();
+    let adkar_toggle_for_sync = adkar_toggle.clone();
+
+    let adhan_only_toggle = adw::SwitchRow::builder()
+        .title(tr("Adhan Only Mode", &lang_val))
+        .subtitle(tr(
+            "Show only the Adhan notification. Disables all other notifications.",
+            &lang_val,
+        ))
+        .build();
+    adhan_only_toggle.set_active(config.borrow().adhan_only_mode);
+
+    let cfg = config.clone();
+    let sync_ui = move |enabled: bool| {
+        notify_toggle_for_sync.set_sensitive(!enabled);
+        iqamah_toggle_for_sync.set_sensitive(!enabled);
+        adkar_toggle_for_sync.set_sensitive(!enabled);
+        if enabled {
+            notify_toggle_for_sync.set_active(false);
+            iqamah_toggle_for_sync.set_active(false);
+            adkar_toggle_for_sync.set_active(false);
+        } else {
+            notify_toggle_for_sync.set_active(true);
+            iqamah_toggle_for_sync.set_active(true);
+            adkar_toggle_for_sync.set_active(true);
+        }
+    };
+
+    sync_ui(config.borrow().adhan_only_mode);
+
+    adhan_only_toggle.connect_active_notify(move |row| {
+        let enabled = row.is_active();
+        cfg.borrow_mut().adhan_only_mode = enabled;
+        if enabled {
+            cfg.borrow_mut().pre_prayer_notify = false;
+            cfg.borrow_mut().iqamah_notify = false;
+            cfg.borrow_mut().adkar_notification_enabled = false;
+        } else {
+            cfg.borrow_mut().pre_prayer_notify = true;
+            cfg.borrow_mut().iqamah_notify = true;
+            cfg.borrow_mut().adkar_notification_enabled = true;
+        }
+        sync_ui(enabled);
+        AppConfig::save_shared(&cfg);
     });
+
     notif_group.add(&notify_toggle);
 
     let notify_time = adw::SpinRow::builder()
@@ -1070,8 +1136,13 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
 
     let config_time = config.clone();
     notify_time.adjustment().connect_value_changed(move |adj| {
-        config_time.borrow_mut().pre_prayer_minutes = adj.value() as u32;
-        AppConfig::save_shared(&config_time);
+        let new_minutes = adj.value() as u32;
+        let config = config_time.borrow().clone();
+        std::thread::spawn(move || {
+            let mut cfg = config;
+            cfg.pre_prayer_minutes = new_minutes;
+            cfg.save();
+        });
     });
     notif_group.add(&notify_time);
 
@@ -1080,6 +1151,28 @@ pub fn setup_settings_ui<'a>(params: SettingsUiParams<'a>) {
         time_row_clone.set_visible(row.is_active());
     });
     notify_time.set_visible(config.borrow().pre_prayer_notify);
+
+    notif_group.add(&iqamah_notify_toggle);
+    notif_group.add(&adkar_toggle);
+    notif_group.add(&adhan_only_toggle);
+
+    let config_notify = config.clone();
+    notify_toggle.connect_active_notify(move |row| {
+        config_notify.borrow_mut().pre_prayer_notify = row.is_active();
+        AppConfig::save_shared(&config_notify);
+    });
+
+    let config_iq = config.clone();
+    iqamah_notify_toggle.connect_active_notify(move |row| {
+        config_iq.borrow_mut().iqamah_notify = row.is_active();
+        AppConfig::save_shared(&config_iq);
+    });
+
+    let config_adkar = config.clone();
+    adkar_toggle.connect_active_notify(move |row| {
+        config_adkar.borrow_mut().adkar_notification_enabled = row.is_active();
+        AppConfig::save_shared(&config_adkar);
+    });
 
     let test_notify_btn = Button::builder()
         .label(tr("Test Notification", &lang_val))

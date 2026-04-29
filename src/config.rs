@@ -38,6 +38,12 @@ pub enum CalculationMethod {
     Qatar,
     Singapore,
     Turkey,
+    #[serde(rename = "kemenag")]
+    Kemenag,
+    #[serde(rename = "france")]
+    France,
+    #[serde(rename = "algeria")]
+    Algeria,
 }
 
 #[derive(Serialize, Deserialize, Default, Debug, Clone, PartialEq)]
@@ -125,6 +131,10 @@ pub struct AppConfig {
     #[serde(default)]
     pub adkar_notification_enabled: bool,
     #[serde(default)]
+    pub iqamah_notify: bool,
+    #[serde(default)]
+    pub adhan_only_mode: bool,
+    #[serde(default)]
     pub language: String,
     #[serde(default)]
     pub theme: ThemeMode,
@@ -207,6 +217,8 @@ impl Default for AppConfig {
             hijri_offset: 0,
             favorites: Vec::new(),
             adkar_notification_enabled: true,
+            iqamah_notify: true,
+            adhan_only_mode: false,
             language: "auto".to_string(),
             theme: ThemeMode::System,
             is_configured: false,
@@ -371,9 +383,12 @@ impl AppConfig {
     }
 
     pub fn save_shared(config: &Rc<RefCell<AppConfig>>) {
-        let mut cfg = config.borrow_mut();
-        cfg.sync_quran_state_from_disk();
-        cfg.save();
+        let cfg = config.borrow().clone();
+        std::thread::spawn(move || {
+            let mut cfg = cfg;
+            cfg.sync_quran_state_from_disk();
+            cfg.save();
+        });
     }
 
     pub fn config_path() -> PathBuf {

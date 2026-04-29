@@ -1,3 +1,13 @@
+khushu (1.1.1) unstable; urgency=medium
+
+  * Added Adhan Only Mode toggle to keep only Adhan alerts
+  * Added Iqamah Alert toggle to separately control Iqamah notifications
+  * Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)
+  * Fixed Flatpak tray icon visibility with XDG portal icon path support
+  * Improved tray activation: clicking "Open Khushu" from system tray now directly shows the app window
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Sat, 25 Apr 2026 12:00:00 +0100
+
 khushu (1.1.0) unstable; urgency=medium
 
   * Added a fully offline Noble Quran module featuring Uthmanic text, translations, mushaf-style navigation, diacritic-aware search, saved reading positions, and adjustable typography.

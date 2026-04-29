@@ -58,7 +58,7 @@ impl CompassManager {
         let available_clone = self.available.clone();
         let epoch_clone = self.epoch.clone();
 
-        tokio::spawn(async move {
+        gtk4::glib::spawn_future_local(async move {
             loop {
                 if epoch_clone.load(Ordering::SeqCst) != my_epoch {
                     log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
