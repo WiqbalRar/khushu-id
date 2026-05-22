@@ -2,7 +2,6 @@ mod adkar;
 mod audio;
 mod autostart;
 mod background;
-mod background_tasks;
 mod calendar;
 mod config;
 mod home_ui;
@@ -15,7 +14,6 @@ mod platform;
 mod qibla;
 mod qibla_ui;
 mod quran;
-mod security;
 mod settings_ui;
 mod time;
 mod timer_controller;
@@ -25,21 +23,21 @@ use qibla::CompassManager;
 
 mod i18n;
 use crate::i18n::tr;
-use crate::platform::is_sandboxed;
+use crate::platform::{is_flatpak, is_sandboxed};
 use adw::prelude::*;
 use adw::{Application, ApplicationWindow, HeaderBar};
-use background_tasks::start_background_tasks;
 use config::{AppConfig, LocationMode};
 
 use gtk4 as gtk;
 use libadwaita as adw;
 use std::cell::RefCell;
 use std::rc::Rc;
+use std::sync::atomic::{AtomicU64, Ordering};
 use timer_controller::start_prayer_timer;
 
 use gtk::Button;
 
-const APP_ID: &str = match option_env!("APP_ID") {
+pub(crate) const APP_ID: &str = match option_env!("APP_ID") {
     Some(id) => id,
     None => "io.github.sniper1720.khushu",
 };
@@ -50,6 +48,21 @@ fn resolved_language_code(lang: &str) -> String {
     } else {
         lang.to_string()
     }
+}
+
+fn connect_notify_blocked<T, F>(
+    obj: &T,
+    property: Option<&str>,
+    f: F,
+) -> gtk4::glib::SignalHandlerId
+where
+    T: gtk4::glib::prelude::ObjectExt,
+    F: Fn(&T, &gtk4::glib::ParamSpec) + 'static,
+{
+    obj.connect_notify_local(property, move |obj, pspec| {
+        let _guard = obj.freeze_notify();
+        f(obj, pspec);
+    })
 }
 
 #[tokio::main]
@@ -69,14 +82,30 @@ async fn main() {
     gtk::gio::resources_register_include!("khushu-resources.gresource")
         .expect("Failed to register embedded resources");
 
-    let config = Rc::new(RefCell::new(AppConfig::load()));
+    crate::audio::preload_builtin_audio();
 
-    crate::autostart::sync(config.borrow().autostart);
+    AppConfig::start_save_thread();
+
+    let config = AppConfig::load();
+
+    {
+        if let Some(ref path) = config.adhan_sound_path()
+            && !std::path::Path::new(path).exists()
+        {
+            log::info!("Resetting stale custom audio path: {path}");
+            config.set_adhan_sound_path(None);
+            config.save();
+        }
+    }
 
     crate::i18n::save_original_locale();
-    crate::i18n::update_locale(&config.borrow().language);
+    crate::i18n::update_locale(&config.language());
 
     adw::init().expect("Failed to initialize Libadwaita");
+
+    if !is_flatpak() {
+        crate::autostart::sync(config.autostart());
+    }
 
     crate::i18n::rebind_locale_after_adw_init();
 
@@ -91,7 +120,7 @@ async fn main() {
     let app_startup_clone = app.clone();
     app.connect_startup(move |_| {
         let style_manager = adw::StyleManager::default();
-        match config_startup.borrow().theme {
+        match config_startup.theme() {
             config::ThemeMode::Light => {
                 style_manager.set_color_scheme(adw::ColorScheme::ForceLight)
             }
@@ -156,16 +185,16 @@ async fn main() {
     let config_activate = config.clone();
     let app_hold_activate = app_hold.clone();
     app.connect_activate(move |app| {
-        let resolved_lang = resolved_language_code(&config_activate.borrow().language);
+        let resolved_lang = resolved_language_code(&config_activate.language());
         if resolved_lang == "ar" {
             gtk::Widget::set_default_direction(gtk::TextDirection::Rtl);
         } else {
             gtk::Widget::set_default_direction(gtk::TextDirection::Ltr);
         }
 
-        apply_font_css(&resolved_lang);
+        apply_font_css(&resolved_lang, &config_activate);
 
-        if !config_activate.borrow().is_configured {
+        if !config_activate.is_configured() {
             let app_clone = app.clone();
             let config_welcome = config_activate.clone();
             let config_main = config_activate.clone();
@@ -195,20 +224,44 @@ async fn main() {
     app.run();
 }
 
-fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
+fn build_main_ui(app: &Application, config: AppConfig) {
     let (loc_tx, loc_rx) = std::sync::mpsc::channel::<(f64, f64, Option<String>)>();
+    static LOCATION_EPOCH: AtomicU64 = AtomicU64::new(0);
 
-    if config.borrow().location_mode == LocationMode::Auto {
+    if config.location_mode() == LocationMode::Auto {
+        let epoch = LOCATION_EPOCH.fetch_add(1, Ordering::Relaxed);
         let tx = loc_tx.clone();
-        let lang = config.borrow().language.clone();
+        let lang = config.language();
         gtk::glib::spawn_future_local(async move {
+            if LOCATION_EPOCH.load(Ordering::Relaxed) != epoch {
+                return;
+            }
             if let Ok((lat, lon, name)) = location::fetch_auto_location(&lang).await {
                 let _ = tx.send((lat, lon, Some(name)));
             }
         });
     }
 
-    let initial_lang = resolved_language_code(&config.borrow().language);
+    {
+        let tx = loc_tx.clone();
+        connect_notify_blocked(&config, Some("location-mode"), move |cfg, _| {
+            if cfg.location_mode() == LocationMode::Auto {
+                let epoch = LOCATION_EPOCH.fetch_add(1, Ordering::Relaxed);
+                let lang = cfg.language();
+                let tx = tx.clone();
+                gtk::glib::spawn_future_local(async move {
+                    if LOCATION_EPOCH.load(Ordering::Relaxed) != epoch {
+                        return;
+                    }
+                    if let Ok((lat, lon, name)) = location::fetch_auto_location(&lang).await {
+                        let _ = tx.send((lat, lon, Some(name)));
+                    }
+                });
+            }
+        });
+    }
+
+    let initial_lang = resolved_language_code(&config.language());
     let current_lang = Rc::new(RefCell::new(initial_lang));
 
     let split_view = adw::OverlaySplitView::new();
@@ -304,6 +357,7 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
         current_lang.clone(),
         &split_view,
         &window,
+        config.clone(),
     );
 
     let hero = pages_context.hero_label.clone();
@@ -361,13 +415,6 @@ fn build_main_ui(app: &Application, config: Rc<RefCell<AppConfig>>) {
         }
     });
 
-    start_background_tasks(
-        app,
-        &window,
-        view_stack_rc.clone(),
-        pages_context.refresh_qibla.clone(),
-    );
-
     window.present();
 }
 
@@ -377,7 +424,7 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
         .application_name(tr("Khushu", &resolved_lang))
         .application_icon("io.github.sniper1720.khushu")
         .developer_name(tr("Djalel Oukid (sniper1720)", &resolved_lang))
-        .version("1.1.1")
+        .version(env!("CARGO_PKG_VERSION"))
         .comments(tr("An all-in-one Muslim app for Linux", &resolved_lang))
         .website("https://github.com/sniper1720/khushu")
         .issue_url("https://github.com/sniper1720/khushu/issues")
@@ -397,7 +444,7 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
             &tr("Location Policy", &resolved_lang),
             None,
             gtk::License::Custom,
-            Some(&tr("Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic.", &resolved_lang)),
+            Some(&tr("Auto mode: XDG Desktop Portal (GeoClue). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic.", &resolved_lang)),
         );
     about.add_legal_section(
             &tr("Privacy Policy", &resolved_lang),
@@ -461,7 +508,7 @@ pub fn generate_font_css(
     )
 }
 
-pub fn apply_font_css(lang: &str) {
+pub fn apply_font_css(lang: &str, config: &crate::config::AppConfig) {
     use std::cell::RefCell;
 
     thread_local! {
@@ -482,12 +529,11 @@ pub fn apply_font_css(lang: &str) {
         }
 
         if let Some(provider) = provider_opt.as_ref() {
-            let cfg = crate::config::AppConfig::load();
-            let arabic_px = cfg.quran_arabic_font_px.clamp(16.0, 40.0);
-            let trans_px = cfg.quran_translation_font_px.clamp(10.0, 28.0);
-            let line_height = cfg.quran_line_height.clamp(1.0, 2.6);
-            let arabic_font = cfg.global_arabic_font_family;
-            let ui_font = cfg.global_ui_font_family;
+            let arabic_px = config.quran_arabic_font_px().clamp(16.0, 40.0);
+            let trans_px = config.quran_translation_font_px().clamp(10.0, 28.0);
+            let line_height = config.quran_line_height().clamp(1.0, 2.6);
+            let arabic_font = config.global_arabic_font_family();
+            let ui_font = config.global_ui_font_family();
 
             let css = generate_font_css(
                 lang,

@@ -4,6 +4,21 @@ use salah::{Configuration, Coordinates, Madhab, Method, Parameters, Prayer, Pray
 
 use crate::config::{AppConfig, CalculationMethod, MadhabChoice, PrayerTimesSource, TimezoneMode};
 
+pub const HIJRI_MONTH_NAMES: [&str; 12] = [
+    "Muharram",
+    "Safar",
+    "Rabi' al-Awwal",
+    "Rabi' al-Thani",
+    "Jumada al-Ula",
+    "Jumada al-Akhirah",
+    "Rajab",
+    "Sha'ban",
+    "Ramadan",
+    "Shawwal",
+    "Dhu al-Qi'dah",
+    "Dhu al-Hijjah",
+];
+
 #[derive(Clone, Debug)]
 pub struct PrayerSchedule {
     pub fajr: DateTime<Local>,
@@ -146,8 +161,8 @@ pub fn schedule_from_hm(
 }
 
 pub fn schedule_for_config(config: &AppConfig, date: NaiveDate) -> Option<PrayerSchedule> {
-    if config.prayer_times_source == PrayerTimesSource::Mawaqit
-        && let Some(cache) = config.mawaqit_cache.as_ref()
+    if config.prayer_times_source() == PrayerTimesSource::Mawaqit
+        && let Some(cache) = config.mawaqit_cache().as_ref()
         && cache.year == date.year()
     {
         let month_idx = date.month0() as usize;
@@ -160,10 +175,10 @@ pub fn schedule_for_config(config: &AppConfig, date: NaiveDate) -> Option<Prayer
     }
 
     PrayerEngine::new(
-        config.latitude,
-        config.longitude,
-        &config.method,
-        &config.madhab,
+        config.latitude(),
+        config.longitude(),
+        &config.method(),
+        &config.madhab(),
     )
     .get_prayer_times(date)
     .map(|s| apply_timezone_override(config, s))
@@ -190,7 +205,7 @@ pub fn next_prayer_from_schedule(
 }
 
 pub fn effective_now(config: &AppConfig) -> DateTime<Local> {
-    match &config.timezone_mode {
+    match config.timezone_mode() {
         TimezoneMode::Auto => Local::now(),
         TimezoneMode::Named(tz_str) => {
             if let Ok(tz) = tz_str.parse::<Tz>() {
@@ -224,8 +239,29 @@ pub fn effective_today(config: &AppConfig) -> NaiveDate {
     effective_now(config).date_naive()
 }
 
-fn apply_timezone_override(config: &AppConfig, schedule: PrayerSchedule) -> PrayerSchedule {
-    match &config.timezone_mode {
+pub fn format_hijri_date(dt: DateTime<Local>, hijri_offset: i64, lang: &str) -> String {
+    use chrono::Duration;
+    use hijri_date::HijriDate;
+
+    let adjusted = dt + Duration::days(hijri_offset);
+    match HijriDate::from_gr(
+        adjusted.year() as usize,
+        adjusted.month() as usize,
+        adjusted.day() as usize,
+    ) {
+        Ok(hijri) => {
+            let m_name = crate::i18n::tr(HIJRI_MONTH_NAMES.get(hijri.month() - 1).unwrap_or(&""), lang);
+            format!("{} {} {}", hijri.day(), m_name, hijri.year())
+        }
+        Err(e) => {
+            log::error!("Failed to calculate Hijri date: {e}");
+            "—".to_string()
+        }
+    }
+}
+
+pub fn apply_timezone_override(config: &AppConfig, schedule: PrayerSchedule) -> PrayerSchedule {
+    match config.timezone_mode() {
         TimezoneMode::Auto => schedule,
         TimezoneMode::Named(tz_str) => {
             if let Ok(tz) = tz_str.parse::<Tz>() {

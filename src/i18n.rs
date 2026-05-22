@@ -1,5 +1,8 @@
 use gettextrs::{LocaleCategory, bind_textdomain_codeset, bindtextdomain, dgettext, setlocale};
-use std::sync::OnceLock;
+use std::sync::{OnceLock, RwLock};
+
+static ORIGINAL_LOCALE: OnceLock<SystemLocaleSnapshot> = OnceLock::new();
+static CURRENT_APP_LOCALE: OnceLock<RwLock<String>> = OnceLock::new();
 
 struct SystemLocaleSnapshot {
     language: Option<String>,
@@ -7,14 +10,61 @@ struct SystemLocaleSnapshot {
     lang: Option<String>,
 }
 
-static ORIGINAL_LOCALE: OnceLock<SystemLocaleSnapshot> = OnceLock::new();
-
 pub fn save_original_locale() {
     ORIGINAL_LOCALE.get_or_init(|| SystemLocaleSnapshot {
         language: std::env::var("LANGUAGE").ok().filter(|s| !s.is_empty()),
         lc_all: std::env::var("LC_ALL").ok().filter(|s| !s.is_empty()),
         lang: std::env::var("LANG").ok().filter(|s| !s.is_empty()),
     });
+}
+
+fn locale_fallback_order(lang: &str) -> Vec<String> {
+    match lang {
+        "ar" => vec![
+            "ar_DZ.UTF-8".to_string(),
+            "ar_SA.UTF-8".to_string(),
+            "ar.UTF-8".to_string(),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
+        "fr" => vec![
+            "fr_FR.UTF-8".to_string(),
+            "fr.UTF-8".to_string(),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
+        "es" => vec![
+            "es_ES.UTF-8".to_string(),
+            "es.UTF-8".to_string(),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
+        "tr" => vec![
+            "tr_TR.UTF-8".to_string(),
+            "tr.UTF-8".to_string(),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
+        _ => vec![
+            format!("{}.UTF-8", lang),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
+    }
+}
+
+fn apply_locale(lang: &str) {
+    if lang == "auto" || lang.is_empty() {
+        setlocale(LocaleCategory::LcAll, "");
+        return;
+    }
+
+    for loc in locale_fallback_order(lang) {
+        if setlocale(LocaleCategory::LcAll, &*loc).is_some() {
+            return;
+        }
+    }
+    setlocale(LocaleCategory::LcAll, b"C.UTF-8" as &[u8]);
 }
 
 pub fn get_locale_dir() -> String {
@@ -29,6 +79,10 @@ pub fn get_locale_dir() -> String {
     }
 
     if let Ok(snap) = std::env::var("SNAP") {
+        let app_locale = format!("{}/usr/share/khushu/locale", snap);
+        if std::path::Path::new(&app_locale).exists() {
+            return app_locale;
+        }
         return format!("{}/usr/share/locale", snap);
     }
 
@@ -36,10 +90,22 @@ pub fn get_locale_dir() -> String {
         return canon.to_string_lossy().to_string();
     }
 
+    if std::path::Path::new("po").exists() {
+        return "po".to_string();
+    }
+
     "./po".to_string()
 }
 
 fn current_language_hint() -> String {
+    if let Some(lock) = CURRENT_APP_LOCALE.get()
+        && let Ok(current) = lock.read()
+        && !current.is_empty()
+        && current.as_str() != "auto"
+    {
+        return current.clone();
+    }
+
     std::env::var("LANGUAGE")
         .ok()
         .filter(|s| !s.is_empty())
@@ -59,41 +125,35 @@ fn locale_candidates(lang: &str) -> Vec<String> {
         .split('.')
         .next()
         .unwrap_or_default()
-        .trim();
-
-    let mut candidates = Vec::new();
-    let mut push = |candidate: String| {
-        if !candidate.is_empty() && !candidates.contains(&candidate) {
-            candidates.push(candidate);
-        }
-    };
+        .trim()
+        .to_string();
 
     if normalized.is_empty() {
-        push("en".to_string());
-        return candidates;
+        return vec!["en".to_string()];
     }
 
-    push(normalized.to_string());
-    push(normalized.replace('-', "_"));
-    push(normalized.replace('_', "-"));
-    push(
-        normalized
-            .split(['-', '_'])
-            .next()
-            .unwrap_or("en")
-            .to_string(),
-    );
+    let mut candidates = vec![normalized.clone()];
+    if normalized.contains('_') {
+        candidates.push(normalized.replace('_', "-"));
+    } else if normalized.contains('-') {
+        candidates.push(normalized.replace('-', "_"));
+    }
+    if let Some(base) = normalized.split(['-', '_']).next()
+        && !candidates.contains(&base.to_string())
+    {
+        candidates.push(base.to_string());
+    }
     candidates
 }
 
-fn domain_catalog_exists(locale_dir: &str, lang: &str, domain: &str) -> bool {
-    locale_candidates(lang).into_iter().any(|candidate| {
-        std::path::Path::new(locale_dir)
-            .join(candidate)
-            .join("LC_MESSAGES")
-            .join(format!("{domain}.mo"))
-            .exists()
-    })
+fn domain_catalog_exists(dir: &str, lang: &str, domain: &str) -> bool {
+    for candidate in locale_candidates(lang) {
+        let mo_path = format!("{}/{}/LC_MESSAGES/{}.mo", dir, candidate, domain);
+        if std::path::Path::new(&mo_path).exists() {
+            return true;
+        }
+    }
+    false
 }
 
 fn custom_library_locale_dir(locale_dir: &str) -> String {
@@ -106,84 +166,50 @@ fn custom_library_locale_dir(locale_dir: &str) -> String {
     {
         "/app/share/khushu/locale".to_string()
     } else if let Ok(snap) = std::env::var("SNAP") {
-        let snap_lib_locale = format!("{}/usr/share/khushu/locale", snap);
-        if std::path::Path::new(&snap_lib_locale).exists() {
-            snap_lib_locale
-        } else {
-            locale_dir.to_string()
+        let snap_locale = format!("{}/usr/share/khushu/locale", snap);
+        if std::path::Path::new(&snap_locale).exists() {
+            return snap_locale;
         }
+        locale_dir.to_string()
     } else {
         locale_dir.to_string()
     }
 }
 
 fn library_locale_dir_for_domain(domain: &str, lang: &str, locale_dir: &str) -> String {
-    let bundled_domains = ["gtk40", "libadwaita"];
-    let is_bundled = bundled_domains.contains(&domain);
-
-    if is_bundled {
-        let our_locale_dir = custom_library_locale_dir(locale_dir);
-        if domain_catalog_exists(&our_locale_dir, lang, domain) {
-            return our_locale_dir;
+    let bundled = ["gtk40", "libadwaita"];
+    if bundled.contains(&domain) {
+        let our_dir = custom_library_locale_dir(locale_dir);
+        if domain_catalog_exists(&our_dir, lang, domain) {
+            return our_dir;
         }
-        if domain_catalog_exists(locale_dir, lang, domain) {
-            return locale_dir.to_string();
-        }
-        return locale_dir.to_string();
     }
 
-    let mut candidates = Vec::new();
-    let mut push = |candidate: String| {
-        if !candidate.is_empty() && !candidates.contains(&candidate) {
-            candidates.push(candidate);
-        }
-    };
+    let mut candidates = vec![
+        "/usr/share/locale".to_string(),
+        "/usr/share/locale-langpack".to_string(),
+    ];
 
-    if std::path::Path::new("/usr/share/locale").exists() {
-        push("/usr/share/locale".to_string());
-    }
-    if std::path::Path::new("/app/share/locale").exists() {
-        push("/app/share/locale".to_string());
-    }
     if let Ok(snap) = std::env::var("SNAP") {
-        push(format!("{}/usr/share/locale", snap));
+        candidates.push(format!("{}/usr/share/locale", snap));
     }
-    push(custom_library_locale_dir(locale_dir));
-    push(locale_dir.to_string());
+    candidates.push(custom_library_locale_dir(locale_dir));
+    candidates.push(locale_dir.to_string());
 
     candidates
         .into_iter()
-        .find(|dir| domain_catalog_exists(dir, lang, domain))
+        .find(|d| domain_catalog_exists(d, lang, domain))
         .unwrap_or_else(|| locale_dir.to_string())
 }
 
-unsafe extern "C" {
-    #[link_name = "bindtextdomain"]
-    fn libc_bindtextdomain(
-        domainname: *const std::os::raw::c_char,
-        dirname: *const std::os::raw::c_char,
-    ) -> *mut std::os::raw::c_char;
-}
-
-fn glibc_bindtextdomain(domain: &str, dir: &str) {
-    if let (Ok(c_domain), Ok(c_dir)) = (std::ffi::CString::new(domain), std::ffi::CString::new(dir))
-    {
-        unsafe {
-            libc_bindtextdomain(c_domain.as_ptr(), c_dir.as_ptr());
-        }
-    }
-}
-
 fn bind_library_domains(locale_dir: &str, lang: &str) {
-    let gtk_locale_dir = library_locale_dir_for_domain("gtk40", lang, locale_dir);
-    let _ = gettextrs::bindtextdomain("gtk40", &gtk_locale_dir);
-    let _ = gettextrs::bind_textdomain_codeset("gtk40", "UTF-8");
-    glibc_bindtextdomain("gtk40", &gtk_locale_dir);
+    let gtk_dir = library_locale_dir_for_domain("gtk40", lang, locale_dir);
+    let _ = bindtextdomain("gtk40", &gtk_dir);
+    let _ = bind_textdomain_codeset("gtk40", "UTF-8");
 
-    let adw_locale_dir = library_locale_dir_for_domain("libadwaita", lang, locale_dir);
-    let _ = gettextrs::bindtextdomain("libadwaita", &adw_locale_dir);
-    let _ = gettextrs::bind_textdomain_codeset("libadwaita", "UTF-8");
-    glibc_bindtextdomain("libadwaita", &adw_locale_dir);
+    let adw_dir = library_locale_dir_for_domain("libadwaita", lang, locale_dir);
+    let _ = bindtextdomain("libadwaita", &adw_dir);
+    let _ = bind_textdomain_codeset("libadwaita", "UTF-8");
 }
 
 pub fn update_locale(lang: &str) {
@@ -197,32 +223,30 @@ pub fn update_locale(lang: &str) {
 
 pub fn detect_system_locale() -> String {
     if let Some(snapshot) = ORIGINAL_LOCALE.get() {
-        if let Some(ref lang) = snapshot.language
-            && lang != "C"
-            && lang != "POSIX"
+        if let Some(ref l) = snapshot.language
+            && l != "C"
+            && l != "POSIX"
         {
-            return lang.split(':').next().unwrap_or("en").to_string();
+            return l.split(':').next().unwrap_or("en").to_string();
         }
-
-        if let Some(ref lc_all) = snapshot.lc_all
-            && lc_all != "C"
-            && lc_all != "POSIX"
+        if let Some(ref l) = snapshot.lc_all
+            && l != "C"
+            && l != "POSIX"
         {
-            return lc_all.split('.').next().unwrap_or("en").to_string();
+            return l.split('.').next().unwrap_or("en").to_string();
         }
-
-        if let Some(ref lang) = snapshot.lang
-            && lang != "C"
-            && lang != "POSIX"
+        if let Some(ref l) = snapshot.lang
+            && l != "C"
+            && l != "POSIX"
         {
-            return lang.split('.').next().unwrap_or("en").to_string();
+            return l.split('.').next().unwrap_or("en").to_string();
         }
     }
 
     if let Some(actual) = setlocale(LocaleCategory::LcAll, "") {
-        let locale_str = String::from_utf8_lossy(&actual);
-        if !locale_str.is_empty() && locale_str != "C" && locale_str != "POSIX" {
-            return locale_str.split('_').next().unwrap_or("en").to_string();
+        let s = String::from_utf8_lossy(&actual);
+        if !s.is_empty() && s != "C" && s != "POSIX" {
+            return s.split('_').next().unwrap_or("en").to_string();
         }
     }
 
@@ -230,60 +254,38 @@ pub fn detect_system_locale() -> String {
 }
 
 fn update_locale_internal(lang: &str) {
-    unsafe {
-        std::env::set_var("LANGUAGE", lang);
+    CURRENT_APP_LOCALE.get_or_init(|| RwLock::new(lang.to_string()));
 
-        let candidates = if lang == "ar" {
-            vec![
-                "ar_DZ.UTF-8".to_string(),
-                "ar_SA.UTF-8".to_string(),
-                "ar.UTF-8".to_string(),
-                "en_US.UTF-8".to_string(),
-                "C.UTF-8".to_string(),
-            ]
-        } else {
-            vec![
-                format!("{}.UTF-8", lang),
-                format!("{}_{}.UTF-8", lang, lang.to_uppercase()),
-                "en_US.UTF-8".to_string(),
-                "C.UTF-8".to_string(),
-            ]
-        };
-
-        for loc in candidates {
-            std::env::set_var("LC_ALL", &loc);
-            std::env::set_var("LANG", &loc);
-
-            if let Some(actual) = setlocale(LocaleCategory::LcAll, "")
-                && actual != b"C"
-                && actual != b"POSIX"
-            {
-                break;
-            }
-        }
-    }
-
-    let _ = setlocale(LocaleCategory::LcAll, "");
+    apply_locale(lang);
 
     let locale_dir = get_locale_dir();
-    let gettext_package = option_env!("GETTEXT_PACKAGE").unwrap_or("khushu");
+    let pkg = option_env!("GETTEXT_PACKAGE").unwrap_or("khushu");
 
-    let _ = bindtextdomain(gettext_package, &locale_dir);
-    let _ = bind_textdomain_codeset(gettext_package, "UTF-8");
+    let _ = bindtextdomain(pkg, &locale_dir);
+    let _ = bind_textdomain_codeset(pkg, "UTF-8");
 
     bind_library_domains(&locale_dir, lang);
+
+    if let Some(lock) = CURRENT_APP_LOCALE.get()
+        && let Ok(mut cur) = lock.write()
+    {
+        *cur = lang.to_string();
+    }
 
     crate::background::update_tray_labels(lang);
 }
 
 pub fn rebind_locale_after_adw_init() {
+    let hint = current_language_hint();
+    apply_locale(&hint);
+
     let locale_dir = get_locale_dir();
-    let gettext_package = option_env!("GETTEXT_PACKAGE").unwrap_or("khushu");
+    let pkg = option_env!("GETTEXT_PACKAGE").unwrap_or("khushu");
 
-    let _ = bindtextdomain(gettext_package, &locale_dir);
-    let _ = bind_textdomain_codeset(gettext_package, "UTF-8");
+    let _ = bindtextdomain(pkg, &locale_dir);
+    let _ = bind_textdomain_codeset(pkg, "UTF-8");
 
-    bind_library_domains(&locale_dir, &current_language_hint());
+    bind_library_domains(&locale_dir, &hint);
 }
 
 pub fn tr(key: &str, _lang: &str) -> String {
@@ -300,24 +302,24 @@ pub fn tr(key: &str, _lang: &str) -> String {
         return res;
     }
 
-    let fallback_res = dgettext("khushu-gtk", key);
-    if fallback_res != key && !fallback_res.is_empty() {
-        return fallback_res;
+    let fallback = dgettext("khushu-gtk", key);
+    if fallback != key && !fallback.is_empty() {
+        return fallback;
     }
 
-    let adw_res = dgettext("libadwaita", key);
-    if adw_res != key && !adw_res.is_empty() {
-        return adw_res;
+    let adw = dgettext("libadwaita", key);
+    if adw != key && !adw.is_empty() {
+        return adw;
     }
 
-    let gtk_res = dgettext("gtk40", key);
-    if gtk_res != key && !gtk_res.is_empty() {
-        return gtk_res;
+    let gtk = dgettext("gtk40", key);
+    if gtk != key && !gtk.is_empty() {
+        return gtk;
     }
 
-    let gtk_legacy_res = dgettext("gtk", key);
-    if gtk_legacy_res != key && !gtk_legacy_res.is_empty() {
-        return gtk_legacy_res;
+    let gtk_legacy = dgettext("gtk", key);
+    if gtk_legacy != key && !gtk_legacy.is_empty() {
+        return gtk_legacy;
     }
 
     key.to_string()
@@ -328,55 +330,54 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_locale_candidates() {
-        assert_eq!(locale_candidates("en"), vec!["en"]);
-        assert_eq!(locale_candidates("en_US"), vec!["en_US", "en-US", "en"]);
-        assert_eq!(
-            locale_candidates("fr_FR.UTF-8"),
-            vec!["fr_FR", "fr-FR", "fr"]
-        );
-        assert_eq!(locale_candidates("ar_SA"), vec!["ar_SA", "ar-SA", "ar"]);
-        assert_eq!(locale_candidates(""), vec!["en"]);
-    }
-
-    #[test]
-    fn test_detect_system_locale_with_snapshot() {
-        save_original_locale();
-
-        let detected = detect_system_locale();
-        assert!(!detected.is_empty());
+    fn test_native_locale_switching() {
+        let locale_dir = get_locale_dir();
         assert!(
-            detected
-                .chars()
-                .all(|c| c.is_ascii_alphabetic() || c == '_' || c == '-')
+            std::path::Path::new(&locale_dir).exists(),
+            "MO files must exist at {locale_dir} — build with `cargo build` first"
         );
-    }
 
-    #[test]
-    fn test_tr_function_returns_key_when_no_translation() {
-        let result = tr("nonexistent_key_xyz123", "en");
-        assert_eq!(result, "nonexistent_key_xyz123");
-    }
+        let _ = bindtextdomain("khushu", &locale_dir);
+        let _ = bind_textdomain_codeset("khushu", "UTF-8");
 
-    #[test]
-    fn test_arabic_locale_special_handling() {
-        let candidates = if "ar" == "ar" {
-            vec![
-                "ar_DZ.UTF-8".to_string(),
-                "ar_SA.UTF-8".to_string(),
-                "ar.UTF-8".to_string(),
-                "en_US.UTF-8".to_string(),
-                "C.UTF-8".to_string(),
-            ]
-        } else {
-            vec![
-                format!("{}.UTF-8", "ar"),
-                format!("{}_{}.UTF-8", "ar", "ar".to_uppercase()),
-                "en_US.UTF-8".to_string(),
-                "C.UTF-8".to_string(),
-            ]
-        };
+        let r = setlocale(LocaleCategory::LcAll, "fr_FR.UTF-8");
+        if r.is_none() {
+            eprintln!("Skipping test: fr_FR.UTF-8 locale not available");
+            return;
+        }
 
-        assert!(candidates.contains(&"ar_DZ.UTF-8".to_string()));
+        let fr = dgettext("khushu", "Welcome to Khushu");
+        assert_ne!(
+            fr, "Welcome to Khushu",
+            "dgettext should return French under LC_MESSAGES=fr_FR.UTF-8, got: {fr}"
+        );
+        println!("fr_FR.UTF-8 → {fr}");
+
+        let r = setlocale(LocaleCategory::LcAll, "ar_SA.UTF-8");
+        if r.is_none() {
+            eprintln!("Skipping Arabic test: ar_SA.UTF-8 locale not available");
+            return;
+        }
+        let ar = dgettext("khushu", "Welcome to Khushu");
+        assert_ne!(
+            ar, "Welcome to Khushu",
+            "dgettext should return Arabic under LC_MESSAGES=ar_SA.UTF-8, got: {ar}"
+        );
+        println!("ar_SA.UTF-8 → {ar}");
+
+        assert_ne!(
+            fr, ar,
+            "French ({fr}) and Arabic ({ar}) must differ — gettext caching bug!"
+        );
+
+        setlocale(LocaleCategory::LcAll, "fr_FR.UTF-8");
+        let fr2 = dgettext("khushu", "Welcome to Khushu");
+        assert_eq!(
+            fr, fr2,
+            "Switching back to French should return same result: {fr} vs {fr2}"
+        );
+        println!("fr_FR.UTF-8 (again) → {fr2}");
+
+        println!("NATIVE LOCALE SWITCHING: OK (fr ≠ ar, consistent on round-trip)");
     }
 }

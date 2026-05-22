@@ -1,6 +1,8 @@
+use glib::prelude::*;
+use gtk4::gio;
+use gtk4::glib;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
-use zbus::{Connection, proxy};
 
 const KAABA_LAT: f64 = 21.4225;
 const KAABA_LON: f64 = 39.8262;
@@ -20,27 +22,12 @@ pub fn calculate_qibla_bearing(lat: f64, lon: f64) -> f64 {
     (bearing_deg + 360.0) % 360.0
 }
 
-#[proxy(
-    interface = "net.hadess.SensorProxy",
-    default_service = "net.hadess.SensorProxy",
-    default_path = "/net/hadess/SensorProxy"
-)]
-trait SensorProxy {
-    #[zbus(property)]
-    fn has_compass(&self) -> zbus::Result<bool>;
-
-    #[zbus(property)]
-    fn compass_heading(&self) -> zbus::Result<f64>;
-
-    fn claim_compass(&self) -> zbus::Result<()>;
-    fn release_compass(&self) -> zbus::Result<()>;
-}
-
 #[derive(Clone)]
 pub struct CompassManager {
     heading: Arc<Mutex<f64>>,
     available: Arc<Mutex<bool>>,
     epoch: Arc<AtomicU64>,
+    subscription: Arc<Mutex<Option<gio::SignalSubscriptionId>>>,
 }
 
 impl CompassManager {
@@ -49,67 +36,136 @@ impl CompassManager {
             heading: Arc::new(Mutex::new(0.0)),
             available: Arc::new(Mutex::new(false)),
             epoch: Arc::new(AtomicU64::new(0)),
+            subscription: Arc::new(Mutex::new(None)),
         }
     }
 
     pub fn start_monitoring(&self) {
-        let my_epoch = self.epoch.load(Ordering::SeqCst);
-        let heading_clone = self.heading.clone();
-        let available_clone = self.available.clone();
-        let epoch_clone = self.epoch.clone();
+        let my_epoch = self.epoch.fetch_add(1, Ordering::SeqCst);
+        *self.subscription.lock().expect("compass subscription lock") = None;
 
-        gtk4::glib::spawn_future_local(async move {
-            loop {
-                if epoch_clone.load(Ordering::SeqCst) != my_epoch {
-                    log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
-                    break;
+        let heading = self.heading.clone();
+        let available = self.available.clone();
+        let epoch = self.epoch.clone();
+        let subscription_guard = self.subscription.clone();
+
+        std::thread::spawn(move || {
+            if epoch.load(Ordering::SeqCst) != my_epoch {
+                return;
+            }
+
+            let conn = match gio::bus_get_sync(gio::BusType::System, gio::Cancellable::NONE) {
+                Ok(c) => c,
+                Err(e) => {
+                    log::error!("Compass: D-Bus connection failed: {e}");
+                    return;
                 }
+            };
 
-                if let Ok(connection) = Connection::system().await
-                    && let Ok(proxy) = SensorProxyProxy::new(&connection).await
-                    && let Ok(has_compass) = proxy.has_compass().await
-                    && has_compass
-                {
-                    *available_clone.lock().unwrap_or_else(|e| {
-                        log::error!("Failed to lock available_clone: {e}");
-                        e.into_inner()
-                    }) = true;
-                    let _ = proxy.claim_compass().await;
+            if epoch.load(Ordering::SeqCst) != my_epoch {
+                return;
+            }
 
-                    loop {
-                        if epoch_clone.load(Ordering::SeqCst) != my_epoch {
-                            let _ = proxy.release_compass().await;
-                            log::info!("Compass loop (epoch {my_epoch}) exiting: superseded");
-                            return;
-                        }
-
-                        match proxy.compass_heading().await {
-                            Ok(heading) => {
-                                *heading_clone.lock().unwrap_or_else(|e| {
-                                    log::error!("Failed to lock heading_clone: {e}");
-                                    e.into_inner()
-                                }) = heading;
-                            }
-                            Err(_) => {
-                                log::error!(
-                                    "Compass proxy compass_heading failed. Reconnecting..."
-                                );
-                                break;
-                            }
-                        }
-
-                        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+            let has_compass = {
+                let args = glib::Variant::tuple_from_iter([
+                    "net.hadess.SensorProxy".to_variant(),
+                    "HasCompass".to_variant(),
+                ]);
+                match conn.call_sync(
+                    Some("net.hadess.SensorProxy"),
+                    "/net/hadess/SensorProxy",
+                    "org.freedesktop.DBus.Properties",
+                    "Get",
+                    Some(&args),
+                    Some(&glib::VariantType::new("(v)").expect("(v) is valid")),
+                    gio::DBusCallFlags::NONE,
+                    -1,
+                    gio::Cancellable::NONE,
+                ) {
+                    Ok(v) => v.child_value(0).get::<bool>().unwrap_or(false),
+                    Err(e) => {
+                        log::warn!("Compass: HasCompass query failed: {e}");
+                        false
                     }
-                } else {
-                    *available_clone.lock().unwrap_or_else(|e| e.into_inner()) = false;
-                    tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
+                }
+            };
+
+            if !has_compass {
+                *available.lock().expect("compass available lock") = false;
+                return;
+            }
+
+            if epoch.load(Ordering::SeqCst) != my_epoch {
+                return;
+            }
+
+            let _ = conn.call_sync(
+                Some("net.hadess.SensorProxy"),
+                "/net/hadess/SensorProxy",
+                "net.hadess.SensorProxy",
+                "ClaimCompass",
+                None::<&glib::Variant>,
+                None,
+                gio::DBusCallFlags::NONE,
+                -1,
+                gio::Cancellable::NONE,
+            );
+
+            *available.lock().expect("compass available lock") = true;
+
+            {
+                let args = glib::Variant::tuple_from_iter([
+                    "net.hadess.SensorProxy".to_variant(),
+                    "CompassHeading".to_variant(),
+                ]);
+                if let Ok(v) = conn.call_sync(
+                    Some("net.hadess.SensorProxy"),
+                    "/net/hadess/SensorProxy",
+                    "org.freedesktop.DBus.Properties",
+                    "Get",
+                    Some(&args),
+                    Some(&glib::VariantType::new("(v)").expect("(v) is valid")),
+                    gio::DBusCallFlags::NONE,
+                    -1,
+                    gio::Cancellable::NONE,
+                ) && let Some(h) = v.child_value(0).get::<f64>()
+                {
+                    *heading.lock().expect("compass heading lock") = h;
                 }
             }
+
+            let heading_cb = heading;
+            let epoch_cb = epoch;
+            let sub = conn.signal_subscribe(
+                Some("net.hadess.SensorProxy"),
+                Some("org.freedesktop.DBus.Properties"),
+                Some("PropertiesChanged"),
+                Some("/net/hadess/SensorProxy"),
+                None,
+                gio::DBusSignalFlags::NONE,
+                move |_connection, _sender, _path, _interface, _signal, params| {
+                    if epoch_cb.load(Ordering::SeqCst) != my_epoch {
+                        return;
+                    }
+                    if let Ok(mut heading) = heading_cb.lock() {
+                        let changed = params.child_value(1);
+                        let dict = glib::VariantDict::new(Some(&changed));
+                        if let Some(val) = dict.lookup_value("CompassHeading", None)
+                            && let Some(h) = val.get::<f64>()
+                        {
+                            *heading = h;
+                        }
+                    }
+                },
+            );
+
+            *subscription_guard.lock().expect("compass subscription lock") = Some(sub);
         });
     }
 
     pub fn stop(&self) {
         self.epoch.fetch_add(1, Ordering::SeqCst);
+        *self.subscription.lock().expect("compass subscription lock") = None;
     }
 
     pub fn restart(&self) {

@@ -1,6 +1,6 @@
 name: khushu
-base: core24
-version: "1.1.1"
+base: core26
+version: "1.1.2"
 title: Khushu
 summary: An all-in-one Muslim app for Linux
 description: |
@@ -34,7 +34,6 @@ apps:
       - network
       - audio-playback
       - unity7
-      - location-observe
     slots:
       - dbus-khushu
 
@@ -60,12 +59,9 @@ parts:
       - libasound2-dev
       - libgtk-4-dev
       - libadwaita-1-dev
-      - libgeoclue-2-dev
     stage-packages:
-      - ca-certificates
       - libasound2t64
       - libpulse0
-      - alsa-utils
       - libasound2-plugins
     override-build: |
       rustup default stable

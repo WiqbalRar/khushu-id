@@ -100,6 +100,7 @@ pub fn connect_sidebar_navigation(
     current_lang: Rc<RefCell<String>>,
     split_view: &adw::OverlaySplitView,
     window: &adw::ApplicationWindow,
+    config: crate::config::AppConfig,
 ) {
     let view_stack_clone = view_stack.clone();
     let last_valid_row = Rc::new(RefCell::new(sidebar_list.row_at_index(0)));
@@ -124,6 +125,7 @@ pub fn connect_sidebar_navigation(
                 crate::quran::open_last_read_or_list(
                     &view_stack_clone,
                     &current_lang_sidebar.borrow(),
+                    config.clone(),
                 );
             } else {
                 view_stack_clone.set_visible_child_name(&name);

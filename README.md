@@ -6,7 +6,7 @@
   [![Rust](https://img.shields.io/badge/Language-Rust-fa4f28?style=flat-square&logo=rust)](https://www.rust-lang.org/)
   [![GTK4](https://img.shields.io/badge/GUI-GTK4-4a86cf?style=flat-square&logo=gnome)](https://gtk.org/)
   [![Libadwaita](https://img.shields.io/badge/Style-Libadwaita-62a0ea?style=flat-square&logo=gnome)](https://gnome.pages.gitlab.gnome.org/libadwaita/)
-  [![Version](https://img.shields.io/badge/Version-1.1.1-success?style=flat-square)](#)
+  [![Version](https://img.shields.io/badge/Version-1.1.2-success?style=flat-square)](#)
   [![License](https://img.shields.io/badge/License-GPL_v3-blue?style=flat-square)](LICENSE)
   [![Translations](https://img.shields.io/badge/Languages-5_Supported-9cf?style=flat-square)](#)
 
@@ -54,14 +54,12 @@ Named after the state of heart-presence and humility in prayer (Salah), the app 
 - **Noble Quran**: Read the Quran with adjustable Arabic and translation typography, line spacing, and a clean reading layout.
 - **Adkar**: Built-in Morning and Evening Adkar module.
 - **Hijri Calendar**: Current Hijri date displayed on dashboard.
-- **Secure Configuration**: Your sensitive settings (like latitude/longitude) are obfuscated locally using XOR and Base64 encoding.
+- **Secure Configuration**: Your sensitive settings (like latitude/longitude) are stored locally with restricted file permissions.
 - **Modern UI**: Native Libadwaita interface with adaptive dark mode and system tray integration.
 
 ## What's Next? (Roadmap)
 
 Khushu is under active development. Our goal is to build the premier all-in-one Islamic ecosystem for Linux.
-
-✓ v1.1.1 includes notification filtering with Adhan-only mode, Iqamah alerts toggle, Flatpak tray icon fix, and new France (UOIF) and Algeria calculation methods.
 
 - **Islamic Essentials (v1.2.0)**: We are working on a few more tools, including a **Global Typography** customizer (Arabic & UI fonts), a simple Zakat calculator, a way to reflect on the 99 Names of Allah, and a collection of the Forty Hadith of Nawawi.
 - **Beyond the Desktop (v2.0.0)**: We want Khushu to be wherever you are. This means perfecting the experience for Linux mobile (Phosh/Plasma) and exploring an Android version by leveraging the same core logic we already built.

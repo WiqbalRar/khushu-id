@@ -16,10 +16,10 @@ struct CalendarState {
 
 pub fn create_calendar_page(
     language: Rc<RefCell<String>>,
-    config: Rc<RefCell<AppConfig>>,
+    config: AppConfig,
 ) -> (Box, Rc<dyn Fn()>) {
-    let now = crate::time::effective_today(&config.borrow());
-    let offset_days = config.borrow().hijri_offset;
+    let now = crate::time::effective_today(&config);
+    let offset_days = config.hijri_offset();
     let adjusted_now = now + Duration::days(offset_days);
     let initial_hijri = HijriDate::from_gr(
         adjusted_now.year() as usize,
@@ -48,7 +48,6 @@ pub fn create_calendar_page(
     let month_label = Label::builder()
         .css_classes(["title-2"])
         .ellipsize(gtk::pango::EllipsizeMode::End)
-        .wrap(true)
         .build();
 
     nav_box.append(&prev_btn);
@@ -73,17 +72,20 @@ pub fn create_calendar_page(
 
     let hijri_details_label = Label::new(None);
     hijri_details_label.set_css_classes(&["title-3"]);
-    hijri_details_label.set_wrap(true);
+    hijri_details_label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+    hijri_details_label.set_max_width_chars(50);
     details_box.append(&hijri_details_label);
 
     let gregorian_label = Label::new(None);
     gregorian_label.set_css_classes(&["dim-label"]);
-    gregorian_label.set_wrap(true);
+    gregorian_label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+    gregorian_label.set_max_width_chars(50);
     details_box.append(&gregorian_label);
 
     let event_label = Label::new(None);
     event_label.set_css_classes(&["accent"]);
-    event_label.set_wrap(true);
+    event_label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+    event_label.set_max_width_chars(50);
     details_box.append(&event_label);
 
     details_frame.set_child(Some(&details_box));
@@ -104,8 +106,8 @@ pub fn create_calendar_page(
 
     let refresh_inner: Rc<dyn Fn(bool)> = Rc::new(move |recenter_on_today: bool| {
         let lang = lang_refresh.borrow();
-        let hijri_offset = config_for_calendar.borrow().hijri_offset;
-        let today_phys = crate::time::effective_today(&config_for_calendar.borrow());
+        let hijri_offset = config_for_calendar.hijri_offset();
+        let today_phys = crate::time::effective_today(&config_for_calendar);
         let corrected_today = today_phys + Duration::days(hijri_offset);
         let today_hijri = HijriDate::from_gr(
             corrected_today.year() as usize,
@@ -261,22 +263,10 @@ pub fn create_calendar_page(
 }
 
 fn get_hijri_month_name(month: usize, lang: &str) -> String {
-    let en_names = [
-        "Muharram",
-        "Safar",
-        "Rabi' al-Awwal",
-        "Rabi' al-Thani",
-        "Jumada al-Ula",
-        "Jumada al-Akhirah",
-        "Rajab",
-        "Sha'ban",
-        "Ramadan",
-        "Shawwal",
-        "Dhu al-Qi'dah",
-        "Dhu al-Hijjah",
-    ];
-
-    let name = en_names.get(month - 1).unwrap_or(&"").to_string();
+    let name = crate::time::HIJRI_MONTH_NAMES
+        .get(month - 1)
+        .unwrap_or(&"")
+        .to_string();
     tr(&name, lang)
 }
 

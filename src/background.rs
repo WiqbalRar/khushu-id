@@ -51,7 +51,7 @@ impl Tray for KhushuTray {
 
     fn icon_theme_path(&self) -> String {
         if is_snap() {
-            return format!("{}/usr/share/icons", std::env::var("SNAP").unwrap());
+            return format!("{}/usr/share/icons", std::env::var("SNAP").expect("SNAP env set by snap runtime"));
         }
         if is_flatpak() {
             return "/app/share/icons".to_string();
@@ -77,7 +77,7 @@ impl Tray for KhushuTray {
 
     fn menu(&self) -> Vec<MenuItem<Self>> {
         use ksni::menu::*;
-        let data = self.data.read().unwrap();
+        let data = self.data.read().expect("KhushuTray data lock poisoned");
         vec![
             StandardItem {
                 label: data.open_label.clone(),
@@ -110,27 +110,6 @@ impl Tray for KhushuTray {
     }
 }
 
-async fn request_background_portal() -> Result<(), ashpd::Error> {
-    use ashpd::desktop::background::Background;
-    let config = crate::config::AppConfig::load();
-
-    let response = Background::request()
-        .reason("Khushu needs to run in the background to send prayer time notifications")
-        .auto_start(config.autostart)
-        .command(&["khushu", "--background"])
-        .dbus_activatable(false)
-        .send()
-        .await?
-        .response()?;
-
-    log::info!(
-        "Background portal: auto_start={}, background={}",
-        response.auto_start(),
-        response.run_in_background()
-    );
-    Ok(())
-}
-
 async fn setup_tray_icon() {
     use ksni::TrayMethods;
     use std::sync::atomic::{AtomicBool, Ordering};
@@ -151,7 +130,7 @@ async fn setup_tray_icon() {
 
     let data = get_tray_data();
     {
-        let mut d = data.write().unwrap();
+        let mut d = data.write().expect("KhushuTray data lock poisoned");
         d.open_label = tr("Open Khushu", lang_ref);
         d.quit_label = tr("Quit", lang_ref);
     }
@@ -170,7 +149,13 @@ async fn setup_tray_icon() {
         }
         Err(e) => {
             TRAY_SPAWNED.store(false, Ordering::SeqCst);
-            log::error!("Failed to spawn KSNI tray icon: {}", e);
+            log::warn!(
+                "System tray unavailable: {} \
+                 (requires org.kde.StatusNotifierWatcher on the session bus; \
+                 this is expected in sandboxed or minimal desktop environments \
+                 and does not affect functionality)",
+                e
+            );
         }
     }
 }
@@ -178,7 +163,7 @@ async fn setup_tray_icon() {
 pub fn update_tray_labels(lang: &str) {
     let data = get_tray_data();
     {
-        let mut d = data.write().unwrap();
+        let mut d = data.write().expect("KhushuTray data lock poisoned");
         d.open_label = tr("Open Khushu", lang);
         d.quit_label = tr("Quit", lang);
     }
@@ -191,13 +176,7 @@ pub fn update_tray_labels(lang: &str) {
 }
 
 pub fn setup_background() {
-    let is_sandboxed = is_sandboxed();
-
     gtk4::glib::spawn_future_local(async move {
-        if is_sandboxed && let Err(e) = request_background_portal().await {
-            log::info!("Background portal failed: {e}");
-        }
-
         setup_tray_icon().await;
     });
 }

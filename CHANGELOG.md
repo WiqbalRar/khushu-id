@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.2] — 2026-05-13
+
+### Improved
+- **Audio playback engine** — switched from full-file decode to streaming (`sink.append(decoder)`), eliminating blocking on the audio thread
+- **Qibla compass performance** — hoisted Pango layout/font outside the draw loop, added CardinalData string + bearing caches, reduced redraw to 20 FPS
+- **Timer controller efficiency** — `DailyState` cache, 1-second tick does only countdown math, no redundant recomputation
+- **Config persistence** — singleton save channel eliminates per-save thread spawning
+- **Language change handler** — extracted 200+ line inline closure into named `handle_lang_change` function
+- **Config storage** — removed weak XOR obfuscation, stored as plaintext with `0o600` permissions
+- **Codebase quality** — replaced 26 production `unwrap()` calls with descriptive `expect()` messages
+- **Hijri date formatting** — deduplicated month names into single `pub const HIJRI_MONTH_NAMES`
+
+### Fixed
+- **RefCell re-entrancy panics** — 17 `connect_notify_local` handlers wrapped with `freeze_notify()` RAII guard, preventing recursive borrow panics in GLib property notifications
+- **Config TOCTOU race** — removed `sync_quran_state_from_disk()` which re-read config from disk while a concurrent save was in progress; in-memory `AppConfig` is now the single source of truth
+- **Thread-unsafe locale setup** — removed `unsafe { std::env::set_var }` calls (undefined behavior) and replaced with safe locale handling
+- **Raw FFI bindtextdomain** — replaced unsafe `extern "C"` calls with safe `gettextrs` crate
+- **GIO resource access on worker thread** — confined `resources_lookup_data` to main-thread startup only
+
 ## [1.1.1] — 2026-04-25
 
 ### Added

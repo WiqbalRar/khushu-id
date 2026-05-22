@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.1.1
+Version:        1.1.2
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -17,7 +17,6 @@ BuildRequires:  rust
 BuildRequires:  gtk4-devel
 BuildRequires:  libadwaita-devel
 BuildRequires:  pkgconf-pkg-config
-BuildRequires:  geoclue2-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  openssl-devel
 BuildRequires:  gettext
@@ -56,6 +55,16 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Wed May 13 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.2-1
+- Improved audio playback engine with streaming decode
+- Improved Qibla compass performance with Pango/cardinal/bearing caching
+- Improved timer controller with DailyState caching
+- Improved config persistence with singleton save channel
+- Fixed RefCell re-entrancy panics with freeze_notify guards
+- Fixed config TOCTOU race by removing disk re-read
+- Fixed thread-unsafe locale setup, FFI bindtextdomain, and GIO thread safety
+- Fixed code quality with expect() replacing unwrap() calls
+
 * Sat Apr 25 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.1-1
 - Added Adhan Only Mode toggle to keep only Adhan alerts
 - Added Iqamah Alert toggle to separately control Iqamah notifications

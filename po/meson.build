@@ -2,7 +2,7 @@ i18n.gettext('khushu', preset: 'glib', args: ['--keyword=tr:1'])
 
 if get_option('extra_translations')
   msgfmt = find_program('msgfmt')
-  langs = ['ar', 'es', 'fr', 'tr']
+  langs = khushu_langs.keys()
 
   foreach lang : langs
     foreach domain : ['gtk40', 'libadwaita']

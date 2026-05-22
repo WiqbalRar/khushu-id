@@ -1,4 +1,4 @@
-use crate::platform::{is_sandboxed, is_snap};
+use crate::platform::{is_flatpak, is_snap};
 use gtk4::glib;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
@@ -108,14 +108,14 @@ fn disable_snap_autostart() {
     }
 }
 
-async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
+async fn request_portal(enable: bool) -> Result<bool, ashpd::Error> {
     use ashpd::desktop::background::Background;
 
     let response = Background::request()
         .reason("Allow Khushu to start automatically at login for prayer notifications.")
         .auto_start(enable)
-        .command(&["khushu", "--background"])
         .dbus_activatable(false)
+        .command(&["flatpak", "run", crate::APP_ID, "--background"])
         .send()
         .await?
         .response()?;
@@ -125,26 +125,41 @@ async fn request_portal(enable: bool) -> Result<(), ashpd::Error> {
         response.auto_start(),
         response.run_in_background()
     );
-    Ok(())
+
+    if !response.auto_start() {
+        log::warn!("Portal denied autostart request (auto_start=false)");
+    }
+
+    Ok(response.auto_start())
 }
 
-pub fn sync(should_enable: bool) {
+fn sync_flatpak(should_enable: bool) -> glib::JoinHandle<bool> {
+    glib::spawn_future_local(async move {
+        match request_portal(should_enable).await {
+            Ok(granted) => granted,
+            Err(e) => {
+                log::error!("Portal autostart failed: {e}");
+                false
+            }
+        }
+    })
+}
+
+pub fn sync(should_enable: bool) -> Option<glib::JoinHandle<bool>> {
     if is_snap() {
         if should_enable {
             enable_snap_autostart();
         } else {
             disable_snap_autostart();
         }
-    } else if is_sandboxed() {
-        glib::spawn_future_local(async move {
-            match request_portal(should_enable).await {
-                Ok(_) => log::info!("XDG Portal successfully processed autostart request."),
-                Err(e) => log::error!("Portal autostart failed: {e}"),
-            }
-        });
+        None
+    } else if is_flatpak() {
+        Some(sync_flatpak(should_enable))
     } else if should_enable {
         enable_fs();
+        None
     } else {
         disable_fs();
+        None
     }
 }

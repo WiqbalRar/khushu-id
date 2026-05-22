@@ -1,8 +1,7 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use chrono::{Datelike, Duration, Local, NaiveDate};
-use hijri_date::HijriDate;
+use chrono::{Duration, Local, NaiveDate};
 
 use crate::adkar;
 
@@ -10,7 +9,9 @@ use crate::config::AppConfig;
 use crate::i18n::tr;
 use crate::location;
 use crate::notifications::show_notification;
-use crate::time::{PrayerEngine, next_prayer_from_schedule, schedule_for_config};
+use crate::time::{
+    PrayerEngine, PrayerSchedule, apply_timezone_override, next_prayer_from_schedule,
+};
 
 pub struct PrayerState {
     pub hero_text: String,
@@ -23,10 +24,71 @@ pub struct PrayerState {
 
 type IqamahState = Rc<RefCell<Option<(String, chrono::DateTime<chrono::Local>)>>>;
 
-pub fn start_prayer_timer(
-    config: Rc<RefCell<AppConfig>>,
-    on_state: impl Fn(PrayerState) + 'static,
-) {
+struct DailyState {
+    today_schedule: Option<PrayerSchedule>,
+    tomorrow_schedule: Option<PrayerSchedule>,
+    hijri_text: String,
+    location_text: String,
+    cache_date: NaiveDate,
+}
+
+fn compute_daily_state(config: &AppConfig, engine: &PrayerEngine, today: NaiveDate) -> DailyState {
+    let tomorrow = today.succ_opt().unwrap_or(today);
+    let lang = config.language();
+    let now = crate::time::effective_now(config);
+
+    let use_mawaqit = config.prayer_times_source() == crate::config::PrayerTimesSource::Mawaqit;
+    let today_schedule = if use_mawaqit {
+        crate::time::schedule_for_config(config, today)
+    } else {
+        engine
+            .get_prayer_times(today)
+            .map(|s| apply_timezone_override(config, s))
+    };
+    let tomorrow_schedule = if use_mawaqit {
+        crate::time::schedule_for_config(config, tomorrow)
+    } else {
+        engine
+            .get_prayer_times(tomorrow)
+            .map(|s| apply_timezone_override(config, s))
+    };
+
+    let hijri_text = crate::time::format_hijri_date(now, config.hijri_offset(), &lang);
+
+    let mawaqit_cache = if use_mawaqit {
+        config.mawaqit_cache()
+    } else {
+        None
+    };
+    let location_text =
+        location::display_city_label(config.city_name().as_deref(), mawaqit_cache.as_ref(), &lang)
+            .unwrap_or_else(|| format!("{:.2}, {:.2}", config.latitude(), config.longitude()));
+
+    DailyState {
+        today_schedule,
+        tomorrow_schedule,
+        hijri_text,
+        location_text,
+        cache_date: today,
+    }
+}
+
+fn get_or_compute_schedule<'a>(
+    today_schedule: &'a Option<PrayerSchedule>,
+    tomorrow_schedule: &'a Option<PrayerSchedule>,
+    now: chrono::DateTime<Local>,
+) -> Option<(String, chrono::DateTime<Local>)> {
+    today_schedule
+        .as_ref()
+        .and_then(|s| next_prayer_from_schedule(s, now))
+        .or_else(|| {
+            tomorrow_schedule
+                .as_ref()
+                .map(|s| ("Fajr".to_string(), s.fajr))
+        })
+}
+
+pub fn start_prayer_timer(config: AppConfig, on_state: impl Fn(PrayerState) + 'static) {
     use std::sync::atomic::{AtomicBool, Ordering};
     static HAS_CORE_TIMER: AtomicBool = AtomicBool::new(false);
     let is_core_timer = !HAS_CORE_TIMER.swap(true, Ordering::SeqCst);
@@ -59,87 +121,128 @@ pub fn start_prayer_timer(
     let last_night_adkar_1: Rc<RefCell<Option<NaiveDate>>> = Rc::new(RefCell::new(None));
     let last_night_adkar_2: Rc<RefCell<Option<NaiveDate>>> = Rc::new(RefCell::new(None));
 
-    let engine_cache: Rc<RefCell<Option<(PrayerEngine, String)>>> = Rc::new(RefCell::new(None));
+    let engine_cache: Rc<RefCell<Option<PrayerEngine>>> = Rc::new(RefCell::new(None));
     let last_mawaqit_attempt_day: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
-    let config_rc = config.clone();
+    let daily_state: Rc<RefCell<Option<DailyState>>> = Rc::new(RefCell::new(None));
+
+    let engine_dirty: Rc<RefCell<bool>> = Rc::new(RefCell::new(true));
+    let schedule_dirty: Rc<RefCell<bool>> = Rc::new(RefCell::new(true));
+
+    {
+        let ed = engine_dirty.clone();
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("latitude"), move |_, _| {
+            *ed.borrow_mut() = true;
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let ed = engine_dirty.clone();
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("longitude"), move |_, _| {
+            *ed.borrow_mut() = true;
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let ed = engine_dirty.clone();
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("method"), move |_, _| {
+            *ed.borrow_mut() = true;
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let ed = engine_dirty.clone();
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("madhab"), move |_, _| {
+            *ed.borrow_mut() = true;
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("language"), move |_, _| {
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("city-name"), move |_, _| {
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("prayer-times-source"), move |_, _| {
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("timezone-mode"), move |_, _| {
+            *sd.borrow_mut() = true;
+        });
+    }
+    {
+        let sd = schedule_dirty.clone();
+        crate::connect_notify_blocked(&config, Some("timezone-override-minutes"), move |_, _| {
+            *sd.borrow_mut() = true;
+        });
+    }
 
     gtk4::glib::timeout_add_seconds_local(1, move || {
-        let config = config_rc.borrow();
-
-        let fingerprint = format!(
-            "{}:{}:{:?}:{:?}",
-            config.latitude, config.longitude, config.method, config.madhab
-        );
-        {
-            let mut cache = engine_cache.borrow_mut();
-            if cache
-                .as_ref()
-                .map(|(_, f)| f != &fingerprint)
-                .unwrap_or(true)
-            {
-                let engine = PrayerEngine::new(
-                    config.latitude,
-                    config.longitude,
-                    &config.method,
-                    &config.madhab,
-                );
-                *cache = Some((engine, fingerprint));
-            }
+        if *engine_dirty.borrow() {
+            let engine = PrayerEngine::new(
+                config.latitude(),
+                config.longitude(),
+                &config.method(),
+                &config.madhab(),
+            );
+            *engine_cache.borrow_mut() = Some(engine);
+            *engine_dirty.borrow_mut() = false;
         }
 
-        let cache = engine_cache.borrow();
-        let (_engine, _) = cache.as_ref().unwrap();
+        let engine_guard = engine_cache.borrow();
+        let engine = engine_guard.as_ref().expect("prayer engine should be cached");
         let today = crate::time::effective_today(&config);
-        let lang = config.language.clone();
+        let lang = config.language();
+
+        let mut state_guard = daily_state.borrow_mut();
+        let need_recompute = *schedule_dirty.borrow()
+            || state_guard
+                .as_ref()
+                .map(|s| s.cache_date != today)
+                .unwrap_or(true);
+        if need_recompute {
+            let fresh = compute_daily_state(&config, engine, today);
+            *state_guard = Some(fresh);
+            *schedule_dirty.borrow_mut() = false;
+        }
+        let hijri_text = state_guard
+            .as_ref()
+            .map(|s| s.hijri_text.clone())
+            .unwrap_or_default();
+        let location_text = state_guard
+            .as_ref()
+            .map(|s| s.location_text.clone())
+            .unwrap_or_default();
+        let today_schedule = state_guard.as_ref().and_then(|s| s.today_schedule.clone());
+        let tomorrow_schedule = state_guard
+            .as_ref()
+            .and_then(|s| s.tomorrow_schedule.clone());
+        drop(state_guard);
+        drop(engine_guard);
 
         let now = crate::time::effective_now(&config);
-        let adjusted_now = now + Duration::days(config.hijri_offset);
-        let hijri_text = match HijriDate::from_gr(
-            adjusted_now.year() as usize,
-            adjusted_now.month() as usize,
-            adjusted_now.day() as usize,
-        ) {
-            Ok(hijri) => {
-                let en_months = [
-                    "Muharram",
-                    "Safar",
-                    "Rabi' al-Awwal",
-                    "Rabi' al-Thani",
-                    "Jumada al-Ula",
-                    "Jumada al-Akhirah",
-                    "Rajab",
-                    "Sha'ban",
-                    "Ramadan",
-                    "Shawwal",
-                    "Dhu al-Qi'dah",
-                    "Dhu al-Hijjah",
-                ];
-                let m_name = tr(en_months.get(hijri.month() - 1).unwrap_or(&""), &lang);
-                format!("{} {} {}", hijri.day(), m_name, hijri.year())
-            }
-            Err(e) => {
-                log::error!("Failed to calculate Hijri date: {e}");
-                "—".to_string()
-            }
-        };
 
-        let mawaqit_cache =
-            if config.prayer_times_source == crate::config::PrayerTimesSource::Mawaqit {
-                config.mawaqit_cache.as_ref()
-            } else {
-                None
-            };
-        let location_text =
-            location::display_city_label(config.city_name.as_deref(), mawaqit_cache, &lang)
-                .unwrap_or_else(|| format!("{:.2}, {:.2}", config.latitude, config.longitude));
-
-        if config.prayer_times_source == crate::config::PrayerTimesSource::Mawaqit
-            && config.mawaqit_auto_refresh_daily
-            && let Some(url) = config.mawaqit_url.clone()
+        if config.prayer_times_source() == crate::config::PrayerTimesSource::Mawaqit
+            && config.mawaqit_auto_refresh_daily()
+            && let Some(url) = config.mawaqit_url()
         {
             let today_s = today.to_string();
             let fetched_today = config
-                .mawaqit_cache
+                .mawaqit_cache()
                 .as_ref()
                 .map(|c| c.fetched_on.as_str() == today_s.as_str())
                 .unwrap_or(false);
@@ -149,28 +252,20 @@ pub fn start_prayer_timer(
                 .is_some_and(|d| d == today_s.as_str());
             if !fetched_today && !already_tried_today {
                 *last_mawaqit_attempt_day.borrow_mut() = Some(today_s.clone());
-                let cfg = config_rc.clone();
+                let cfg = config.clone();
+                let state_rc = daily_state.clone();
                 gtk4::glib::spawn_future_local(async move {
                     if let Ok(cache) = crate::mawaqit::fetch_mawaqit_cache(&url).await {
-                        let mut c = cfg.borrow_mut();
-                        c.mawaqit_cache = Some(cache.clone());
-                        c.mawaqit_url = Some(cache.url.clone());
-                        c.sync_quran_state_from_disk();
-                        c.save();
+                        cfg.set_mawaqit_cache(Some(cache.clone()));
+                        cfg.set_mawaqit_url(Some(cache.url.clone()));
+                        cfg.save();
+                        *state_rc.borrow_mut() = None;
                     }
                 });
             }
         }
 
-        let schedule_today = schedule_for_config(&config, today);
-        let next = schedule_today
-            .as_ref()
-            .and_then(|s| next_prayer_from_schedule(s, now))
-            .or_else(|| {
-                let next_day = today.succ_opt()?;
-                let s = schedule_for_config(&config, next_day)?;
-                Some(("Fajr".to_string(), s.fajr))
-            });
+        let next = get_or_compute_schedule(&today_schedule, &tomorrow_schedule, now);
 
         let adhan_playing = crate::audio::is_playing();
         if !adhan_playing {
@@ -198,10 +293,10 @@ pub fn start_prayer_timer(
             };
 
             if is_core_timer
-                && config.pre_prayer_notify
-                && !config.adhan_only_mode
+                && config.pre_prayer_notify()
+                && !config.adhan_only_mode()
                 && total_seconds > 0
-                && total_seconds <= (config.pre_prayer_minutes as i64 * 60)
+                && total_seconds <= (config.pre_prayer_minutes() as i64 * 60)
                 && name != "Sunrise"
             {
                 let mut last_pre = last_pre_notified.borrow_mut();
@@ -212,7 +307,7 @@ pub fn start_prayer_timer(
                             "{} {} {} {}",
                             tr(&name, &lang),
                             tr("is in", &lang),
-                            config.pre_prayer_minutes,
+                            config.pre_prayer_minutes(),
                             tr("minutes", &lang)
                         ),
                         false,
@@ -237,15 +332,14 @@ pub fn start_prayer_timer(
 
                     if name != "Sunrise" {
                         let path = config
-                            .adhan_sound_path
-                            .clone()
+                            .adhan_sound_path()
                             .unwrap_or_else(|| "assets/audio/Madinah.mp3".to_string());
-                        if !config.adhan_muted {
-                            crate::audio::play_adhan(&path, config.adhan_volume);
+                        if !config.adhan_muted() {
+                            crate::audio::play_adhan(&path, config.adhan_volume());
                             *current_adhan_prayer.borrow_mut() = Some(name.clone());
                         }
                         let iqamah_mins =
-                            config.iqamah_minutes.get(&name).copied().unwrap_or(10) as i64;
+                            config.iqamah_minutes().get(&name).copied().unwrap_or(10) as i64;
                         let iqamah_end = time + chrono::Duration::minutes(iqamah_mins);
                         *iqamah_state.borrow_mut() = Some((name.clone(), iqamah_end));
                         *iqamah_notified.borrow_mut() = None;
@@ -256,7 +350,7 @@ pub fn start_prayer_timer(
                 }
             }
 
-            if is_core_timer && config.adkar_notification_enabled && !config.adhan_only_mode {
+            if is_core_timer && config.adkar_notification_enabled() && !config.adhan_only_mode() {
                 let mut d_lists = daily_adkar_lists.borrow_mut();
                 if d_lists.date != today {
                     d_lists.morning = adkar::get_n_random_dikrs("morning", 2);
@@ -264,8 +358,9 @@ pub fn start_prayer_timer(
                     d_lists.night = adkar::get_n_random_dikrs("night", 2);
                     d_lists.date = today;
                 }
+                drop(d_lists);
 
-                if let Some(schedule) = schedule_today.as_ref() {
+                if let Some(schedule) = today_schedule.as_ref() {
                     let fajr_elapsed = now.signed_duration_since(schedule.fajr).num_seconds();
                     let asr_elapsed = now.signed_duration_since(schedule.asr).num_seconds();
                     let isha_elapsed = now.signed_duration_since(schedule.isha).num_seconds();
@@ -273,7 +368,8 @@ pub fn start_prayer_timer(
                     if (60..120).contains(&fajr_elapsed) {
                         let mut state = last_morning_adkar_1.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.morning.first() {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.morning.first() {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -293,7 +389,8 @@ pub fn start_prayer_timer(
                     if (1800..1860).contains(&fajr_elapsed) {
                         let mut state = last_morning_adkar_2.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.morning.get(1) {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.morning.get(1) {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -314,7 +411,8 @@ pub fn start_prayer_timer(
                     if (900..960).contains(&asr_elapsed) {
                         let mut state = last_evening_adkar_1.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.evening.first() {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.evening.first() {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -334,7 +432,8 @@ pub fn start_prayer_timer(
                     if (2700..2760).contains(&asr_elapsed) {
                         let mut state = last_evening_adkar_2.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.evening.get(1) {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.evening.get(1) {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -355,7 +454,8 @@ pub fn start_prayer_timer(
                     if (1800..1860).contains(&isha_elapsed) {
                         let mut state = last_night_adkar_1.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.night.first() {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.night.first() {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -375,7 +475,8 @@ pub fn start_prayer_timer(
                     if (3600..3660).contains(&isha_elapsed) {
                         let mut state = last_night_adkar_2.borrow_mut();
                         if *state != Some(today) {
-                            if let Some(dikr) = d_lists.night.get(1) {
+                            let lists = daily_adkar_lists.borrow();
+                            if let Some(dikr) = lists.night.get(1) {
                                 let body = if lang == "ar" {
                                     &dikr.arabic
                                 } else {
@@ -430,8 +531,8 @@ pub fn start_prayer_timer(
                     })
                 };
                 if should_notify
-                    && config.iqamah_notify
-                    && !config.adhan_only_mode
+                    && config.iqamah_notify()
+                    && !config.adhan_only_mode()
                     && let Some((iq_name, _)) = iqamah_state.borrow().as_ref()
                 {
                     show_notification(

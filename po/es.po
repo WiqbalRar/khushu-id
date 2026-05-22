@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.1.1\n"
+"Project-Id-Version: Khushu 1.1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-15 02:25+0100\n"
-"PO-Revision-Date: 2026-04-22 12:00+0100"
+"PO-Revision-Date: 2026-05-14 12:00+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
@@ -15,7 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 
 # =============================================================================
 # SECTION 1: APPSTREAM METADATA
@@ -177,7 +176,7 @@ msgstr "musulmán"
 msgid "islam"
 msgstr "islam"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:113
 msgid ""
 "Added a fully offline Noble Qur'an module featuring the Qur'anic text in "
 "Uthmanic orthography (rasm), translations, mushaf-style navigation, "
@@ -188,13 +187,13 @@ msgstr ""
 "mushaf, búsqueda sensible a los diacríticos, guardado de la posición de "
 "lectura y tipografía ajustable."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:89
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:114
 msgid "Added Mawaqit API integration as an alternative prayer times source."
 msgstr ""
 "Se añadió la integración de Mawaqit API como fuente alternativa de horarios "
 "de oración."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:90
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:115
 msgid ""
 "Added ICU-backed localization for location and timezone labels, plus "
 "validated custom IANA timezone editing."
@@ -203,7 +202,7 @@ msgstr ""
 "zona horaria, junto con la validación de la edición personalizada de zonas "
 "horarias IANA."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:91
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:116
 msgid ""
 "Reorganized settings into clearer General, Prayer Setup, and Alerts sections "
 "with improved inline editing behavior."
@@ -211,7 +210,7 @@ msgstr ""
 "Se reorganizaron los ajustes en secciones más claras: General, Configuración "
 "de oración y Alertas, con mejoras en la edición en línea."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:92
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:117
 msgid ""
 "Fixed Snap tray icon visibility via an upstream patch to ksni (resolves "
 "AppArmor D-Bus blocking)."
@@ -219,44 +218,75 @@ msgstr ""
 "Se corrigió la visibilidad del icono de la bandeja de Snap mediante un parche "
 "upstream en ksni (resuelve el bloqueo de D-Bus por AppArmor)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:99
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:124
 msgid "Fixed Snap autostart and notification icon rendering."
 msgstr "Corrección del inicio automático de Snap y la visualización del icono de notificaciones."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:100
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:125
 msgid "Improved locale detection and fallback logic."
 msgstr "Mejora en la detección de idioma y lógica de respaldo."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:107
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:132
 msgid "Fixed Flatpak autostart failure and missing --background flag."
 msgstr "Corrección del fallo del inicio automático de Flatpak y la bandera --background faltante."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:108
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:133
 msgid ""
 "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
 msgstr ""
 "Corrección de la traducción excesiva de nombres propios (ej.: Muslim) en idiomas no ingleses."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:109
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:134
 msgid "Added new localized AppStream screenshots for improved store presence."
 msgstr "Capturas de pantalla localizadas para una mejor presencia en la tienda."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:116
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:141
 msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
 msgstr "Corrección de la extracción de traducciones del icono de bandeja (entradas Salir y Abrir Khushu)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:117
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:142
 msgid "Fixed AppStream metadata translation (descriptions and keywords)."
 msgstr "Corrección de la traducción de metadatos de AppStream (descripciones y palabras clave)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:118
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:143
 msgid "Improved tray behavior to update labels immediately on language change."
 msgstr "Mejora del comportamiento de bandeja para actualizar etiquetas inmediatamente al cambiar de idioma."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:125
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:150
 msgid "Initial stable release of Khushu."
 msgstr "Primera versión estable de Khushu."
 
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
+msgid "Improved audio playback engine with streaming decode."
+msgstr "Motor de reproducción de audio mejorado con decodificación en streaming."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:89
+msgid "Improved Qibla compass performance with Pango and bearing caching."
+msgstr "Rendimiento de la brújula Qibla mejorado con caché de Pango y orientación."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:90
+msgid "Improved timer controller with daily state caching."
+msgstr "Controlador de temporizador mejorado con caché de estado diario."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:91
+msgid "Improved config persistence with singleton save channel."
+msgstr "Persistencia de configuración mejorada con canal de guardado único."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:92
+msgid "Fixed application crashes caused by notification re-entrancy."
+msgstr "Corregidos cierres inesperados causados por reentrada de notificaciones."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:93
+msgid "Fixed configuration data race when saving from multiple threads."
+msgstr "Corregida condición de carrera al guardar desde múltiples hilos."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:94
+msgid "Fixed thread safety issues in locale setup and audio initialization."
+msgstr "Corregidos problemas de seguridad en hilos durante la configuración de idioma e inicio de audio."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:95
+msgid "Replaced 26 unsafe unwrap() calls with proper error messages."
+msgstr "Reemplazadas 26 llamadas inseguras unwrap() con mensajes de error descriptivos."
 
 # =============================================================================
 # SECTION 2: HIJRI CALENDAR - MONTHS
@@ -300,7 +330,6 @@ msgstr "Dhu al-Qi'dah"
 msgid "Dhu al-Hijjah"
 msgstr "Dhu al-Hijjah"
 
-
 # =============================================================================
 # SECTION 3: GREGORIAN CALENDAR - MONTHS
 # =============================================================================
@@ -341,7 +370,6 @@ msgstr "Noviembre"
 
 msgid "December"
 msgstr "Diciembre"
-
 
 # =============================================================================
 # SECTION 4: CALENDAR - WEEKDAYS
@@ -391,7 +419,6 @@ msgstr "Vie"
 msgid "Sat"
 msgstr "Sáb"
 
-
 # =============================================================================
 # SECTION 5: CALENDAR - EVENTS
 # =============================================================================
@@ -423,7 +450,6 @@ msgstr "Ashura"
 msgid "Mawlid al-Nabi"
 msgstr "Mawlid al-Nabi"
 
-
 # =============================================================================
 # SECTION 6: PRAYER - NAMES
 # =============================================================================
@@ -446,7 +472,6 @@ msgstr "Isha"
 
 msgid "Sunrise"
 msgstr "Amanecer"
-
 
 # =============================================================================
 # SECTION 7: PRAYER - DASHBOARD & ACTIONS
@@ -501,7 +526,6 @@ msgstr "Iqamah"
 #: src/timer_controller.rs:443
 msgid "It is time for Iqamah of"
 msgstr "Es hora de la Iqamah de"
-
 
 # =============================================================================
 # SECTION 8: PRAYER - CALCULATION & SOURCE
@@ -669,7 +693,6 @@ msgstr "Obteniendo..."
 msgid "Mawaqit fetch failed"
 msgstr "Error al obtener datos de Mawaqit"
 
-
 # =============================================================================
 # SECTION 9: QIBLA COMPASS
 # =============================================================================
@@ -717,7 +740,6 @@ msgstr "SO"
 #: src/qibla_ui.rs:228
 msgid "Sensor Active (Smooth)"
 msgstr "Sensor activo (suave)"
-
 
 # =============================================================================
 # SECTION 10: NOBLE QURAN - NAVIGATION
@@ -782,7 +804,6 @@ msgstr " ۩"
 msgid "Invalid page number"
 msgstr "Número de página inválido"
 
-
 # =============================================================================
 # SECTION 11: NOBLE QURAN - TYPOGRAPHY & SETTINGS
 # =============================================================================
@@ -823,7 +844,6 @@ msgstr "Multiplicador (1.0–3.0)"
 #: src/quran.rs:1597
 msgid "Reset to Default"
 msgstr "Restablecer valores predeterminados"
-
 
 # =============================================================================
 # SECTION 12: NOBLE QURAN - BOOKMARKS & ACTIONS
@@ -877,7 +897,6 @@ msgstr "Texto árabe y traducciones de Tanzil.net."
 msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
 msgstr "Ninguna traducción del Corán puede ser totalmente precisa ni puede usarse como sustituto del texto coránico. Las traducciones provienen del sitio web Tanzil.net; no podemos garantizar su autenticidad ni exactitud. Utilícelas bajo su propia responsabilidad."
 
-
 # =============================================================================
 # SECTION 13: ADKAR - CATEGORIES
 # =============================================================================
@@ -906,7 +925,6 @@ msgstr "Adkar de la tarde"
 msgid "Night Adkar"
 msgstr "Adkar de la noche"
 
-
 # =============================================================================
 # SECTION 14: ADKAR - SOURCES
 # =============================================================================
@@ -933,7 +951,6 @@ msgstr "Ibn As-Sunni"
 #: src/adkar.rs:360
 msgid "(no. "
 msgstr "(núm. "
-
 
 # =============================================================================
 # SECTION 15: SETTINGS - GENERAL & APPEARANCE
@@ -974,6 +991,10 @@ msgstr "Oscuro"
 msgid "Autostart"
 msgstr "Inicio automático"
 
+#: src/welcome.rs:667
+msgid "Autostart was denied by the system."
+msgstr "El inicio automático fue denegado por el sistema."
+
 msgid "Startup"
 msgstr "Arranque"
 
@@ -992,7 +1013,6 @@ msgstr "Adhan de La Meca"
 #: src/settings_ui.rs:1278
 msgid "Madinah Adhan"
 msgstr "Adhan de Medina"
-
 
 # =============================================================================
 # SECTION 16: SETTINGS - LOCATION
@@ -1131,7 +1151,6 @@ msgstr "Política de ubicación"
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-
 # =============================================================================
 # SECTION 17: SETTINGS - TIMEZONE
 # =============================================================================
@@ -1175,7 +1194,6 @@ msgstr "Desfase UTC (horas)"
 #: src/settings_ui.rs:692
 msgid "Example: +2.0 for UTC+2, -5.0 for UTC-5"
 msgstr "Ejemplo: +2.0 para UTC+2, -5.0 para UTC-5"
-
 
 # =============================================================================
 # SECTION 18: SETTINGS - NOTIFICATIONS & AUDIO
@@ -1291,7 +1309,6 @@ msgstr "Nivel de volumen (0–100 %)"
 msgid "▶ Preview Adhan"
 msgstr "▶ Preescuchar Adhan"
 
-
 # =============================================================================
 # SECTION 19: APP UI & SYSTEM ACTIONS
 # =============================================================================
@@ -1369,7 +1386,6 @@ msgstr "Modo auto: GeoClue (sistema). Búsqueda de ciudad: Nominatim (OpenStreet
 msgid "Coordinates stay on this device and are not sent to any external servers. No analytics, no telemetry, no accounts."
 msgstr "Las coordenadas permanecen en este dispositivo y no se envían a ningún servidor externo. Sin análisis, sin telemetría, sin cuentas."
 
-
 # =============================================================================
 # SECTION 20: GENERAL & MISCELLANEOUS
 # =============================================================================
@@ -1426,22 +1442,22 @@ msgstr "Turco"
 msgid "Language"
 msgstr "Idioma"
 
-#: CHANGELOG
-msgid "Added Adhan Only Mode toggle to keep only Adhan alerts"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:102
+msgid "Added Adhan Only Mode toggle to keep only Adhan alerts."
 msgstr "Se añadió el modo Solo Adhan para mantener únicamente las notificaciones de Adhan"
 
-#: CHANGELOG
-msgid "Added Iqamah Alert toggle to separately control Iqamah notifications"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
+msgid "Added Iqamah Alert toggle to separately control Iqamah notifications."
 msgstr "Se añadió la opción Alerta de Iqamah para controlar por separado las notificaciones de Iqamah"
 
-#: CHANGELOG
-msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
+msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)."
 msgstr "Se añadieron nuevos métodos de cálculo para Francia (UOIF), Argelia (Ministerio de Asuntos Religiosos y Wakfs) y KEMENAG (Indonesia)"
 
-#: CHANGELOG
-msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
+msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support."
 msgstr "Se corrigió la visibilidad del icono de Flatpak mediante soporte para rutas de iconos del portal XDG"
 
-#: CHANGELOG
-msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window"
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:106
+msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window."
 msgstr "Se mejoró la activación desde la bandeja del sistema: al hacer clic en «Open Khushu», la ventana de la aplicación se muestra directamente en primer plano"

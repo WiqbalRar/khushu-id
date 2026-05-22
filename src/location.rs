@@ -150,7 +150,6 @@ pub fn country_name_from_code(code: &str, lang: &str) -> Option<String> {
 
     let locale_str = icu_locale_key(lang);
 
-    // Systematic redirection of IL to PS
     let actual_code = if code.eq_ignore_ascii_case("IL") {
         "PS"
     } else {
@@ -161,7 +160,9 @@ pub fn country_name_from_code(code: &str, lang: &str) -> Option<String> {
     CACHE.with(|cache| {
         let mut map = cache.borrow_mut();
         if !map.contains_key(&locale_str) {
-            let locale: Locale = locale_str.parse().unwrap_or_else(|_| "en".parse().unwrap());
+            let locale: Locale = locale_str
+                .parse()
+                .unwrap_or_else(|_| "en".parse().expect("en is a valid locale string"));
             if let Ok(rdn) =
                 RegionDisplayNames::try_new(locale.into(), DisplayNamesOptions::default())
             {
@@ -296,7 +297,7 @@ use ashpd::desktop::location::{Accuracy, LocationProxy};
 use futures_util::StreamExt;
 
 pub async fn fetch_auto_location(lang: &str) -> Result<(f64, f64, String), String> {
-    fetch_geoclue_location(lang).await
+    fetch_portal_location(lang).await
 }
 
 pub async fn resolve_city_name(lat: f64, lon: f64, lang: &str) -> Result<String, String> {
@@ -305,7 +306,7 @@ pub async fn resolve_city_name(lat: f64, lon: f64, lang: &str) -> Result<String,
         .map(|name| short_city_with_country(&name))
 }
 
-async fn fetch_geoclue_location(lang: &str) -> Result<(f64, f64, String), String> {
+async fn fetch_portal_location(lang: &str) -> Result<(f64, f64, String), String> {
     log::info!("Attempting to fetch location via ASHPD Portal...");
 
     let proxy = LocationProxy::new().await.map_err(|e| {
@@ -334,17 +335,17 @@ async fn fetch_geoclue_location(lang: &str) -> Result<(f64, f64, String), String
         tr("Location access denied or unavailable.", lang)
     })?;
 
-    let location_result =
-        tokio::time::timeout(std::time::Duration::from_secs(10), stream.next()).await;
+    use futures_util::future::Either;
 
-    let location = match location_result {
-        Ok(Some(loc)) => loc,
-        Ok(None) => {
+    let timeout = gtk4::glib::timeout_future_seconds(10);
+    let location = match futures_util::future::select(timeout, stream.next()).await {
+        Either::Right((Some(loc), _)) => loc,
+        Either::Right((None, _)) => {
             let _ = session.close().await;
             log::error!("Location stream ended unexpectedly");
             return Err(tr("Location service disconnected unexpectedly.", lang));
         }
-        Err(_) => {
+        Either::Left((_, _)) => {
             let _ = session.close().await;
             log::error!("Location request timed out (possible permission denial)");
             return Err(tr(

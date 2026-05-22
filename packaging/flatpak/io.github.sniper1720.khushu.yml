@@ -15,6 +15,7 @@ finish-args:
   - --device=dri
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create
+  - --env=LOCPATH=/app/usr/lib/locale
 modules:
   - name: khushu
     buildsystem: meson
@@ -25,6 +26,8 @@ modules:
         CARGO_NET_OFFLINE: "true"
         CARGO_BUILD_OFFLINE: "true"
         GETTEXT_SYSTEM: "1"
+      config-opts:
+        - -Dgenerate_locales=auto
     sources:
       - type: dir
         path: ../../

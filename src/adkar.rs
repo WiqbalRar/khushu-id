@@ -76,9 +76,8 @@ pub fn get_n_random_dikrs(category: &str, n: usize) -> Vec<Dikr> {
 }
 
 use crate::config::AppConfig;
-use std::cell::RefCell;
 
-pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn()>) {
+pub fn create_adkar_page(config: AppConfig) -> (gtk::Box, Rc<dyn Fn()>) {
     let container = gtk::Box::new(gtk::Orientation::Vertical, 0);
     let stack = adw::ViewStack::new();
     stack.set_hhomogeneous(false);
@@ -164,7 +163,7 @@ pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn
     let evening_box_clone = evening_box_rc.clone();
     let night_box_clone = night_box_rc.clone();
 
-    let rebuild_lists = Rc::new(move |config_ref: Rc<RefCell<AppConfig>>| {
+    let rebuild_lists = Rc::new(move |config_ref: AppConfig| {
         let m_box = &*morning_box_clone;
         let e_box = &*evening_box_clone;
         let n_box = &*night_box_clone;
@@ -179,7 +178,7 @@ pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn
             n_box.remove(&child);
         }
 
-        let favs = config_ref.borrow().favorites.clone();
+        let favs = config_ref.favorites();
         let all_boxes = [m_box.clone(), e_box.clone(), n_box.clone()];
 
         for dikr in get_morning_adkar() {
@@ -213,7 +212,7 @@ pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn
 
     rebuild_lists(config.clone());
 
-    let initial_lang = config.borrow().language.clone();
+    let initial_lang = config.language();
     let morning_page = stack.add_titled(
         &morning_scroll,
         Some("morning"),
@@ -236,7 +235,7 @@ pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn
     let rebuild_lists_refresh = rebuild_lists.clone();
     let config_refresh = config.clone();
     let refresh_ui = Rc::new(move || {
-        let lang = config_refresh.borrow().language.clone();
+        let lang = config_refresh.language();
         morning_page.set_title(Some(&tr("Morning", &lang)));
         evening_page.set_title(Some(&tr("Evening", &lang)));
         night_page.set_title(Some(&tr("Night", &lang)));
@@ -249,7 +248,7 @@ pub fn create_adkar_page(config: Rc<RefCell<AppConfig>>) -> (gtk::Box, Rc<dyn Fn
 fn create_dikr_row(
     dikr: &Dikr,
     is_favorite: bool,
-    config: Rc<RefCell<AppConfig>>,
+    config: AppConfig,
     all_lists: [gtk::ListBox; 3],
 ) -> gtk::ListBoxRow {
     let row = gtk::ListBoxRow::new();
@@ -280,15 +279,17 @@ fn create_dikr_row(
     let dikr_id_signal = dikr_id.clone();
 
     fav_btn.connect_clicked(move |_btn| {
-        let mut cfg = config_fav.borrow_mut();
-        let currently_fav = cfg.favorites.contains(&dikr_id_signal);
+        let currently_fav = config_fav.favorites().contains(&dikr_id_signal);
         if currently_fav {
-            cfg.favorites.retain(|x| x != &dikr_id_signal);
+            let mut favs = config_fav.favorites();
+            favs.retain(|x| x != &dikr_id_signal);
+            config_fav.set_favorites(favs);
         } else {
-            cfg.favorites.push(dikr_id_signal.clone());
+            let mut favs = config_fav.favorites();
+            favs.push(dikr_id_signal.clone());
+            config_fav.set_favorites(favs);
         }
-        cfg.sync_quran_state_from_disk();
-        cfg.save();
+        config_fav.save();
 
         let new_fav_status = !currently_fav;
         for list in &all_lists_clone {
@@ -336,7 +337,7 @@ fn create_dikr_row(
         .css_classes(["caption"])
         .build();
 
-    let lang = config.borrow().language.clone();
+    let lang = config.language();
 
     let mut translated_source = dikr.reference.clone();
 
@@ -376,7 +377,7 @@ fn create_dikr_row(
     );
 
     vbox.append(&lbl_arabic);
-    if config.borrow().language != "ar" {
+    if config.language() != "ar" {
         vbox.append(&lbl_trans);
     }
     vbox.append(&hbox_meta);

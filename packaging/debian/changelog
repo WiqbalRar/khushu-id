@@ -1,3 +1,16 @@
+khushu (1.1.2) unstable; urgency=medium
+
+  * Improved audio playback engine with streaming decode
+  * Improved Qibla compass performance with Pango/cardinal/bearing caching
+  * Improved timer controller with DailyState caching
+  * Improved config persistence with singleton save channel
+  * Fixed RefCell re-entrancy panics with freeze_notify guards
+  * Fixed config TOCTOU race by removing disk re-read
+  * Fixed thread-unsafe locale setup, FFI bindtextdomain, and GIO thread safety
+  * Fixed code quality with expect() replacing unwrap() calls
+
+ -- Djalel Oukid <sniper1720@linuxtechmore.com>  Wed, 13 May 2026 12:00:00 +0100
+
 khushu (1.1.1) unstable; urgency=medium
 
   * Added Adhan Only Mode toggle to keep only Adhan alerts

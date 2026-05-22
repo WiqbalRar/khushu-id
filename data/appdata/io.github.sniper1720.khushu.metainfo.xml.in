@@ -82,6 +82,20 @@
   </branding>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="1.1.2" date="2026-05-13">
+      <description>
+        <ul>
+          <li>Improved audio playback engine with streaming decode.</li>
+          <li>Improved Qibla compass performance with Pango and bearing caching.</li>
+          <li>Improved timer controller with daily state caching.</li>
+          <li>Improved config persistence with singleton save channel.</li>
+          <li>Fixed application crashes caused by notification re-entrancy.</li>
+          <li>Fixed configuration data race when saving from multiple threads.</li>
+          <li>Fixed thread safety issues in locale setup and audio initialization.</li>
+          <li>Replaced 26 unsafe unwrap() calls with proper error messages.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.1" date="2026-04-25">
       <description>
         <ul>

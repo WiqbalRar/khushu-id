@@ -1,13 +1,15 @@
-use crate::security;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::fs;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
-use std::rc::Rc;
+use std::sync::mpsc::{Sender, channel};
+use std::thread;
 
 use gtk4::glib;
+use gtk4::glib::prelude::*;
+use gtk4::glib::subclass::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum LocationMode {
@@ -80,7 +82,7 @@ fn default_volume() -> f32 {
 }
 
 fn default_autostart() -> bool {
-    true
+    false
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
@@ -113,10 +115,8 @@ pub struct MawaqitCache {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct AppConfig {
-    #[serde(skip)]
+pub struct AppConfigData {
     pub latitude: f64,
-    #[serde(skip)]
     pub longitude: f64,
     pub method: CalculationMethod,
     pub madhab: MadhabChoice,
@@ -146,63 +146,43 @@ pub struct AppConfig {
     pub adhan_muted: bool,
     #[serde(default = "default_autostart")]
     pub autostart: bool,
-
-    #[serde(default)]
-    pub enc_lat: String,
-    #[serde(default)]
-    pub enc_lon: String,
-
     #[serde(default)]
     pub quran_bookmark_surah: Option<u32>,
     #[serde(default)]
     pub quran_bookmark_page: Option<u32>,
-
     #[serde(default)]
     pub quran_bookmarks: Vec<QuranBookmark>,
-
     #[serde(default)]
     pub quran_last_surah: Option<u32>,
     #[serde(default)]
     pub quran_last_page: Option<u32>,
-
     #[serde(default)]
     pub prayer_times_source: PrayerTimesSource,
-
     #[serde(default)]
     pub mawaqit_url: Option<String>,
     #[serde(default)]
     pub mawaqit_auto_refresh_daily: bool,
     #[serde(default)]
     pub mawaqit_cache: Option<MawaqitCache>,
-
-    #[serde(default)]
-    pub enc_mawaqit_url: String,
-    #[serde(default)]
-    pub enc_mawaqit_cache: String,
-
     #[serde(default)]
     pub timezone_override_minutes: Option<i32>,
-
     #[serde(default)]
     pub timezone_mode: TimezoneMode,
-
     #[serde(default = "default_quran_arabic_font_px")]
     pub quran_arabic_font_px: f64,
     #[serde(default = "default_quran_translation_font_px")]
     pub quran_translation_font_px: f64,
     #[serde(default = "default_quran_line_height")]
     pub quran_line_height: f64,
-
     #[serde(default = "default_global_arabic_font_family")]
     pub global_arabic_font_family: String,
     #[serde(default = "default_global_ui_font_family")]
     pub global_ui_font_family: String,
-
     #[serde(default = "default_iqamah_minutes")]
     pub iqamah_minutes: HashMap<String, u32>,
 }
 
-impl Default for AppConfig {
+impl Default for AppConfigData {
     fn default() -> Self {
         Self {
             latitude: 36.75,
@@ -225,8 +205,6 @@ impl Default for AppConfig {
             adhan_volume: 1.0,
             adhan_muted: false,
             autostart: true,
-            enc_lat: String::new(),
-            enc_lon: String::new(),
             quran_bookmark_surah: None,
             quran_bookmark_page: None,
             quran_bookmarks: Vec::new(),
@@ -236,8 +214,6 @@ impl Default for AppConfig {
             mawaqit_url: None,
             mawaqit_auto_refresh_daily: false,
             mawaqit_cache: None,
-            enc_mawaqit_url: String::new(),
-            enc_mawaqit_cache: String::new(),
             timezone_override_minutes: None,
             timezone_mode: TimezoneMode::Auto,
             quran_arabic_font_px: default_quran_arabic_font_px(),
@@ -280,115 +256,467 @@ fn default_iqamah_minutes() -> HashMap<String, u32> {
     m
 }
 
-impl AppConfig {
-    pub fn sync_quran_state_from_disk(&mut self) {
-        let latest = Self::load();
-        self.quran_arabic_font_px = latest.quran_arabic_font_px;
-        self.quran_translation_font_px = latest.quran_translation_font_px;
-        self.quran_line_height = latest.quran_line_height;
-        self.quran_bookmark_surah = latest.quran_bookmark_surah;
-        self.quran_bookmark_page = latest.quran_bookmark_page;
-        self.quran_bookmarks = latest.quran_bookmarks;
-        self.quran_last_surah = latest.quran_last_surah;
-        self.quran_last_page = latest.quran_last_page;
+mod imp {
+    use super::*;
+    use std::sync::LazyLock;
+
+    #[derive(Default)]
+    pub struct AppConfig {
+        pub data: RefCell<AppConfigData>,
     }
 
-    pub fn load() -> Self {
+    #[glib::object_subclass]
+    impl ObjectSubclass for AppConfig {
+        const NAME: &'static str = "KhushuAppConfig";
+        type Type = super::AppConfig;
+    }
+
+    impl ObjectImpl for AppConfig {
+        fn properties() -> &'static [glib::ParamSpec] {
+            static PROPERTIES: LazyLock<Vec<glib::ParamSpec>> = LazyLock::new(|| {
+                vec![
+                    glib::ParamSpecDouble::builder("latitude")
+                        .nick("Latitude")
+                        .minimum(-90.0)
+                        .maximum(90.0)
+                        .default_value(36.75)
+                        .build(),
+                    glib::ParamSpecDouble::builder("longitude")
+                        .nick("Longitude")
+                        .minimum(-180.0)
+                        .maximum(180.0)
+                        .default_value(3.05)
+                        .build(),
+                    glib::ParamSpecString::builder("method")
+                        .nick("Calculation Method")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("madhab")
+                        .nick("Madhab")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("language")
+                        .nick("Language")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("city-name")
+                        .nick("City Name")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("prayer-times-source")
+                        .nick("Prayer Times Source")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecInt::builder("timezone-override-minutes")
+                        .nick("Timezone Override")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("timezone-mode")
+                        .nick("Timezone Mode")
+                        .read_only()
+                        .build(),
+                    glib::ParamSpecString::builder("location-mode")
+                        .nick("Location Mode")
+                        .read_only()
+                        .build(),
+                ]
+            });
+            PROPERTIES.as_ref()
+        }
+
+        fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+            let obj = self.obj();
+            match pspec.name() {
+                "latitude" => obj.latitude().to_value(),
+                "longitude" => obj.longitude().to_value(),
+                "method" => format!("{:?}", obj.method()).to_value(),
+                "madhab" => format!("{:?}", obj.madhab()).to_value(),
+                "language" => obj.language().to_value(),
+                "city-name" => obj.city_name().to_value(),
+                "prayer-times-source" => format!("{:?}", obj.prayer_times_source()).to_value(),
+                "timezone-override-minutes" => {
+                    obj.timezone_override_minutes().unwrap_or(-1).to_value()
+                }
+                "timezone-mode" => format!("{:?}", obj.timezone_mode()).to_value(),
+                "location-mode" => format!("{:?}", obj.location_mode()).to_value(),
+                _ => unimplemented!("property {:?}", pspec.name()),
+            }
+        }
+
+        fn set_property(&self, _id: usize, value: &glib::Value, pspec: &glib::ParamSpec) {
+            let obj = self.obj();
+            match pspec.name() {
+                "latitude" => obj.set_latitude(value.get().expect("latitude param value")),
+                "longitude" => obj.set_longitude(value.get().expect("longitude param value")),
+                _ => unimplemented!("set_property {:?}", pspec.name()),
+            }
+        }
+    }
+}
+
+glib::wrapper! {
+    pub struct AppConfig(ObjectSubclass<imp::AppConfig>);
+}
+
+impl Default for AppConfig {
+    fn default() -> Self {
+        glib::Object::new()
+    }
+}
+
+static SAVE_SENDER: std::sync::OnceLock<Sender<AppConfigData>> = std::sync::OnceLock::new();
+
+thread_local! {
+    static CONFIG_INSTANCE: std::cell::RefCell<Option<AppConfig>> = const { std::cell::RefCell::new(None) };
+}
+
+impl AppConfig {
+    pub fn language(&self) -> String {
+        self.imp().data.borrow().language.clone()
+    }
+    pub fn set_language(&self, val: &str) {
+        self.imp().data.borrow_mut().language = val.to_string();
+        self.notify("language");
+    }
+
+    pub fn theme(&self) -> ThemeMode {
+        self.imp().data.borrow().theme.clone()
+    }
+    pub fn set_theme(&self, val: ThemeMode) {
+        self.imp().data.borrow_mut().theme = val;
+    }
+
+    pub fn latitude(&self) -> f64 {
+        self.imp().data.borrow().latitude
+    }
+    pub fn set_latitude(&self, val: f64) {
+        if (self.latitude() - val).abs() > 1e-10 {
+            self.imp().data.borrow_mut().latitude = val;
+            self.notify("latitude");
+        }
+    }
+
+    pub fn longitude(&self) -> f64 {
+        self.imp().data.borrow().longitude
+    }
+    pub fn set_longitude(&self, val: f64) {
+        if (self.longitude() - val).abs() > 1e-10 {
+            self.imp().data.borrow_mut().longitude = val;
+            self.notify("longitude");
+        }
+    }
+
+    pub fn city_name(&self) -> Option<String> {
+        self.imp().data.borrow().city_name.clone()
+    }
+    pub fn set_city_name(&self, val: Option<String>) {
+        self.imp().data.borrow_mut().city_name = val;
+        self.notify("city-name");
+    }
+
+    pub fn method(&self) -> CalculationMethod {
+        self.imp().data.borrow().method.clone()
+    }
+    pub fn set_method(&self, val: CalculationMethod) {
+        self.imp().data.borrow_mut().method = val;
+        self.notify("method");
+    }
+
+    pub fn madhab(&self) -> MadhabChoice {
+        self.imp().data.borrow().madhab.clone()
+    }
+    pub fn set_madhab(&self, val: MadhabChoice) {
+        self.imp().data.borrow_mut().madhab = val;
+        self.notify("madhab");
+    }
+
+    pub fn location_mode(&self) -> LocationMode {
+        self.imp().data.borrow().location_mode.clone()
+    }
+    pub fn set_location_mode(&self, val: LocationMode) {
+        if self.location_mode() != val {
+            self.imp().data.borrow_mut().location_mode = val;
+            self.notify("location-mode");
+        }
+    }
+
+    pub fn adhan_sound_path(&self) -> Option<String> {
+        self.imp().data.borrow().adhan_sound_path.clone()
+    }
+    pub fn set_adhan_sound_path(&self, val: Option<String>) {
+        self.imp().data.borrow_mut().adhan_sound_path = val;
+    }
+
+    pub fn pre_prayer_notify(&self) -> bool {
+        self.imp().data.borrow().pre_prayer_notify
+    }
+    pub fn set_pre_prayer_notify(&self, val: bool) {
+        self.imp().data.borrow_mut().pre_prayer_notify = val;
+    }
+
+    pub fn pre_prayer_minutes(&self) -> u32 {
+        self.imp().data.borrow().pre_prayer_minutes
+    }
+    pub fn set_pre_prayer_minutes(&self, val: u32) {
+        self.imp().data.borrow_mut().pre_prayer_minutes = val;
+    }
+
+    pub fn hijri_offset(&self) -> i64 {
+        self.imp().data.borrow().hijri_offset
+    }
+    pub fn set_hijri_offset(&self, val: i64) {
+        self.imp().data.borrow_mut().hijri_offset = val;
+    }
+
+    pub fn favorites(&self) -> Vec<String> {
+        self.imp().data.borrow().favorites.clone()
+    }
+    pub fn set_favorites(&self, val: Vec<String>) {
+        self.imp().data.borrow_mut().favorites = val;
+    }
+
+    pub fn adkar_notification_enabled(&self) -> bool {
+        self.imp().data.borrow().adkar_notification_enabled
+    }
+    pub fn set_adkar_notification_enabled(&self, val: bool) {
+        self.imp().data.borrow_mut().adkar_notification_enabled = val;
+    }
+
+    pub fn iqamah_notify(&self) -> bool {
+        self.imp().data.borrow().iqamah_notify
+    }
+    pub fn set_iqamah_notify(&self, val: bool) {
+        self.imp().data.borrow_mut().iqamah_notify = val;
+    }
+
+    pub fn adhan_only_mode(&self) -> bool {
+        self.imp().data.borrow().adhan_only_mode
+    }
+    pub fn set_adhan_only_mode(&self, val: bool) {
+        self.imp().data.borrow_mut().adhan_only_mode = val;
+    }
+
+    pub fn is_configured(&self) -> bool {
+        self.imp().data.borrow().is_configured
+    }
+    pub fn set_is_configured(&self, val: bool) {
+        self.imp().data.borrow_mut().is_configured = val;
+    }
+
+    pub fn adhan_volume(&self) -> f32 {
+        self.imp().data.borrow().adhan_volume
+    }
+    pub fn set_adhan_volume(&self, val: f32) {
+        self.imp().data.borrow_mut().adhan_volume = val;
+    }
+
+    pub fn adhan_muted(&self) -> bool {
+        self.imp().data.borrow().adhan_muted
+    }
+    pub fn set_adhan_muted(&self, val: bool) {
+        self.imp().data.borrow_mut().adhan_muted = val;
+    }
+
+    pub fn autostart(&self) -> bool {
+        self.imp().data.borrow().autostart
+    }
+    pub fn set_autostart(&self, val: bool) {
+        self.imp().data.borrow_mut().autostart = val;
+    }
+
+    pub fn quran_bookmark_surah(&self) -> Option<u32> {
+        self.imp().data.borrow().quran_bookmark_surah
+    }
+    pub fn set_quran_bookmark_surah(&self, val: Option<u32>) {
+        self.imp().data.borrow_mut().quran_bookmark_surah = val;
+    }
+
+    pub fn quran_bookmark_page(&self) -> Option<u32> {
+        self.imp().data.borrow().quran_bookmark_page
+    }
+    pub fn set_quran_bookmark_page(&self, val: Option<u32>) {
+        self.imp().data.borrow_mut().quran_bookmark_page = val;
+    }
+
+    pub fn quran_bookmarks(&self) -> Vec<QuranBookmark> {
+        self.imp().data.borrow().quran_bookmarks.clone()
+    }
+    pub fn set_quran_bookmarks(&self, val: Vec<QuranBookmark>) {
+        self.imp().data.borrow_mut().quran_bookmarks = val;
+    }
+
+    pub fn quran_last_surah(&self) -> Option<u32> {
+        self.imp().data.borrow().quran_last_surah
+    }
+    pub fn set_quran_last_surah(&self, val: Option<u32>) {
+        self.imp().data.borrow_mut().quran_last_surah = val;
+    }
+
+    pub fn quran_last_page(&self) -> Option<u32> {
+        self.imp().data.borrow().quran_last_page
+    }
+    pub fn set_quran_last_page(&self, val: Option<u32>) {
+        self.imp().data.borrow_mut().quran_last_page = val;
+    }
+
+    pub fn prayer_times_source(&self) -> PrayerTimesSource {
+        self.imp().data.borrow().prayer_times_source.clone()
+    }
+    pub fn set_prayer_times_source(&self, val: PrayerTimesSource) {
+        self.imp().data.borrow_mut().prayer_times_source = val;
+        self.notify("prayer-times-source");
+    }
+
+    pub fn mawaqit_url(&self) -> Option<String> {
+        self.imp().data.borrow().mawaqit_url.clone()
+    }
+    pub fn set_mawaqit_url(&self, val: Option<String>) {
+        self.imp().data.borrow_mut().mawaqit_url = val;
+    }
+
+    pub fn mawaqit_auto_refresh_daily(&self) -> bool {
+        self.imp().data.borrow().mawaqit_auto_refresh_daily
+    }
+    pub fn set_mawaqit_auto_refresh_daily(&self, val: bool) {
+        self.imp().data.borrow_mut().mawaqit_auto_refresh_daily = val;
+    }
+
+    pub fn mawaqit_cache(&self) -> Option<MawaqitCache> {
+        self.imp().data.borrow().mawaqit_cache.clone()
+    }
+    pub fn set_mawaqit_cache(&self, val: Option<MawaqitCache>) {
+        self.imp().data.borrow_mut().mawaqit_cache = val;
+    }
+
+    pub fn timezone_override_minutes(&self) -> Option<i32> {
+        self.imp().data.borrow().timezone_override_minutes
+    }
+    pub fn set_timezone_override_minutes(&self, val: Option<i32>) {
+        self.imp().data.borrow_mut().timezone_override_minutes = val;
+        self.notify("timezone-override-minutes");
+    }
+
+    pub fn timezone_mode(&self) -> TimezoneMode {
+        self.imp().data.borrow().timezone_mode.clone()
+    }
+    pub fn set_timezone_mode(&self, val: TimezoneMode) {
+        self.imp().data.borrow_mut().timezone_mode = val;
+        self.notify("timezone-mode");
+    }
+
+    pub fn quran_arabic_font_px(&self) -> f64 {
+        self.imp().data.borrow().quran_arabic_font_px
+    }
+    pub fn set_quran_arabic_font_px(&self, val: f64) {
+        self.imp().data.borrow_mut().quran_arabic_font_px = val;
+    }
+
+    pub fn quran_translation_font_px(&self) -> f64 {
+        self.imp().data.borrow().quran_translation_font_px
+    }
+    pub fn set_quran_translation_font_px(&self, val: f64) {
+        self.imp().data.borrow_mut().quran_translation_font_px = val;
+    }
+
+    pub fn quran_line_height(&self) -> f64 {
+        self.imp().data.borrow().quran_line_height
+    }
+    pub fn set_quran_line_height(&self, val: f64) {
+        self.imp().data.borrow_mut().quran_line_height = val;
+    }
+
+    pub fn global_arabic_font_family(&self) -> String {
+        self.imp().data.borrow().global_arabic_font_family.clone()
+    }
+    pub fn set_global_arabic_font_family(&self, val: &str) {
+        self.imp().data.borrow_mut().global_arabic_font_family = val.to_string();
+    }
+
+    pub fn global_ui_font_family(&self) -> String {
+        self.imp().data.borrow().global_ui_font_family.clone()
+    }
+    pub fn set_global_ui_font_family(&self, val: &str) {
+        self.imp().data.borrow_mut().global_ui_font_family = val.to_string();
+    }
+
+    pub fn iqamah_minutes(&self) -> HashMap<String, u32> {
+        self.imp().data.borrow().iqamah_minutes.clone()
+    }
+    pub fn set_iqamah_minutes(&self, val: HashMap<String, u32>) {
+        self.imp().data.borrow_mut().iqamah_minutes = val;
+    }
+
+    fn load_data() -> AppConfigData {
         let path = Self::config_path();
         if path.exists()
             && let Ok(content) = fs::read_to_string(&path)
-            && let Ok(mut config) = serde_json::from_str::<Self>(&content)
+            && let Ok(config) = serde_json::from_str::<AppConfigData>(&content)
         {
             log::info!("Configuration loaded from {:?}", path);
-            if !config.enc_lat.is_empty()
-                && let Ok(dec) = security::deobfuscate(&config.enc_lat)
-            {
-                config.latitude = dec.parse().unwrap_or(36.75);
-            }
-            if !config.enc_lon.is_empty()
-                && let Ok(dec) = security::deobfuscate(&config.enc_lon)
-            {
-                config.longitude = dec.parse().unwrap_or(3.05);
-            }
-            if config.quran_bookmarks.is_empty()
-                && let (Some(surah), Some(page)) =
-                    (config.quran_bookmark_surah, config.quran_bookmark_page)
-            {
-                config.quran_bookmarks.push(QuranBookmark {
-                    page,
-                    surah,
-                    verse: 1,
-                });
-            }
-
-            if config.mawaqit_url.is_none()
-                && !config.enc_mawaqit_url.is_empty()
-                && let Ok(dec) = security::deobfuscate(&config.enc_mawaqit_url)
-            {
-                config.mawaqit_url = Some(dec);
-            }
-
-            if config.mawaqit_cache.is_none()
-                && !config.enc_mawaqit_cache.is_empty()
-                && let Ok(dec) = security::deobfuscate(&config.enc_mawaqit_cache)
-                && let Ok(cache) = serde_json::from_str::<MawaqitCache>(&dec)
-            {
-                config.mawaqit_cache = Some(cache);
-            }
             return config;
         }
         log::info!("No existing configuration found, using defaults");
-        Self::default()
+        AppConfigData::default()
+    }
+
+    pub fn load() -> Self {
+        CONFIG_INSTANCE.with(|cell| {
+            cell.borrow_mut()
+                .get_or_insert_with(|| {
+                    let data = Self::load_data();
+                    let config: Self = glib::Object::new();
+                    let imp = config.imp();
+                    *imp.data.borrow_mut() = data;
+                    config
+                })
+                .clone()
+        })
+    }
+
+    fn to_data(&self) -> AppConfigData {
+        self.imp().data.borrow().clone()
     }
 
     pub fn save(&self) {
-        let path = Self::config_path();
+        let data = self.to_data();
+        if let Some(tx) = SAVE_SENDER.get() {
+            let _ = tx.send(data);
+        } else {
+            Self::write_to_disk(&data, &Self::config_path());
+        }
+    }
+
+    fn write_to_disk(data: &AppConfigData, path: &PathBuf) {
         if let Some(parent) = path.parent() {
             let _ = fs::create_dir_all(parent);
         }
-
-        let mut encrypted_self = self.clone();
-
-        if let Ok(enc) = security::obfuscate(&self.latitude.to_string()) {
-            encrypted_self.enc_lat = enc;
-        }
-
-        if let Ok(enc) = security::obfuscate(&self.longitude.to_string()) {
-            encrypted_self.enc_lon = enc;
-        }
-
-        if let Some(url) = &self.mawaqit_url
-            && let Ok(enc) = security::obfuscate(url)
+        if let Ok(content) = serde_json::to_string_pretty(data)
+            && fs::write(path, &content).is_ok()
         {
-            encrypted_self.enc_mawaqit_url = enc;
-            encrypted_self.mawaqit_url = None;
-        }
-
-        if let Some(cache) = &self.mawaqit_cache
-            && let Ok(json) = serde_json::to_string(cache)
-            && let Ok(enc) = security::obfuscate(&json)
-        {
-            encrypted_self.enc_mawaqit_cache = enc;
-            encrypted_self.mawaqit_cache = None;
-        }
-
-        if let Ok(content) = serde_json::to_string_pretty(&encrypted_self)
-            && fs::write(&path, &content).is_ok()
-        {
-            let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
-            log::info!("Configuration obfuscated and saved to {:?}", path);
+            let _ = fs::set_permissions(path, fs::Permissions::from_mode(0o600));
+            log::info!("Configuration saved to {:?}", path);
         } else {
             log::error!("Failed to save configuration to {:?}", path);
         }
     }
 
-    pub fn save_shared(config: &Rc<RefCell<AppConfig>>) {
-        let cfg = config.borrow().clone();
-        std::thread::spawn(move || {
-            let mut cfg = cfg;
-            cfg.sync_quran_state_from_disk();
-            cfg.save();
+    pub fn start_save_thread() {
+        let (tx, rx) = channel();
+        SAVE_SENDER.set(tx).ok();
+        thread::spawn(move || {
+            let mut last_data: Option<AppConfigData> = None;
+            while let Ok(data) = rx.recv() {
+                last_data = Some(data.clone());
+                Self::write_to_disk(&data, &Self::config_path());
+            }
+            if let Some(data) = last_data {
+                Self::write_to_disk(&data, &Self::config_path());
+            }
         });
+    }
+
+    pub fn save_shared(config: &Self) {
+        config.save();
     }
 
     pub fn config_path() -> PathBuf {
@@ -405,19 +733,19 @@ mod tests {
 
     #[test]
     fn test_default_config_arabic_font_family() {
-        let config = AppConfig::default();
+        let config = AppConfigData::default();
         assert_eq!(config.global_arabic_font_family, "Amiri, Noto Sans Arabic");
     }
 
     #[test]
     fn test_default_config_ui_font_family() {
-        let config = AppConfig::default();
+        let config = AppConfigData::default();
         assert_eq!(config.global_ui_font_family, "Cantarell, sans-serif");
     }
 
     #[test]
     fn test_default_config_quran_font_sizes() {
-        let config = AppConfig::default();
+        let config = AppConfigData::default();
         assert_eq!(config.quran_arabic_font_px, 22.0);
         assert_eq!(config.quran_translation_font_px, 14.0);
         assert_eq!(config.quran_line_height, 1.0);
@@ -425,7 +753,7 @@ mod tests {
 
     #[test]
     fn test_default_config_location() {
-        let config = AppConfig::default();
+        let config = AppConfigData::default();
         assert_eq!(config.latitude, 36.75);
         assert_eq!(config.longitude, 3.05);
         assert_eq!(config.location_mode, LocationMode::Manual);
@@ -433,7 +761,7 @@ mod tests {
 
     #[test]
     fn test_default_config_iqamah_minutes() {
-        let config = AppConfig::default();
+        let config = AppConfigData::default();
         let iqamah = &config.iqamah_minutes;
         assert_eq!(iqamah.get("Fajr"), Some(&20));
         assert_eq!(iqamah.get("Dhuhr"), Some(&10));

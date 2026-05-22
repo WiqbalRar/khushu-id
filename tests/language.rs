@@ -128,12 +128,10 @@ fn test_tray_label_update_functionality() {
 fn test_arabic_utf8_locale_support() {
     let i18n_file = Path::new("src/i18n.rs");
     let content = fs::read_to_string(i18n_file).expect("Failed to read i18n.rs");
-    assert!(
-        content.contains("lang == \"ar\""),
-        "i18n should check for Arabic language"
-    );
+    let has_arabic_check = content.contains("lang == \"ar\"") || content.contains("\"ar\" =>");
+    assert!(has_arabic_check, "i18n should check for Arabic language");
     let has_arabic_special_case =
-        content.contains("if lang == \"ar\"") || content.matches("lang == \"ar\"").count() > 1;
+        content.contains("\"ar\" =>") || content.contains("if lang == \"ar\"");
     assert!(
         has_arabic_special_case,
         "i18n should have special case for Arabic locale"

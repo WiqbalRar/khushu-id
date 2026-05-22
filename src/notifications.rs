@@ -67,20 +67,19 @@ pub fn show_notification(title: &str, body: &str, is_adhan: bool, open_lbl: &str
             match builder.show() {
                 Ok(handle) => {
                     log::info!("Notification sent via notify-rust: {}", title);
-                    handle.wait_for_action(|action| {
+                    let ctx = gtk::glib::MainContext::default();
+                    handle.wait_for_action(move |action| {
                         if action == "open" {
-                            gtk::glib::idle_add_local(|| {
+                            ctx.invoke(|| {
                                 if let Some(app) = gtk::gio::Application::default() {
                                     app.activate();
                                 }
-                                gtk::glib::ControlFlow::Break
                             });
                         } else if action == "stop" {
-                            gtk::glib::idle_add_local(|| {
+                            ctx.invoke(|| {
                                 if let Some(app) = gtk::gio::Application::default() {
                                     app.activate_action("stop-adhan", None);
                                 }
-                                gtk::glib::ControlFlow::Break
                             });
                         }
                     });

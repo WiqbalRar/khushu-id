@@ -45,7 +45,6 @@ jobs:
             gettext \
             libgtk-4-dev \
             libadwaita-1-dev \
-            libgeoclue-2-dev \
             libasound2-dev \
             libssl-dev
 
@@ -88,7 +87,6 @@ jobs:
             gtk4-devel \
             libadwaita-devel \
             pkgconf-pkg-config \
-            geoclue2-devel \
             alsa-lib-devel \
             openssl-devel \
             gettext \

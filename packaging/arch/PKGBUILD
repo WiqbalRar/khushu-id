@@ -1,12 +1,12 @@
 # Maintainer: Djalel Oukid <sniper1720@linuxtechmore.com>
 pkgname=khushu
-pkgver=1.1.1
+pkgver=1.1.2
 pkgrel=1
 pkgdesc="An all-in-one Muslim app for Linux"
 arch=('x86_64' 'aarch64')
 url="https://github.com/sniper1720/khushu"
 license=('GPL-3.0-or-later')
-depends=('gtk4' 'libadwaita' 'glibc' 'gcc-libs' 'geoclue2' 'alsa-lib' 'ttf-amiri')
+depends=('gtk4' 'libadwaita' 'glibc' 'gcc-libs' 'alsa-lib')
 optdepends=('xdg-desktop-portal: autostart portal support')
 options=(!debug)
 makedepends=('cargo' 'gettext' 'meson' 'ninja')

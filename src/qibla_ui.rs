@@ -8,15 +8,265 @@ use std::cell::RefCell;
 use std::f64::consts::PI;
 use std::rc::Rc;
 
+struct CardinalData {
+    font_desc: gtk::pango::FontDescription,
+    texts: [String; 4],
+}
+
+fn build_cardinal_data(lang: &str) -> CardinalData {
+    let texts = [tr("N", lang), tr("E", lang), tr("S", lang), tr("W", lang)];
+
+    let mut font_desc = gtk::pango::FontDescription::new();
+    font_desc.set_family("Amiri, Amiri-Regular");
+    font_desc.set_weight(gtk::pango::Weight::Bold);
+    font_desc.set_size(12 * gtk::pango::SCALE);
+
+    CardinalData { font_desc, texts }
+}
+
+fn compute_bearing(config: &AppConfig, cache: &RefCell<Option<(f64, f64, f64)>>) -> f64 {
+    let cached = cache.borrow();
+    match *cached {
+        Some((lat, lon, b)) if lat == config.latitude() && lon == config.longitude() => b,
+        _ => {
+            drop(cached);
+            let b = calculate_qibla_bearing(config.latitude(), config.longitude());
+            *cache.borrow_mut() = Some((config.latitude(), config.longitude(), b));
+            b
+        }
+    }
+}
+
+fn bearing_label_text(bearing: f64, lang: &str) -> String {
+    format!("{:.1}° {}", bearing, tr(get_cardinal(bearing), lang))
+}
+
+fn status_text(compass_available: bool, lang: &str) -> String {
+    if compass_available {
+        tr("Sensor Active (Smooth)", lang)
+    } else {
+        tr("Manual Calculation", lang)
+    }
+}
+
+fn start_rotation_animation(
+    current: Rc<RefCell<f64>>,
+    target: Rc<RefCell<f64>>,
+    da: gtk::DrawingArea,
+    anim: Rc<RefCell<Option<gtk::glib::SourceId>>>,
+) {
+    if anim.borrow().is_some() {
+        return;
+    }
+    let anim_inner = anim.clone();
+    let id = gtk::glib::timeout_add_local(std::time::Duration::from_millis(50), move || {
+        let mut cur = current.borrow_mut();
+        let tgt = *target.borrow();
+        let diff = tgt - *cur;
+        let dw = if diff > 180.0 {
+            diff - 360.0
+        } else if diff < -180.0 {
+            diff + 360.0
+        } else {
+            diff
+        };
+        if dw.abs() < 0.2 {
+            *cur = tgt;
+            da.queue_draw();
+            *anim_inner.borrow_mut() = None;
+            return gtk::glib::ControlFlow::Break;
+        }
+        *cur = (*cur + dw * 0.2 + 360.0) % 360.0;
+        da.queue_draw();
+        gtk::glib::ControlFlow::Continue
+    });
+    *anim.borrow_mut() = Some(id);
+}
+
 pub struct QiblaPage {
     pub container: gtk::Box,
     pub refresh: Rc<dyn Fn()>,
+    cardinals: Rc<RefCell<CardinalData>>,
+    config: AppConfig,
+    drawing_area: gtk::DrawingArea,
+    compass: Rc<CompassManager>,
+    current_rotation: Rc<RefCell<f64>>,
+    target_rotation: Rc<RefCell<f64>>,
+    cached_bearing: Rc<RefCell<Option<(f64, f64, f64)>>>,
+    b_label: gtk::Label,
+    s_label: gtk::Label,
+    notify_ids: RefCell<Vec<gtk::glib::SignalHandlerId>>,
+    anim_source_id: Rc<RefCell<Option<gtk::glib::SourceId>>>,
+    poll_id: RefCell<Option<gtk::glib::SourceId>>,
 }
 
-pub fn create_qibla_page(
-    config: Rc<RefCell<AppConfig>>,
-    compass_manager: Rc<CompassManager>,
-) -> QiblaPage {
+impl QiblaPage {
+    pub fn rebuild_cardinals(&self, lang: &str) {
+        *self.cardinals.borrow_mut() = build_cardinal_data(lang);
+        self.update_labels_for_lang(lang);
+    }
+
+    pub fn update_labels_for_lang(&self, lang: &str) {
+        let q_bearing = compute_bearing(&self.config, &self.cached_bearing);
+        self.b_label.set_label(&bearing_label_text(q_bearing, lang));
+        self.s_label
+            .set_label(&status_text(self.compass.is_available(), lang));
+        self.drawing_area.queue_draw();
+    }
+
+    pub fn start_listening(&self) {
+        for id in self.notify_ids.borrow_mut().drain(..) {
+            self.config.disconnect(id);
+        }
+
+        if let Some(id) = self.anim_source_id.borrow_mut().take() {
+            id.remove();
+        }
+
+        *self.cached_bearing.borrow_mut() = None;
+        let qb = compute_bearing(&self.config, &self.cached_bearing);
+
+        let tv = if self.compass.is_available() {
+            let h = self.compass.get_heading();
+            (qb - h + 360.0) % 360.0
+        } else {
+            qb
+        };
+
+        *self.target_rotation.borrow_mut() = tv;
+
+        let lang = self.config.language();
+        self.b_label.set_label(&bearing_label_text(qb, &lang));
+        self.s_label
+            .set_label(&status_text(self.compass.is_available(), &lang));
+        self.drawing_area.queue_draw();
+        start_rotation_animation(
+            self.current_rotation.clone(),
+            self.target_rotation.clone(),
+            self.drawing_area.clone(),
+            self.anim_source_id.clone(),
+        );
+
+        let cb = self.cached_bearing.clone();
+        let cur = self.current_rotation.clone();
+        let tgt = self.target_rotation.clone();
+        let da_c = self.drawing_area.clone();
+        let bl = self.b_label.clone();
+        let sl = self.s_label.clone();
+        let anim_c = self.anim_source_id.clone();
+        let compass = self.compass.clone();
+        let id = crate::connect_notify_blocked(&self.config, Some("latitude"), move |cfg, _| {
+            if let Some(id) = anim_c.borrow_mut().take() {
+                id.remove();
+            }
+
+            *cb.borrow_mut() = None;
+            let qb = compute_bearing(cfg, &cb);
+            let lang = cfg.language();
+
+            let tv = if compass.is_available() {
+                let h = compass.get_heading();
+                (qb - h + 360.0) % 360.0
+            } else {
+                qb
+            };
+
+            *tgt.borrow_mut() = tv;
+            *cur.borrow_mut() = tv;
+
+            bl.set_label(&bearing_label_text(qb, &lang));
+            sl.set_label(&status_text(compass.is_available(), &lang));
+            da_c.queue_draw();
+        });
+        self.notify_ids.borrow_mut().push(id);
+
+        let cb = self.cached_bearing.clone();
+        let cur = self.current_rotation.clone();
+        let tgt = self.target_rotation.clone();
+        let da_c = self.drawing_area.clone();
+        let bl = self.b_label.clone();
+        let sl = self.s_label.clone();
+        let anim_c = self.anim_source_id.clone();
+        let compass = self.compass.clone();
+        let id = crate::connect_notify_blocked(&self.config, Some("longitude"), move |cfg, _| {
+            if let Some(id) = anim_c.borrow_mut().take() {
+                id.remove();
+            }
+
+            *cb.borrow_mut() = None;
+            let qb = compute_bearing(cfg, &cb);
+            let lang = cfg.language();
+
+            let tv = if compass.is_available() {
+                let h = compass.get_heading();
+                (qb - h + 360.0) % 360.0
+            } else {
+                qb
+            };
+
+            *tgt.borrow_mut() = tv;
+            *cur.borrow_mut() = tv;
+
+            bl.set_label(&bearing_label_text(qb, &lang));
+            sl.set_label(&status_text(compass.is_available(), &lang));
+            da_c.queue_draw();
+        });
+        self.notify_ids.borrow_mut().push(id);
+
+        let compass = self.compass.clone();
+        let config = self.config.clone();
+        let cached_b = self.cached_bearing.clone();
+        let cur = self.current_rotation.clone();
+        let tgt = self.target_rotation.clone();
+        let da = self.drawing_area.clone();
+        let bl = self.b_label.clone();
+        let sl = self.s_label.clone();
+        let anim = self.anim_source_id.clone();
+        let last_heading = Rc::new(RefCell::new(0.0f64));
+        let poll_id =
+            gtk::glib::timeout_add_local(std::time::Duration::from_millis(100), move || {
+                let heading = compass.get_heading();
+                let prev = *last_heading.borrow();
+                if (heading - prev).abs() > 0.5 {
+                    *last_heading.borrow_mut() = heading;
+                    let qb = compute_bearing(&config, &cached_b);
+                    let tv = if compass.is_available() {
+                        (qb - heading + 360.0) % 360.0
+                    } else {
+                        qb
+                    };
+                    *tgt.borrow_mut() = tv;
+                    let lang = config.language();
+                    bl.set_label(&bearing_label_text(qb, &lang));
+                    sl.set_label(&status_text(compass.is_available(), &lang));
+                    da.queue_draw();
+                    start_rotation_animation(cur.clone(), tgt.clone(), da.clone(), anim.clone());
+                }
+                gtk::glib::ControlFlow::Continue
+            });
+        *self.poll_id.borrow_mut() = Some(poll_id);
+    }
+
+    pub fn stop_listening(&self) {
+        for id in self.notify_ids.borrow_mut().drain(..) {
+            self.config.disconnect(id);
+        }
+        if let Some(id) = self.anim_source_id.borrow_mut().take() {
+            id.remove();
+        }
+        if let Some(id) = self.poll_id.borrow_mut().take() {
+            id.remove();
+        }
+    }
+}
+
+impl Drop for QiblaPage {
+    fn drop(&mut self) {
+        self.stop_listening();
+    }
+}
+
+pub fn create_qibla_page(config: AppConfig, compass_manager: Rc<CompassManager>) -> QiblaPage {
     let container = gtk::Box::new(gtk::Orientation::Vertical, 24);
     container.set_valign(gtk::Align::Center);
     container.set_halign(gtk::Align::Center);
@@ -30,14 +280,16 @@ pub fn create_qibla_page(
         .valign(gtk::Align::Center)
         .build();
 
-    let lang_val = config.borrow().language.clone();
+    let lang_val = config.language();
+    let initial_bearing = calculate_qibla_bearing(config.latitude(), config.longitude());
+
     let bearing_label = gtk::Label::builder()
-        .label(tr("Calculating...", &lang_val))
+        .label(bearing_label_text(initial_bearing, &lang_val))
         .css_classes(["title-1"])
         .build();
 
     let status_label = gtk::Label::builder()
-        .label("")
+        .label(status_text(false, &lang_val))
         .css_classes(["dim-label"])
         .build();
 
@@ -45,11 +297,16 @@ pub fn create_qibla_page(
     container.append(&bearing_label);
     container.append(&status_label);
 
+    let cached_bearing = Rc::new(RefCell::new(Some((
+        config.latitude(),
+        config.longitude(),
+        initial_bearing,
+    ))));
     let current_rotation = Rc::new(RefCell::new(0.0));
-    let bearing = Rc::new(RefCell::new(0.0));
+    let target_rotation = Rc::new(RefCell::new(0.0));
 
     let rotation_draw = current_rotation.clone();
-    let bearing_draw = bearing.clone();
+    let bearing_draw = target_rotation.clone();
 
     let qibla_icon = gtk::gdk_pixbuf::Pixbuf::from_resource_at_scale(
         "/io/github/sniper1720/khushu/icons/hicolor/scalable/actions/qibla-symbolic.svg",
@@ -59,11 +316,13 @@ pub fn create_qibla_page(
     )
     .ok();
 
-    let config_draw = config.clone();
+    let anim_source_id: Rc<RefCell<Option<gtk::glib::SourceId>>> = Rc::new(RefCell::new(None));
+    let cardinals = Rc::new(RefCell::new(build_cardinal_data(&lang_val)));
+    let cardinals_for_draw = cardinals.clone();
+
     drawing_area.set_draw_func(move |_, cr, width, height| {
         let cx = width as f64 / 2.0;
         let cy = height as f64 / 2.0;
-
         let radius = cx.min(cy) - 60.0;
 
         cr.set_source_rgba(0.5, 0.5, 0.5, 0.3);
@@ -72,65 +331,43 @@ pub fn create_qibla_page(
         cr.stroke().expect("Cairo error");
 
         cr.set_source_rgb(0.8, 0.8, 0.8);
-        let lang = config_draw.borrow().language.clone();
-        let cardinals = [
-            tr("N", &lang),
-            tr("E", &lang),
-            tr("S", &lang),
-            tr("W", &lang),
-        ];
 
+        let data = cardinals_for_draw.borrow();
         let pango_ctx = pangocairo::functions::create_context(cr);
         let layout = gtk::pango::Layout::new(&pango_ctx);
-        let mut font_desc = gtk::pango::FontDescription::new();
-        font_desc.set_family("Amiri, Amiri-Regular");
-        font_desc.set_weight(gtk::pango::Weight::Bold);
-        font_desc.set_size(12 * gtk::pango::SCALE);
-        layout.set_font_description(Some(&font_desc));
+        layout.set_font_description(Some(&data.font_desc));
 
-        for (i, dir) in cardinals.iter().enumerate() {
-            layout.set_text(dir);
+        for (i, text) in data.texts.iter().enumerate() {
+            layout.set_text(text);
             let (ink_rect, _) = layout.extents();
             let text_width = ink_rect.width() as f64 / gtk::pango::SCALE as f64;
             let text_height = ink_rect.height() as f64 / gtk::pango::SCALE as f64;
-
             let angle = (i as f64 * PI / 2.0) - PI / 2.0;
             let tx = cx + (radius - 15.0) * angle.cos();
             let ty = cy + (radius - 15.0) * angle.sin();
-
             cr.move_to(tx - (text_width / 2.0), ty - (text_height / 2.0));
             pangocairo::functions::show_layout(cr, &layout);
         }
+        drop(data);
 
         cr.save().expect("Cairo error");
         cr.translate(cx, cy);
-        let target_bearing: f64 = *bearing_draw.borrow();
-        cr.rotate(target_bearing.to_radians());
+        let bearing_val: f64 = *bearing_draw.borrow();
+        cr.rotate(bearing_val.to_radians());
 
         let marker_dist = radius + 35.0;
-
         cr.translate(0.0, -marker_dist);
-        cr.rotate(-target_bearing.to_radians());
+        cr.rotate(-bearing_val.to_radians());
+
         if let Some(pix) = &qibla_icon {
             let is_dark = adw::StyleManager::default().is_dark();
-
-            if is_dark {
-                cr.set_source_rgba(1.0, 1.0, 1.0, 1.0);
-            } else {
-                cr.set_source_rgba(0.0, 0.0, 0.0, 1.0);
-            }
-
             if is_dark {
                 cr.push_group();
-
                 cr.set_source_pixbuf(pix, -16.0, -16.0);
                 cr.paint().expect("Cairo error");
-
                 cr.set_source_rgba(1.0, 1.0, 1.0, 1.0);
-
                 cr.set_operator(gtk::cairo::Operator::In);
                 cr.paint().expect("Cairo error");
-
                 cr.pop_group_to_source().expect("Cairo error");
                 cr.paint().expect("Cairo error");
             } else {
@@ -177,64 +414,53 @@ pub fn create_qibla_page(
         cr.fill().expect("Cairo error");
     });
 
-    let config_clone = config.clone();
-    let compass_clone = compass_manager.clone();
-    let drawing_area_clone = drawing_area.clone();
-    let current_rot_clone = current_rotation.clone();
-    let bearing_clone = bearing.clone();
-    let target_rot_clone = Rc::new(RefCell::new(0.0));
-    let b_label = bearing_label.clone();
-    let s_label = status_label.clone();
-
-    let refresh = Rc::new(move || {
-        let cfg = config_clone.borrow();
-        let q_bearing = calculate_qibla_bearing(cfg.latitude, cfg.longitude);
-        *bearing_clone.borrow_mut() = q_bearing;
-
-        let current_heading = if compass_clone.is_available() {
-            compass_clone.get_heading()
-        } else {
-            0.0
-        };
-
-        let target = if compass_clone.is_available() {
-            (q_bearing - current_heading + 360.0) % 360.0
-        } else {
-            q_bearing
-        };
-        *target_rot_clone.borrow_mut() = target;
-
-        let mut curr = *current_rot_clone.borrow();
-        let target_val = *target_rot_clone.borrow();
-
-        let mut diff = target_val - curr;
-        if diff > 180.0 {
-            diff -= 360.0;
-        } else if diff < -180.0 {
-            diff += 360.0;
+    let refresh = Rc::new({
+        let config = config.clone();
+        let cb = cached_bearing.clone();
+        let cur = current_rotation.clone();
+        let tgt = target_rotation.clone();
+        let da = drawing_area.clone();
+        let bl = bearing_label.clone();
+        let sl = status_label.clone();
+        let compass = compass_manager.clone();
+        let anim = anim_source_id.clone();
+        move || {
+            *cb.borrow_mut() = None;
+            let b = compute_bearing(&config, &cb);
+            let tv = if compass.is_available() {
+                let h = compass.get_heading();
+                (b - h + 360.0) % 360.0
+            } else {
+                b
+            };
+            *tgt.borrow_mut() = tv;
+            if let Some(id) = anim.borrow_mut().take() {
+                id.remove();
+            }
+            let lang = config.language();
+            bl.set_label(&bearing_label_text(b, &lang));
+            sl.set_label(&status_text(compass.is_available(), &lang));
+            da.queue_draw();
+            start_rotation_animation(cur.clone(), tgt.clone(), da.clone(), anim.clone());
         }
-
-        curr += diff * 0.15;
-        curr = (curr + 360.0) % 360.0;
-        *current_rot_clone.borrow_mut() = curr;
-
-        let lang = config_clone.borrow().language.clone();
-        b_label.set_label(&format!(
-            "{:.1}° {}",
-            q_bearing,
-            tr(get_cardinal(q_bearing), &lang)
-        ));
-        let status_text = if compass_clone.is_available() {
-            tr("Sensor Active (Smooth)", &lang)
-        } else {
-            tr("Manual Calculation", &lang)
-        };
-        s_label.set_label(&status_text);
-
-        drawing_area_clone.queue_draw();
     });
 
-    QiblaPage { container, refresh }
+    QiblaPage {
+        container,
+        refresh,
+        cardinals,
+        config,
+        drawing_area,
+        compass: compass_manager,
+        current_rotation,
+        target_rotation,
+        cached_bearing,
+        b_label: bearing_label,
+        s_label: status_label,
+        notify_ids: RefCell::new(Vec::new()),
+        anim_source_id,
+        poll_id: RefCell::new(None),
+    }
 }
 
 fn get_cardinal(bearing: f64) -> &'static str {

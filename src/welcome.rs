@@ -1,6 +1,7 @@
 use crate::config::{AppConfig, LocationMode, ThemeMode};
 use crate::i18n::tr;
 use crate::location;
+use crate::platform::is_flatpak;
 use adw::prelude::*;
 use adw::{ActionRow, Application, ApplicationWindow, ComboRow, EntryRow, PreferencesGroup};
 use gtk::{Button, Orientation};
@@ -23,11 +24,11 @@ fn finish_entry_row_interaction(row: &EntryRow) {
     }
 }
 
-pub fn build_welcome_window<F>(app: &Application, config: Rc<RefCell<AppConfig>>, on_done: F)
+pub fn build_welcome_window<F>(app: &Application, config: AppConfig, on_done: F)
 where
     F: Fn() + 'static,
 {
-    let current_lang = Rc::new(RefCell::new(config.borrow().language.clone()));
+    let current_lang = Rc::new(RefCell::new(config.language()));
     let location_state = Rc::new(RefCell::new(LocationState::Initial));
 
     let window = ApplicationWindow::builder()
@@ -82,7 +83,7 @@ where
         .model(&theme_model)
         .build();
 
-    match config.borrow().theme {
+    match config.theme() {
         ThemeMode::Light => theme_row.set_selected(1),
         ThemeMode::Dark => theme_row.set_selected(2),
         ThemeMode::System => theme_row.set_selected(0),
@@ -105,7 +106,7 @@ where
             ThemeMode::System => manager.set_color_scheme(adw::ColorScheme::Default),
         }
 
-        config_theme.borrow_mut().theme = theme;
+        config_theme.set_theme(theme);
     });
 
     let lang_group = PreferencesGroup::builder().title("Language").build();
@@ -136,6 +137,21 @@ where
 
     lang_group.add(&lang_row);
 
+    let behavior_group = PreferencesGroup::builder().title("Autostart").build();
+    settings_container.append(&behavior_group);
+
+    let autostart_row = adw::SwitchRow::builder()
+        .title("Start Automatically")
+        .subtitle("Run Khushu in the background when you log in.")
+        .active(false)
+        .build();
+    behavior_group.add(&autostart_row);
+
+    let config_autostart = config.clone();
+    autostart_row.connect_active_notify(move |row| {
+        config_autostart.set_autostart(row.is_active());
+    });
+
     let location_group = PreferencesGroup::builder()
         .title("Location Settings")
         .build();
@@ -149,7 +165,7 @@ where
         .model(&modes)
         .build();
 
-    mode_row.set_selected(match config.borrow().location_mode {
+    mode_row.set_selected(match config.location_mode() {
         LocationMode::Manual => 0,
         LocationMode::City => 1,
         LocationMode::Auto => 2,
@@ -159,16 +175,16 @@ where
 
     let lat_row = EntryRow::builder()
         .title("Latitude")
-        .text(config.borrow().latitude.to_string())
+        .text(config.latitude().to_string())
         .build();
     let lon_row = EntryRow::builder()
         .title("Longitude")
-        .text(config.borrow().longitude.to_string())
+        .text(config.longitude().to_string())
         .build();
 
     let city_row = EntryRow::builder().title("City Name").build();
-    if let Some(city) = &config.borrow().city_name {
-        city_row.set_text(city);
+    if let Some(city) = config.city_name() {
+        city_row.set_text(&city);
     }
 
     let auto_status_row = ActionRow::builder()
@@ -186,10 +202,75 @@ where
     location_group.add(&city_row);
     location_group.add(&auto_status_row);
 
+    let prayer_group = PreferencesGroup::builder().title("Prayer Setup").build();
+    settings_container.append(&prayer_group);
+
+    let method_model = gtk::StringList::new(&[
+        "MWL",
+        "ISNA",
+        "Egypt",
+        "Makkah",
+        "Karachi",
+        "Dubai",
+        "MoonsightingCommittee",
+        "Kuwait",
+        "Qatar",
+        "Singapore",
+        "Turkey",
+        "KEMENAG",
+        "France (UOIF)",
+        "Algeria",
+    ]);
+
+    let method_row = ComboRow::builder()
+        .title("Calculation Method")
+        .model(&method_model)
+        .build();
+
+    method_row.set_selected(match config.method() {
+        crate::config::CalculationMethod::MWL => 0,
+        crate::config::CalculationMethod::ISNA => 1,
+        crate::config::CalculationMethod::Egypt => 2,
+        crate::config::CalculationMethod::Makkah => 3,
+        crate::config::CalculationMethod::Karachi => 4,
+        crate::config::CalculationMethod::Dubai => 5,
+        crate::config::CalculationMethod::MoonsightingCommittee => 6,
+        crate::config::CalculationMethod::Kuwait => 7,
+        crate::config::CalculationMethod::Qatar => 8,
+        crate::config::CalculationMethod::Singapore => 9,
+        crate::config::CalculationMethod::Turkey => 10,
+        crate::config::CalculationMethod::Kemenag => 11,
+        crate::config::CalculationMethod::France => 12,
+        crate::config::CalculationMethod::Algeria => 13,
+    });
+    prayer_group.add(&method_row);
+
+    let config_method = config.clone();
+    method_row.connect_selected_notify(move |row| {
+        let method = match row.selected() {
+            0 => crate::config::CalculationMethod::MWL,
+            1 => crate::config::CalculationMethod::ISNA,
+            2 => crate::config::CalculationMethod::Egypt,
+            3 => crate::config::CalculationMethod::Makkah,
+            4 => crate::config::CalculationMethod::Karachi,
+            5 => crate::config::CalculationMethod::Dubai,
+            6 => crate::config::CalculationMethod::MoonsightingCommittee,
+            7 => crate::config::CalculationMethod::Kuwait,
+            8 => crate::config::CalculationMethod::Qatar,
+            9 => crate::config::CalculationMethod::Singapore,
+            10 => crate::config::CalculationMethod::Turkey,
+            11 => crate::config::CalculationMethod::Kemenag,
+            12 => crate::config::CalculationMethod::France,
+            13 => crate::config::CalculationMethod::Algeria,
+            _ => crate::config::CalculationMethod::MWL,
+        };
+        config_method.set_method(method);
+    });
+
     let app_clone = app.clone();
     let config_close = config.clone();
     window.connect_close_request(move |_| {
-        if !config_close.borrow().is_configured {
+        if !config_close.is_configured() {
             app_clone.quit();
         }
         gtk::glib::Propagation::Proceed
@@ -240,6 +321,10 @@ where
         let theme_row = theme_row.clone();
         let lang_group = lang_group.clone();
         let lang_row = lang_row.clone();
+        let behavior_group = behavior_group.clone();
+        let autostart_row = autostart_row.clone();
+        let prayer_group = prayer_group.clone();
+        let method_row = method_row.clone();
         let location_group = location_group.clone();
         let mode_row = mode_row.clone();
         let lat_row = lat_row.clone();
@@ -254,6 +339,8 @@ where
         let modes = modes.clone();
         let theme_model = theme_model.clone();
         let lang_model = lang_model.clone();
+        let method_model = method_model.clone();
+        let config_font = config.clone();
 
         let location_state = location_state.clone();
         move |lang_code: &str| {
@@ -273,7 +360,7 @@ where
             }
 
             crate::i18n::update_locale(&detected);
-            crate::apply_font_css(l);
+            crate::apply_font_css(l, &config_font);
 
             window.set_title(Some(&tr("Welcome to Khushu", l)));
             status_page.set_title(&tr("Welcome to Khushu", l));
@@ -302,6 +389,33 @@ where
                     &tr("French", l),
                     &tr("Spanish", l),
                     &tr("Turkish", l),
+                ],
+            );
+
+            behavior_group.set_title(&tr("Autostart", l));
+            autostart_row.set_title(&tr("Start Automatically", l));
+            autostart_row.set_subtitle(&tr("Run Khushu in the background when you log in.", l));
+
+            prayer_group.set_title(&tr("Prayer Setup", l));
+            method_row.set_title(&tr("Calculation Method", l));
+            method_model.splice(
+                0,
+                14,
+                &[
+                    &tr("MWL", l),
+                    &tr("ISNA", l),
+                    &tr("Egypt", l),
+                    &tr("Makkah", l),
+                    &tr("Karachi", l),
+                    &tr("Dubai", l),
+                    &tr("MoonsightingCommittee", l),
+                    &tr("Kuwait", l),
+                    &tr("Qatar", l),
+                    &tr("Singapore", l),
+                    &tr("Turkey", l),
+                    &tr("KEMENAG", l),
+                    &tr("France (UOIF)", l),
+                    &tr("Algeria", l),
                 ],
             );
 
@@ -357,6 +471,11 @@ where
     let update_translations_clone = update_translations.clone();
     let current_lang_clone = current_lang.clone();
     lang_row.connect_selected_notify(move |row| {
+        log::info!(
+            "selected-notify (welcome): selected={}, cur_lang={}",
+            row.selected(),
+            current_lang_clone.borrow(),
+        );
         let next_lang = match row.selected() {
             1 => "en",
             2 => "ar",
@@ -404,11 +523,10 @@ where
             let lang = current_lang_clone_search.borrow().clone();
             let result = location::search_city(&query, &lang).await;
             if let Ok((lat, lon, name, _detected_tz)) = result {
-                let mut cfg = config_clone.borrow_mut();
-                cfg.latitude = lat;
-                cfg.longitude = lon;
-                cfg.city_name = Some(name.clone());
-                cfg.location_mode = LocationMode::City;
+                config_clone.set_latitude(lat);
+                config_clone.set_longitude(lon);
+                config_clone.set_city_name(Some(name.clone()));
+                config_clone.set_location_mode(LocationMode::City);
 
                 city_row_for_update.set_text(&location::short_city_with_country(&name));
                 city_row_for_update.add_css_class("success");
@@ -450,11 +568,10 @@ where
             let result = location::fetch_auto_location(&lang).await;
             match result {
                 Ok((lat, lon, city)) => {
-                    let mut cfg = config_clone.borrow_mut();
-                    cfg.latitude = lat;
-                    cfg.longitude = lon;
-                    cfg.city_name = Some(city.clone());
-                    cfg.location_mode = LocationMode::Auto;
+                    config_clone.set_latitude(lat);
+                    config_clone.set_longitude(lon);
+                    config_clone.set_city_name(Some(city.clone()));
+                    config_clone.set_location_mode(LocationMode::Auto);
 
                     let lang = current_lang_for_status.borrow().clone();
                     label_row.set_subtitle(&format!(
@@ -480,55 +597,85 @@ where
     let config_final = config.clone();
     let window_final = window.clone();
     let on_done_rc = Rc::new(on_done);
+    let autostart_row_final = autostart_row.clone();
 
     continue_btn.connect_clicked(move |_| {
-        {
-            let mut cfg = config_final.borrow_mut();
+        let should_autostart = config_final.autostart();
+        let is_flatpak_runtime = is_flatpak();
 
-            match mode_row.selected() {
-                0 => {
-                    cfg.location_mode = LocationMode::Manual;
-                    cfg.latitude = lat_row.text().parse().unwrap_or(cfg.latitude);
-                    cfg.longitude = lon_row.text().parse().unwrap_or(cfg.longitude);
-                }
-                1 => {
-                    cfg.location_mode = LocationMode::City;
-                    let city = city_row.text().to_string();
-                    if !city.is_empty() {
-                        cfg.city_name = Some(city);
-                    }
-                }
-                2 => {
-                    cfg.location_mode = LocationMode::Auto;
-                }
-                _ => {}
+        match mode_row.selected() {
+            0 => {
+                config_final.set_location_mode(LocationMode::Manual);
+                let lat = lat_row.text().parse().unwrap_or(config_final.latitude());
+                let lon = lon_row.text().parse().unwrap_or(config_final.longitude());
+                config_final.set_latitude(lat);
+                config_final.set_longitude(lon);
             }
-
-            let lang_idx = lang_row.selected();
-            cfg.language = match lang_idx {
-                1 => "en",
-                2 => "ar",
-                3 => "fr",
-                4 => "es",
-                5 => "tr",
-                _ => "auto",
+            1 => {
+                config_final.set_location_mode(LocationMode::City);
+                let city = city_row.text().to_string();
+                if !city.is_empty() {
+                    config_final.set_city_name(Some(city));
+                }
             }
-            .to_string();
-
-            let theme_idx = theme_row.selected();
-            cfg.theme = match theme_idx {
-                1 => ThemeMode::Light,
-                2 => ThemeMode::Dark,
-                _ => ThemeMode::System,
-            };
-
-            cfg.is_configured = true;
-            cfg.sync_quran_state_from_disk();
-            cfg.save();
+            2 => {
+                config_final.set_location_mode(LocationMode::Auto);
+            }
+            _ => {}
         }
 
-        window_final.close();
-        on_done_rc();
+        let lang_idx = lang_row.selected();
+        let language = match lang_idx {
+            1 => "en",
+            2 => "ar",
+            3 => "fr",
+            4 => "es",
+            5 => "tr",
+            _ => "auto",
+        };
+        config_final.set_language(language);
+
+        let theme_idx = theme_row.selected();
+        let theme = match theme_idx {
+            1 => ThemeMode::Light,
+            2 => ThemeMode::Dark,
+            _ => ThemeMode::System,
+        };
+        config_final.set_theme(theme);
+
+        config_final.set_is_configured(true);
+        config_final.save();
+
+        if should_autostart && is_flatpak_runtime {
+            let config_ref = config_final.clone();
+            let window_ref = window_final.clone();
+            let on_done_ref = on_done_rc.clone();
+            let window_close_ref = window_final.clone();
+            let row_ref = autostart_row_final.clone();
+            gtk::glib::spawn_future_local(async move {
+                if let Some(handle) = crate::autostart::sync(true) {
+                    let granted = handle.await.unwrap_or(false);
+                    if granted {
+                        window_close_ref.close();
+                        on_done_ref();
+                    } else {
+                        config_ref.set_autostart(false);
+                        AppConfig::save_shared(&config_ref);
+                        row_ref.set_active(false);
+                        if let Some(overlay) = crate::settings_ui::find_toast_overlay(&window_ref) {
+                            overlay
+                                .add_toast(adw::Toast::new(&tr("Autostart was denied by the system.", "")));
+                        }
+                    }
+                }
+            });
+        } else {
+            if should_autostart {
+                crate::autostart::sync(true);
+            }
+            window_final.close();
+            on_done_rc();
+        }
     });
 
     window.present();

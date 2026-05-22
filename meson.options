@@ -1,2 +1,5 @@
 option('extra_translations', type: 'boolean', value: true,
        description: 'Install extra GTK4/Libadwaita translations for bundled locales')
+
+option('generate_locales', type: 'string', value: '',
+       description: 'Comma-separated locales to generate via localedef (fr_FR.UTF-8,ar_SA.UTF-8), or "auto" to derive from khushu_langs dict. Used in Flatpak builds.')
