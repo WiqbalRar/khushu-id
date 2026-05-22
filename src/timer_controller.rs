@@ -204,7 +204,9 @@ pub fn start_prayer_timer(config: AppConfig, on_state: impl Fn(PrayerState) + 's
         }
 
         let engine_guard = engine_cache.borrow();
-        let engine = engine_guard.as_ref().expect("prayer engine should be cached");
+        let engine = engine_guard
+            .as_ref()
+            .expect("prayer engine should be cached");
         let today = crate::time::effective_today(&config);
         let lang = config.language();
 

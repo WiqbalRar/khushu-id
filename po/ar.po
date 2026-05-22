@@ -396,25 +396,25 @@ msgstr "السبت"
 
 #. Weekdays (Short)
 msgid "Sun"
-msgstr "أحد"
+msgstr "الأحد"
 
 msgid "Mon"
-msgstr "إثن"
+msgstr "الإثنين"
 
 msgid "Tue"
-msgstr "ثلا"
+msgstr "الثلاثاء"
 
 msgid "Wed"
-msgstr "أرب"
+msgstr "الأربعاء"
 
 msgid "Thu"
-msgstr "خمي"
+msgstr "الخميس"
 
 msgid "Fri"
-msgstr "جمع"
+msgstr "الجمعة"
 
 msgid "Sat"
-msgstr "سبت"
+msgstr "السبت"
 
 # =============================================================================
 # SECTION 5: CALENDAR - EVENTS

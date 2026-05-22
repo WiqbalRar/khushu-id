@@ -159,7 +159,9 @@ impl CompassManager {
                 },
             );
 
-            *subscription_guard.lock().expect("compass subscription lock") = Some(sub);
+            *subscription_guard
+                .lock()
+                .expect("compass subscription lock") = Some(sub);
         });
     }
 

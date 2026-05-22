@@ -663,8 +663,10 @@ where
                         AppConfig::save_shared(&config_ref);
                         row_ref.set_active(false);
                         if let Some(overlay) = crate::settings_ui::find_toast_overlay(&window_ref) {
-                            overlay
-                                .add_toast(adw::Toast::new(&tr("Autostart was denied by the system.", "")));
+                            overlay.add_toast(adw::Toast::new(&tr(
+                                "Autostart was denied by the system.",
+                                "",
+                            )));
                         }
                     }
                 }

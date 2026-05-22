@@ -51,7 +51,10 @@ impl Tray for KhushuTray {
 
     fn icon_theme_path(&self) -> String {
         if is_snap() {
-            return format!("{}/usr/share/icons", std::env::var("SNAP").expect("SNAP env set by snap runtime"));
+            return format!(
+                "{}/usr/share/icons",
+                std::env::var("SNAP").expect("SNAP env set by snap runtime")
+            );
         }
         if is_flatpak() {
             return "/app/share/icons".to_string();

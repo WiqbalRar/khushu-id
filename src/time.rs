@@ -250,7 +250,10 @@ pub fn format_hijri_date(dt: DateTime<Local>, hijri_offset: i64, lang: &str) -> 
         adjusted.day() as usize,
     ) {
         Ok(hijri) => {
-            let m_name = crate::i18n::tr(HIJRI_MONTH_NAMES.get(hijri.month() - 1).unwrap_or(&""), lang);
+            let m_name = crate::i18n::tr(
+                HIJRI_MONTH_NAMES.get(hijri.month() - 1).unwrap_or(&""),
+                lang,
+            );
             format!("{} {} {}", hijri.day(), m_name, hijri.year())
         }
         Err(e) => {
