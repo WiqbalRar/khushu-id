@@ -2,10 +2,9 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::fs;
+use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
-use std::sync::mpsc::{Sender, channel};
-use std::thread;
 
 use gtk4::glib;
 use gtk4::glib::prelude::*;
@@ -364,8 +363,6 @@ impl Default for AppConfig {
     }
 }
 
-static SAVE_SENDER: std::sync::OnceLock<Sender<AppConfigData>> = std::sync::OnceLock::new();
-
 thread_local! {
     static CONFIG_INSTANCE: std::cell::RefCell<Option<AppConfig>> = const { std::cell::RefCell::new(None) };
 }
@@ -678,41 +675,31 @@ impl AppConfig {
     }
 
     pub fn save(&self) {
-        let data = self.to_data();
-        if let Some(tx) = SAVE_SENDER.get() {
-            let _ = tx.send(data);
-        } else {
-            Self::write_to_disk(&data, &Self::config_path());
-        }
+        Self::write_to_disk(&self.to_data());
     }
 
-    fn write_to_disk(data: &AppConfigData, path: &PathBuf) {
+    fn write_to_disk(data: &AppConfigData) {
+        let path = Self::config_path();
         if let Some(parent) = path.parent() {
             let _ = fs::create_dir_all(parent);
         }
-        if let Ok(content) = serde_json::to_string_pretty(data)
-            && fs::write(path, &content).is_ok()
-        {
-            let _ = fs::set_permissions(path, fs::Permissions::from_mode(0o600));
-            log::info!("Configuration saved to {:?}", path);
-        } else {
+        if let Ok(content) = serde_json::to_string_pretty(data) {
+            let tmp_path = path.with_extension("json.tmp");
+            if let Ok(mut file) = std::fs::File::create(&tmp_path) {
+                if file.write_all(content.as_bytes()).is_ok()
+                    && file.flush().is_ok()
+                    && std::fs::rename(&tmp_path, &path).is_ok()
+                {
+                    let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
+                    log::info!("Configuration saved to {:?}", path);
+                    return;
+                }
+            }
+            let _ = std::fs::remove_file(&tmp_path);
             log::error!("Failed to save configuration to {:?}", path);
+        } else {
+            log::error!("Failed to serialize configuration");
         }
-    }
-
-    pub fn start_save_thread() {
-        let (tx, rx) = channel();
-        SAVE_SENDER.set(tx).ok();
-        thread::spawn(move || {
-            let mut last_data: Option<AppConfigData> = None;
-            while let Ok(data) = rx.recv() {
-                last_data = Some(data.clone());
-                Self::write_to_disk(&data, &Self::config_path());
-            }
-            if let Some(data) = last_data {
-                Self::write_to_disk(&data, &Self::config_path());
-            }
-        });
     }
 
     pub fn save_shared(config: &Self) {

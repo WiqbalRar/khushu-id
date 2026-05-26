@@ -1240,7 +1240,9 @@ pub fn setup_settings_ui<'a>(
         }
     };
 
-    sync_ui(config.adhan_only_mode());
+    notify_toggle.set_sensitive(!config.adhan_only_mode());
+    iqamah_notify_toggle.set_sensitive(!config.adhan_only_mode());
+    adkar_toggle.set_sensitive(!config.adhan_only_mode());
 
     let config_only = config.clone();
     adhan_only_toggle.connect_active_notify(move |row| {

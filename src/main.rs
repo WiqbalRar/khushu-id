@@ -84,12 +84,11 @@ async fn main() {
 
     crate::audio::preload_builtin_audio();
 
-    AppConfig::start_save_thread();
-
     let config = AppConfig::load();
 
     {
         if let Some(ref path) = config.adhan_sound_path()
+            && !path.starts_with("assets/")
             && !std::path::Path::new(path).exists()
         {
             log::info!("Resetting stale custom audio path: {path}");
