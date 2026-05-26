@@ -70,49 +70,16 @@ fn validate_audio_file(path: &str) -> bool {
         .is_some()
 }
 
-struct ValidationResult {
-    path: String,
-    valid: bool,
-    lang: String,
-}
-
-static VALIDATION_CHANNEL: OnceLock<Sender<ValidationResult>> = OnceLock::new();
-
-fn ensure_validation_thread() -> &'static Sender<ValidationResult> {
-    VALIDATION_CHANNEL.get_or_init(|| {
-        let (tx, rx): (Sender<ValidationResult>, _) = channel();
-        thread::spawn(move || {
-            while let Ok(result) = rx.recv() {
-                let path = result.path;
-                let valid = result.valid;
-                let _lang = result.lang;
-                gtk4::glib::spawn_future_local(async move {
-                    if valid {
-                        let c = AppConfig::load();
-                        c.set_adhan_sound_path(Some(path.clone()));
-                        c.save();
-                    }
-                });
-            }
-        });
-        tx
-    })
-}
-
 pub fn validate_audio_async(
     path: String,
     combo: adw::ComboRow,
     lang: String,
     parent: adw::ApplicationWindow,
 ) {
-    let valid = validate_audio_file(&path);
-    let path_for_save = path.clone();
-    if valid {
-        let _ = ensure_validation_thread().send(ValidationResult {
-            path: path_for_save,
-            valid: true,
-            lang,
-        });
+    if validate_audio_file(&path) {
+        let c = AppConfig::load();
+        c.set_adhan_sound_path(Some(path.clone()));
+        c.save();
         gtk4::glib::spawn_future_local(async move {
             combo.set_subtitle(&path);
         });

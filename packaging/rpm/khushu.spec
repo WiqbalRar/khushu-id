@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.1.2
+Version:        1.1.3
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -55,6 +55,11 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Tue May 26 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.3-1
+- Fixed config data loss on exit with synchronous atomic write
+- Fixed autostart portal command double-wrapping
+- Fixed notification toggles reverting on restart (sync_ui init override)
+- Fixed audio preset reverting on restart (GResource path validated as file)
 * Wed May 13 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.2-1
 - Improved audio playback engine with streaming decode
 - Improved Qibla compass performance with Pango/cardinal/bearing caching

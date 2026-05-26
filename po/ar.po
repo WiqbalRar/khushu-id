@@ -171,7 +171,7 @@ msgstr "مسلم"
 msgid "islam"
 msgstr "إسلام"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:113
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:123
 msgid ""
 "Added a fully offline Noble Qur'an module featuring the Qur'anic text in "
 "Uthmanic orthography (rasm), translations, mushaf-style navigation, "
@@ -181,12 +181,12 @@ msgstr ""
 "القرآني بالرسم العثماني، وترجمات، وتصفحًا بأسلوب المصحف، وبحثًا يراعي "
 "التشكيل، مع حفظ مواضع القراءة وإمكانية ضبط الخط."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:114
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:124
 msgid "Added Mawaqit API integration as an alternative prayer times source."
 msgstr ""
 "إضافة تكامل مع Mawaqit API كمصدر بديل لمواقيت الصلاة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:115
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:125
 msgid ""
 "Added ICU-backed localization for location and timezone labels, plus "
 "validated custom IANA timezone editing."
@@ -194,7 +194,7 @@ msgstr ""
 "إضافة دعم ICU لتوطين تسميات الموقع والمنطقة الزمنية، مع التحقق من صحة "
 "تعديل مناطق IANA الزمنية المخصصة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:116
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:126
 msgid ""
 "Reorganized settings into clearer General, Prayer Setup, and Alerts sections "
 "with improved inline editing behavior."
@@ -202,7 +202,7 @@ msgstr ""
 "إعادة تنظيم الإعدادات إلى أقسام أوضح: عام، إعدادات الصلاة، والتنبيهات، مع "
 "تحسين أسلوب التحرير المباشر."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:117
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:127
 msgid ""
 "Fixed Snap tray icon visibility via an upstream patch to ksni (resolves "
 "AppArmor D-Bus blocking)."
@@ -210,78 +210,94 @@ msgstr ""
 "إصلاح ظهور أيقونة شريط Snap عبر تصحيح في المصدر (upstream) لمكتبة ksni "
 "(يحل مشكلة حظر D-Bus بواسطة AppArmor)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:124
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:134
 msgid "Fixed Snap autostart and notification icon rendering."
 msgstr "إصلاح التشغيل التلقائي وعرض أيقونة الإشعارات في Snap."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:125
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:135
 msgid "Improved locale detection and fallback logic."
 msgstr "تحسين اكتشاف اللغة ومنطق الرجوع للافتراضي."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:132
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:142
 msgid "Fixed Flatpak autostart failure and missing --background flag."
 msgstr ""
 "إصلاح فشل التشغيل التلقائي في Flatpak وإضافة علامة --background المفقودة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:133
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:143
 msgid ""
 "Fixed over-translation of proper nouns (e.g., Muslim) in non-English locales."
 msgstr ""
 "إصلاح الترجمة الزائدة لأسماء الأعلام (مثل: Muslim) في اللغات غير الإنجليزية."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:134
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:144
 msgid "Added new localized AppStream screenshots for improved store presence."
 msgstr ""
 "إضافة لقطات شاشة مترجمة جديدة لتحسين ظهور التطبيق في المتاجر."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:141
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:151
 msgid "Fixed tray icon translation extraction (Quit and Open Khushu entries)."
 msgstr ""
 "إصلاح استخراج ترجمة أيقونة شريط المهام (إدخالات الخروج وفتح خشوع)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:142
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:152
 msgid "Fixed AppStream metadata translation (descriptions and keywords)."
 msgstr ""
 "إصلاح ترجمة بيانات AppStream الوصفية (الأوصاف والكلمات المفتاحية)."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:143
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:153
 msgid "Improved tray behavior to update labels immediately on language change."
 msgstr ""
 "تحسين سلوك شريط المهام لتحديث التسميات فورًا عند تغيير اللغة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:150
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:160
 msgid "Initial stable release of Khushu."
 msgstr "الإصدار المستقر الأول لتطبيق خشوع."
 
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
+msgid "Fixed data loss on exit with synchronous atomic config save."
+msgstr "تم إصلاح فقدان البيانات عند الخروج عبر حفظ الإعدادات بشكل ذري ومتزامن."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:89
+msgid "Fixed autostart portal command double-wrapping."
+msgstr "تم إصلاح التكرار المزدوج لأمر بوابة التشغيل التلقائي."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:90
+msgid "Fixed notification toggles reverting on restart due to UI override."
+msgstr "تم إصلاح مشكلة إعادة تعيين إعدادات الإشعارات بعد إعادة التشغيل بسبب تعارض في الواجهة."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:91
+msgid "Fixed audio selection reverting on restart due to file check on bundled presets."
+msgstr "تم إصلاح مشكلة رجوع اختيار الصوت للإعدادات الافتراضية بعد إعادة التشغيل بسبب التحقق من ملفات الأصوات المدمجة."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:98
 msgid "Improved audio playback engine with streaming decode."
 msgstr "تحسين محرك تشغيل الصوت مع فك التشفير التدفقي."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:89
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:99
 msgid "Improved Qibla compass performance with Pango and bearing caching."
 msgstr "تحسين أداء بوصلة القبلة مع التخزين المؤقت للخط والاتجاه."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:90
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:100
 msgid "Improved timer controller with daily state caching."
 msgstr "تحسين وحدة التحكم في المؤقت مع التخزين المؤقت للحالة اليومية."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:91
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:101
 msgid "Improved config persistence with singleton save channel."
 msgstr "تحسين حفظ الإعدادات بقناة حفظ مفردة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:92
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:102
 msgid "Fixed application crashes caused by notification re-entrancy."
 msgstr "إصلاح أعطال التطبيق الناتجة عن تداخل الإشعارات."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:93
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
 msgid "Fixed configuration data race when saving from multiple threads."
 msgstr "إصلاح سباق البيانات في الإعدادات عند الحفظ من خيوط متعددة."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:94
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
 msgid "Fixed thread safety issues in locale setup and audio initialization."
 msgstr "إصلاح مشاكل أمان الخيوط في إعداد اللغة وتهيئة الصوت."
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:95
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
 msgid "Replaced 26 unsafe unwrap() calls with proper error messages."
 msgstr "استبدال 26 استدعاء unwrap() غير آمن برسائل خطأ واضحة."
 
@@ -1452,22 +1468,22 @@ msgstr "التركية"
 msgid "Language"
 msgstr "اللغة"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:102
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:112
 msgid "Added Adhan Only Mode toggle to keep only Adhan alerts."
 msgstr "إضافة وضع الأذان فقط للاكتفاء بإشعارات الأذان"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:113
 msgid "Added Iqamah Alert toggle to separately control Iqamah notifications."
 msgstr "إضافة خيار تنبيه الإقامة للتحكم بشكل منفصل في إشعارات الإقامة"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:114
 msgid "Added new prayer calculation methods for France (UOIF), Algeria (Ministry of Religious Affairs and Wakfs), and KEMENAG (Indonesia)."
 msgstr "إضافة طرق حساب جديدة: فرنسا (UOIF)، الجزائر (وزارة الشؤون الدينية والأوقاف)، وKEMENAG (إندونيسيا)"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:115
 msgid "Fixed Flatpak tray icon visibility with XDG portal icon path support."
 msgstr "إصلاح ظهور أيقونة Flatpak عبر دعم مسارات الأيقونات في XDG Portal"
 
-#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:106
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:116
 msgid "Improved tray activation: clicking \"Open Khushu\" from system tray now directly shows the app window."
 msgstr "تحسين فتح التطبيق من شريط النظام: خيار \"فتح خشوع\" يعرض نافذة التطبيق مباشرة"

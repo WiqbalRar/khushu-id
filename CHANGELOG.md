@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.3] — 2026-05-26
+
+### Fixed
+- **Config data loss on exit** — replaced daemon save-thread race with synchronous atomic write (temp file + rename). Settings changed just before closing the app are now always persisted.
+- **Autostart portal command** — passed `["khushu", "--background"]` instead of the full `["flatpak", "run", APP_ID, "--background"]`. The portal wraps with `--command=` internally, so the flatpak wrapper was double-wrapped and failed silently.
+- **Notification toggles reverting on restart** — `sync_ui()` during initialization called `set_active()` on notification toggles, overriding the saved config values. Changed to `set_sensitive()` only during init; `set_active()` enforcement now runs only when Adhan Only Mode is interactively toggled.
+- **Audio preset reverting on restart** — builtin presets use `"assets/audio/"` paths as GResource lookup keys, but the startup validator checked them as filesystem paths and reset them. Added `!path.starts_with("assets/")` guard.
+
+### Changed
+- **Config architecture** — removed background save thread and channel. `save()` now writes synchronously. ~1KB JSON write is microseconds — the thread was unnecessary complexity that introduced a data-loss bug.
+
 ## [1.1.2] — 2026-05-13
 
 ### Improved
