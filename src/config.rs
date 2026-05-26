@@ -685,15 +685,14 @@ impl AppConfig {
         }
         if let Ok(content) = serde_json::to_string_pretty(data) {
             let tmp_path = path.with_extension("json.tmp");
-            if let Ok(mut file) = std::fs::File::create(&tmp_path) {
-                if file.write_all(content.as_bytes()).is_ok()
-                    && file.flush().is_ok()
-                    && std::fs::rename(&tmp_path, &path).is_ok()
-                {
-                    let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
-                    log::info!("Configuration saved to {:?}", path);
-                    return;
-                }
+            if let Ok(mut file) = std::fs::File::create(&tmp_path)
+                && file.write_all(content.as_bytes()).is_ok()
+                && file.flush().is_ok()
+                && std::fs::rename(&tmp_path, &path).is_ok()
+            {
+                let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
+                log::info!("Configuration saved to {:?}", path);
+                return;
             }
             let _ = std::fs::remove_file(&tmp_path);
             log::error!("Failed to save configuration to {:?}", path);
