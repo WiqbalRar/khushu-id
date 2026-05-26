@@ -115,7 +115,7 @@ async fn request_portal(enable: bool) -> Result<bool, ashpd::Error> {
         .reason("Allow Khushu to start automatically at login for prayer notifications.")
         .auto_start(enable)
         .dbus_activatable(false)
-        .command(&["flatpak", "run", crate::APP_ID, "--background"])
+        .command(&["khushu", "--background"])
         .send()
         .await?
         .response()?;
