@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gtk40\n"
+"Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
+"POT-Creation-Date: 2026-04-18 14:20+0100\n"
+"PO-Revision-Date: 2026-05-28 11:54+0700\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#. GTK4 About dialog strings
+msgid "GNU General Public License, version 3 or later"
+msgstr "GNU General Public License, version 3 or later"
+
+msgid "Code by"
+msgstr "Kode oleh"
+
+msgid "Translated by"
+msgstr "Diterjemahkan oleh"
