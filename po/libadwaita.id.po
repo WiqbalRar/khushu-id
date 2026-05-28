@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/"
 "issues\n"
 "POT-Creation-Date: 2026-04-18 14:20+0100\n"
-"PO-Revision-Date: 2026-05-28 11:57+0700\n"
+"PO-Revision-Date: 2026-05-28 12:44+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE\n"
 "Language: id\n"
@@ -18,13 +18,13 @@ msgid "Details"
 msgstr "Rincian"
 
 msgid "_Details"
-msgstr "_Details"
+msgstr "_Rincian"
 
 msgid "Credits"
 msgstr "Kredit"
 
 msgid "_Credits"
-msgstr "_Credits"
+msgstr "_Kredit"
 
 msgid "Legal"
 msgstr "Legal"
@@ -42,7 +42,7 @@ msgid "Report an Issue"
 msgstr "Laporkan Masalah"
 
 msgid "_Report an Issue"
-msgstr "_Report an Issue"
+msgstr "_Laporkan Masalah"
 
 msgid "Website"
 msgstr "Laman"
