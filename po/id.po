@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: khushu\n"
+"Project-Id-Version: Khushu 1.1.3\n"
 "Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-04-18 14:20+0100\n"
 "PO-Revision-Date: 2026-05-28 11:50+0700\n"
