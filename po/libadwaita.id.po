@@ -5,8 +5,8 @@ msgstr ""
 "issues\n"
 "POT-Creation-Date: 2026-04-18 14:20+0100\n"
 "PO-Revision-Date: 2026-05-28 12:44+0700\n"
-"Last-Translator: \n"
-"Language-Team: LANGUAGE\n"
+"Last-Translator: WiqbalRar\n"
+"Language-Team: Indonesian\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,11 +14,12 @@ msgstr ""
 "X-Generator: Poedit 3.9\n"
 
 #. Libadwaita About dialog strings
+
 msgid "Details"
-msgstr "Rincian"
+msgstr "Detail"
 
 msgid "_Details"
-msgstr "_Rincian"
+msgstr "_Detail"
 
 msgid "Credits"
 msgstr "Kredit"
@@ -27,7 +28,7 @@ msgid "_Credits"
 msgstr "_Kredit"
 
 msgid "Legal"
-msgstr "Legal"
+msgstr "Hukum"
 
 msgid "_Legal"
 msgstr "_Legal"
@@ -42,13 +43,13 @@ msgid "Report an Issue"
 msgstr "Laporkan Masalah"
 
 msgid "_Report an Issue"
-msgstr "_Laporkan Masalah"
+msgstr "Lapo_rkan Masalah"
 
 msgid "Website"
 msgstr "Laman"
 
 msgid "_Website"
-msgstr "_Website"
+msgstr "Situs _Web"
 
 msgid "This Application"
 msgstr "Aplikasi Ini"
@@ -70,4 +71,4 @@ msgid "Design by"
 msgstr "Desain oleh"
 
 msgid "GNU General Public License, version 3 or later"
-msgstr "Lisensi Publik Umum GNU, versi 3 atau yang lebih baru"
+msgstr "GNU General Public License, versi 3 atau setelahnya"
