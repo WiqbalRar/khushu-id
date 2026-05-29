@@ -1252,7 +1252,7 @@ msgid "Morning, evening, and night invocation reminders."
 msgstr "Sabah, akşam ve gece zikir hatırlatıcıları."
 
 #: src/settings_ui.rs:1113
-msgid "Athan Only Mode"
+msgid "Adhan Only Mode"
 msgstr "Yalnızca Ezan Modu"
 
 #: src/settings_ui.rs:1114

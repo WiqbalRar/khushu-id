@@ -90,6 +90,7 @@ fn handle_lang_change(
     crate::i18n::update_locale(&detected_lang);
 
     cfg.set_language(&detected_lang);
+    cfg.save();
 
     if detected_lang == "ar" {
         gtk::Widget::set_default_direction(gtk::TextDirection::Rtl);

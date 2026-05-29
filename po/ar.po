@@ -1333,12 +1333,6 @@ msgstr "▶ معاينة الأذان"
 # SECTION 19: APP UI & SYSTEM ACTIONS
 # =============================================================================
 
-#: src/settings_ui.rs:0 (system)
-msgid "Insert Emoji"
-msgstr "إدراج رمز تعبيري"
-
-#: src/settings_ui.rs:0 (system)
-
 #: src/nav_ui.rs:31 src/pages.rs:412
 msgid "Home"
 msgstr "الرئيسية"
