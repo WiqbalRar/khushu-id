@@ -1,11 +1,9 @@
 # Spanish translations for Khushu.
-# Copyright (C) 2026 Djalel Oukid
-# This file is distributed under the same license as the Khushu package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.1.3\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: Khushu 1.1.4\n"
+"Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-05-26 12:00+0100\n"
 "PO-Revision-Date: 2026-05-14 12:00+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
@@ -255,6 +253,18 @@ msgstr "Mejora del comportamiento de bandeja para actualizar etiquetas inmediata
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:160
 msgid "Initial stable release of Khushu."
 msgstr "Primera versión estable de Khushu."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
+msgid "Added Indonesian (id) translation by WiqbalRar."
+msgstr "Se añadió la traducción al indonesio (id) por WiqbalRar."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
+msgid "Fixed custom audio save crash on non-main thread."
+msgstr "Se corrigió un fallo al guardar audios personalizados fuera del hilo principal."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
+msgid "Fixed language not persisting after app restart."
+msgstr "Se corrigió el problema que impedía conservar el idioma después de reiniciar la aplicación."
 
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
 msgid "Fixed data loss on exit with synchronous atomic config save."
@@ -897,21 +907,21 @@ msgstr "Copiar"
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: src/main.rs:411
-msgid "Quran Text"
-msgstr "Texto del Corán"
+#: src/main.rs:415
+msgid "Quran Text & Translations"
+msgstr "Texto y traducciones del Corán"
 
-#: src/main.rs:420
+#: src/main.rs:424
 msgid "Quran Translations Disclaimer"
 msgstr "Aviso sobre las traducciones del Corán"
 
-#: src/main.rs:415
-msgid "Arabic text and translations from Tanzil.net."
-msgstr "Texto árabe y traducciones de Tanzil.net."
+#: src/main.rs:419
+msgid "Arabic text from Tanzil.net. English, French, Spanish, and Turkish translations from Tanzil.net. Indonesian translation from QuranEnc.com (Encyclopedia of the Noble Quran)."
+msgstr "Texto árabe de Tanzil.net. Traducciones al inglés, francés, español y turco de Tanzil.net. Traducción al indonesio de QuranEnc.com (Enciclopedia del Noble Corán)."
 
-#: src/main.rs:423 src/quran.rs:2026
-msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
-msgstr "Ninguna traducción del Corán puede ser totalmente precisa ni puede usarse como sustituto del texto coránico. Las traducciones provienen del sitio web Tanzil.net; no podemos garantizar su autenticidad ni exactitud. Utilícelas bajo su propia responsabilidad."
+#: src/main.rs:428 src/quran.rs:2026
+msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net and QuranEnc.com websites, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
+msgstr "Ninguna traducción del Corán puede ser totalmente precisa ni puede usarse como sustituto del texto coránico. Las traducciones provienen de los sitios web Tanzil.net y QuranEnc.com; no podemos garantizar su autenticidad ni exactitud. Utilícelas bajo su propia responsabilidad."
 
 # =============================================================================
 # SECTION 13: ADKAR - CATEGORIES
@@ -1395,7 +1405,7 @@ msgid "translator-credits"
 msgstr "Djalel Oukid"
 
 #: src/main.rs:402
-msgid "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic."
+msgid "Auto mode: XDG Desktop Portal (GeoClue). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic."
 msgstr "Modo auto: GeoClue (sistema). Búsqueda de ciudad: Nominatim (OpenStreetMap). Modo manual: sin tráfico de red."
 
 #: src/main.rs:408
@@ -1453,6 +1463,10 @@ msgstr "Español"
 #: src/pages.rs:271 src/pages.rs:401 src/welcome.rs:304
 msgid "Turkish"
 msgstr "Turco"
+
+#: src/settings_ui.rs:254 src/settings_ui.rs:1649 src/welcome.rs:122 src/welcome.rs:393
+msgid "Indonesian"
+msgstr "Indonesio"
 
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
 msgid "Language"

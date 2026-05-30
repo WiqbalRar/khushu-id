@@ -20,5 +20,6 @@
     <file compressed="true">quran/translations/fr.json</file>
     <file compressed="true">quran/translations/es.json</file>
     <file compressed="true">quran/translations/tr.json</file>
+    <file compressed="true">quran/translations/id.json</file>
   </gresource>
 </gresources>

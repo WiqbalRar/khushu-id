@@ -719,7 +719,7 @@ pub fn create_quran_page(
     scrolled.set_child(Some(&list_box));
     container.append(&scrolled);
 
-    let supported_langs = ["en", "ar", "fr", "es", "tr"];
+    let supported_langs = ["en", "ar", "fr", "es", "tr", "id"];
     let quran_lang = if supported_langs.contains(&current_lang) {
         current_lang
     } else {
@@ -969,7 +969,7 @@ pub fn create_quran_page(
             }
         } else {
             let quran_lang =
-                if ["en", "ar", "fr", "es", "tr"].contains(&quran_lang_for_search.as_str()) {
+                if ["en", "ar", "fr", "es", "tr", "id"].contains(&quran_lang_for_search.as_str()) {
                     quran_lang_for_search.as_str()
                 } else {
                     "en"
@@ -1182,7 +1182,7 @@ pub fn refresh_quran_ui(view_stack: &adw::ViewStack, lang: &str, config: AppConf
         .as_deref()
         .is_some_and(|n| n == "quran" || n.starts_with("surah_"));
 
-    let quran_lang = if ["en", "ar", "fr", "es", "tr"].contains(&lang) {
+    let quran_lang = if ["en", "ar", "fr", "es", "tr", "id"].contains(&lang) {
         lang
     } else {
         "en"
@@ -1553,7 +1553,7 @@ pub fn create_surah_view(
     let container = gtk::Box::new(gtk::Orientation::Vertical, 0);
     let toast_overlay = adw::ToastOverlay::new();
 
-    let supported_langs = ["en", "ar", "fr", "es", "tr"];
+    let supported_langs = ["en", "ar", "fr", "es", "tr", "id"];
     let quran_lang = if supported_langs.contains(&lang) {
         lang
     } else {
@@ -2152,17 +2152,6 @@ pub fn create_surah_view(
                     last_surah = Some(pv.surah);
                 }
             }
-        }
-
-        if quran_lang != "ar" && page == 604 {
-            let disclaimer_label = gtk::Label::new(None);
-            disclaimer_label.set_markup(&format!(
-                "<span size='small' color='gray'>{}</span>",
-                tr("No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion.", quran_lang)
-            ));
-            disclaimer_label.set_wrap(true);
-            disclaimer_label.set_xalign(0.0);
-            box_content.append(&disclaimer_label);
         }
 
         box_content

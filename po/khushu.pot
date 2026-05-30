@@ -225,6 +225,18 @@ msgstr ""
 msgid "Initial stable release of Khushu."
 msgstr ""
 
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
+msgid "Added Indonesian (id) translation by WiqbalRar."
+msgstr ""
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
+msgid "Fixed custom audio save crash on non-main thread."
+msgstr ""
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
+msgid "Fixed language not persisting after app restart."
+msgstr ""
+
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
 msgid "Fixed data loss on exit with synchronous atomic config save."
 msgstr ""
@@ -866,20 +878,20 @@ msgstr ""
 msgid "Select All"
 msgstr ""
 
-#: src/main.rs:411
-msgid "Quran Text"
+#: src/main.rs:415
+msgid "Quran Text & Translations"
 msgstr ""
 
-#: src/main.rs:420
+#: src/main.rs:424
 msgid "Quran Translations Disclaimer"
 msgstr ""
 
-#: src/main.rs:415
-msgid "Arabic text and translations from Tanzil.net."
+#: src/main.rs:419
+msgid "Arabic text from Tanzil.net. English, French, Spanish, and Turkish translations from Tanzil.net. Indonesian translation from QuranEnc.com (Encyclopedia of the Noble Quran)."
 msgstr ""
 
-#: src/main.rs:423 src/quran.rs:2026
-msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
+#: src/main.rs:428 src/quran.rs:2026
+msgid "No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net and QuranEnc.com websites, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion."
 msgstr ""
 
 # =============================================================================
@@ -1421,6 +1433,10 @@ msgstr ""
 
 #: src/pages.rs:271 src/pages.rs:401 src/welcome.rs:304
 msgid "Turkish"
+msgstr ""
+
+#: src/settings_ui.rs:254 src/settings_ui.rs:1649 src/welcome.rs:122 src/welcome.rs:393
+msgid "Indonesian"
 msgstr ""
 
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294

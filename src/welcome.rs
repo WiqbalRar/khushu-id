@@ -119,6 +119,7 @@ where
         "French",
         "Spanish",
         "Turkish",
+        "Indonesian",
     ]);
 
     let lang_row = ComboRow::builder()
@@ -381,7 +382,7 @@ where
             lang_row.set_title(&tr("Language", l));
             lang_model.splice(
                 0,
-                6,
+                7,
                 &[
                     &tr("System Default", l),
                     &tr("English", l),
@@ -389,6 +390,7 @@ where
                     &tr("French", l),
                     &tr("Spanish", l),
                     &tr("Turkish", l),
+                    &tr("Indonesian", l),
                 ],
             );
 
@@ -482,6 +484,7 @@ where
             3 => "fr",
             4 => "es",
             5 => "tr",
+            6 => "id",
             _ => "auto",
         }
         .to_string();

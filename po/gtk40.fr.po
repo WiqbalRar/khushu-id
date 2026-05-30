@@ -11,6 +11,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#. GTK4 About dialog strings
+
 msgid "GNU General Public License, version 3 or later"
 msgstr "Licence publique générale GNU, version 3 ou ultérieure"
 
@@ -19,3 +21,25 @@ msgstr "Code par"
 
 msgid "Translated by"
 msgstr "Traduit par"
+
+#. GTK4 context menu strings
+msgid "Cu_t"
+msgstr "Co_uper"
+
+msgid "_Copy"
+msgstr "_Copier"
+
+msgid "_Paste"
+msgstr "C_oller"
+
+msgid "_Delete"
+msgstr "_Supprimer"
+
+msgid "Select _All"
+msgstr "_Tout sélectionner"
+
+msgid "Change di_rection"
+msgstr ""
+
+msgid "Insert _Emoji"
+msgstr "Insérer un _émoji"

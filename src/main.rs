@@ -452,19 +452,16 @@ fn show_about_window(parent: &impl IsA<gtk::Widget>, lang: &str) {
             Some(&tr("Coordinates stay on this device and are not sent to any external servers. No analytics, no telemetry, no accounts.", &resolved_lang)),
         );
     about.add_legal_section(
-        &tr("Quran Text", &resolved_lang),
+        &tr("Quran Text & Translations", &resolved_lang),
         None,
         gtk::License::Custom,
-        Some(&tr(
-            "Arabic text and translations from Tanzil.net.",
-            &resolved_lang,
-        )),
+        Some(&tr("Arabic text from Tanzil.net. English, French, Spanish, and Turkish translations from Tanzil.net. Indonesian translation from QuranEnc.com (Encyclopedia of the Noble Quran).", &resolved_lang)),
     );
     about.add_legal_section(
         &tr("Quran Translations Disclaimer", &resolved_lang),
         None,
         gtk::License::Custom,
-        Some(&tr("No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion.", &resolved_lang)),
+        Some(&tr("No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from Tanzil.net and QuranEnc.com websites, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion.", &resolved_lang)),
     );
 
     about.present(Some(parent));

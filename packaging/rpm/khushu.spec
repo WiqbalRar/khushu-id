@@ -1,5 +1,5 @@
 Name:           khushu
-Version:        1.1.3
+Version:        1.1.4
 Release:        1%{?dist}
 Summary:        An all-in-one Muslim app for Linux
 
@@ -55,6 +55,10 @@ adaptive UI built with GTK4 and Libadwaita.
 %{_datadir}/fonts/truetype/%{name}/
 
 %changelog
+* Thu May 28 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.4-1
+- Added Indonesian (id) translation
+- Fixed custom audio save crash on non-main thread
+- Fixed language not persisting after app restart
 * Tue May 26 2026 Djalel Oukid <sniper1720@linuxtechmore.com> - 1.1.3-1
 - Fixed config data loss on exit with synchronous atomic write
 - Fixed autostart portal command double-wrapping

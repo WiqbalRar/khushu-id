@@ -62,6 +62,7 @@ fn handle_lang_change(
             3 => "fr".to_string(),
             4 => "es".to_string(),
             5 => "tr".to_string(),
+            6 => "id".to_string(),
             _ => "auto".to_string(),
         };
         if *lang != next_lang {

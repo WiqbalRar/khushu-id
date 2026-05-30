@@ -1,3 +1,9 @@
+khushu (1.1.4) unstable; urgency=medium
+
+  * Added Indonesian (id) translation by WiqbalRar
+  * Fixed custom audio save crash on non-main thread
+  * Fixed language not persisting after app restart
+
 khushu (1.1.3) unstable; urgency=medium
 
   * Fixed config data loss on exit with synchronous atomic write

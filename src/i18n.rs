@@ -45,6 +45,12 @@ fn locale_fallback_order(lang: &str) -> Vec<String> {
             "en_US.UTF-8".to_string(),
             "C.UTF-8".to_string(),
         ],
+        "id" => vec![
+            "id_ID.UTF-8".to_string(),
+            "id.UTF-8".to_string(),
+            "en_US.UTF-8".to_string(),
+            "C.UTF-8".to_string(),
+        ],
         _ => vec![
             format!("{}.UTF-8", lang),
             "en_US.UTF-8".to_string(),

@@ -21,3 +21,25 @@ msgstr ""
 
 msgid "Translated by"
 msgstr ""
+
+#. GTK4 context menu strings
+msgid "Cu_t"
+msgstr ""
+
+msgid "_Copy"
+msgstr ""
+
+msgid "_Paste"
+msgstr ""
+
+msgid "_Delete"
+msgstr ""
+
+msgid "Select _All"
+msgstr ""
+
+msgid "Change di_rection"
+msgstr ""
+
+msgid "Insert _Emoji"
+msgstr ""

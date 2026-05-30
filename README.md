@@ -6,9 +6,9 @@
   [![Rust](https://img.shields.io/badge/Language-Rust-fa4f28?style=flat-square&logo=rust)](https://www.rust-lang.org/)
   [![GTK4](https://img.shields.io/badge/GUI-GTK4-4a86cf?style=flat-square&logo=gnome)](https://gtk.org/)
   [![Libadwaita](https://img.shields.io/badge/Style-Libadwaita-62a0ea?style=flat-square&logo=gnome)](https://gnome.pages.gitlab.gnome.org/libadwaita/)
-  [![Version](https://img.shields.io/badge/Version-1.1.3-success?style=flat-square)](#)
+  [![Version](https://img.shields.io/badge/Version-1.1.4-success?style=flat-square)](#)
   [![License](https://img.shields.io/badge/License-GPL_v3-blue?style=flat-square)](LICENSE)
-  [![Translations](https://img.shields.io/badge/Languages-5_Supported-9cf?style=flat-square)](#)
+  [![Translations](https://img.shields.io/badge/Languages-6_Supported-9cf?style=flat-square)](#)
 
 </div>
 
@@ -157,6 +157,21 @@ Khushu is designed with privacy as a core principle. Here is exactly what data l
 **Local storage:** Your latitude and longitude are obfuscated (XOR + Base64) before being saved to `~/.config/khushu/config.json`. They are never transmitted to any server by the app itself.
 
 **No analytics, no telemetry, no accounts.** All prayer calculations, Adkar, Hijri dates, and Qibla bearing are computed locally on your device.
+
+## Quran Data Sources
+
+The Noble Quran module in Khushu uses the following sources for its Arabic text and translations:
+
+- **Uthmani Quran Text**: Sourced from [Tanzil.net](https://tanzil.net).
+- **English Transliteration**: Sourced from [Tanzil.net](https://tanzil.net).
+- **English Translation**: Authored by Umm Muhammad (Saheeh International), sourced from [Tanzil.net](https://tanzil.net).
+- **Spanish Translation**: Authored by Muhammad Isa García, sourced from [Tanzil.net](https://tanzil.net).
+- **French Translation**: Authored by Muhammad Hamidullah, sourced from [Tanzil.net](https://tanzil.net).
+- **Indonesian Translation**: Authored by the Indonesian Islamic Affairs Ministry, sourced from [The Noble Qur'an Encyclopedia](https://quranenc.com).
+- **Turkish Translation**: Authored by the Turkish Directorate of Religious Affairs, sourced from [Tanzil.net](https://tanzil.net).
+
+> [!NOTE]
+> No translation of Quran can be a hundred percent accurate, nor it can be used as a replacement of the Quran text. We got Quran translations from [Tanzil.net](https://tanzil.net) and [QuranEnc.com](https://quranenc.com) websites, we cannot guarantee their authenticity and/or accuracy. Please use them at your own discretion.
 
 ## Contribute & Support
 

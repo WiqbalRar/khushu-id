@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.4] — 2026-05-28
+
+### Added
+- **Indonesian (id) translation** — full Indonesian translation contributed by WiqbalRar, including UI strings, GTK4/libadwaita context menus, and Quran translation data.
+
+### Fixed
+- **Custom audio save crash** — removed `ensure_validation_thread` which spawned a background worker that called `spawn_future_local` from a non-main thread, causing a panic. Config save now runs directly in `validate_audio_async` on the main thread.
+- **Language not persisting after restart** — added `cfg.save()` after `cfg.set_language()` so the selected language is written to disk immediately.
+
 ## [1.1.3] — 2026-05-26
 
 ### Fixed

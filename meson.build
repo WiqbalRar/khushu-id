@@ -1,5 +1,5 @@
 project('khushu', 'rust',
-  version: '1.1.3',
+  version: '1.1.4',
   meson_version: '>= 1.2.0',
 )
 
@@ -15,6 +15,7 @@ khushu_langs = {
   'ar': 'ar_SA',
   'es': 'es_ES',
   'fr': 'fr_FR',
+  'id': 'id_ID',
   'tr': 'tr_TR',
 }
 

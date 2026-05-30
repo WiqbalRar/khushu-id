@@ -1,12 +1,9 @@
 # Arabic translations for Khushu.
-# Copyright (C) 2026 Djalel Oukid
-# This file is distributed under the same license as the Khushu package.
-# Djalel Oukid <sniper1720@linuxtechmore.com>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Khushu 1.1.3\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: Khushu 1.1.4\n"
+"Report-Msgid-Bugs-To: https://github.com/sniper1720/khushu/issues\n"
 "POT-Creation-Date: 2026-05-26 12:00+0100\n"
 "PO-Revision-Date: 2026-05-14 12:00+0100\n"
 "Last-Translator: Djalel Oukid (sniper1720)\n"
@@ -252,6 +249,18 @@ msgstr ""
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:160
 msgid "Initial stable release of Khushu."
 msgstr "الإصدار المستقر الأول لتطبيق خشوع."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:103
+msgid "Added Indonesian (id) translation by WiqbalRar."
+msgstr "تمت إضافة الترجمة الإندونيسية (id) بواسطة WiqbalRar."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:104
+msgid "Fixed custom audio save crash on non-main thread."
+msgstr "تم إصلاح تعطل حفظ الصوت المخصص خارج الخيط الرئيسي للتطبيق."
+
+#: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:105
+msgid "Fixed language not persisting after app restart."
+msgstr "تم إصلاح مشكلة عدم حفظ اللغة المختارة بعد إعادة تشغيل التطبيق."
 
 #: data/appdata/io.github.sniper1720.khushu.metainfo.xml.in:88
 msgid "Fixed data loss on exit with synchronous atomic config save."
@@ -894,28 +903,28 @@ msgstr "نسخ"
 msgid "Select All"
 msgstr "تحديد الكل"
 
-#: src/main.rs:411
-msgid "Quran Text"
-msgstr "النص القرآني"
+#: src/main.rs:415
+msgid "Quran Text & Translations"
+msgstr "النص القرآني والترجمات"
 
-#: src/main.rs:420
+#: src/main.rs:424
 msgid "Quran Translations Disclaimer"
 msgstr "إخلاء مسؤولية الترجمات"
 
-#: src/main.rs:415
-msgid "Arabic text and translations from Tanzil.net."
-msgstr "النص العربي والترجمات من Tanzil.net."
+#: src/main.rs:419
+msgid "Arabic text from Tanzil.net. English, French, Spanish, and Turkish translations from Tanzil.net. Indonesian translation from QuranEnc.com (Encyclopedia of the Noble Quran)."
+msgstr "النص العربي من Tanzil.net. الترجمات الإنجليزية والفرنسية والإسبانية والتركية من Tanzil.net. الترجمة الإندونيسية من QuranEnc.com (موسوعة القرآن الكريم)."
 
-#: src/main.rs:423 src/quran.rs:2026
+#: src/main.rs:428 src/quran.rs:2026
 msgid ""
 "No translation of Quran can be a hundred percent accurate, nor it can be "
 "used as a replacement of the Quran text. We got Quran translations from "
-"Tanzil.net website, we cannot guarantee their authenticity and/or accuracy. "
-"Please use them at your own discretion."
+"Tanzil.net and QuranEnc.com websites, we cannot guarantee their authenticity "
+"and/or accuracy. Please use them at your own discretion."
 msgstr ""
 "لا يمكن لأي ترجمة للقرآن الكريم أن تكون دقيقة بنسبة مئة بالمئة، ولا يمكن "
-"استخدامها كبديل عن نص القرآن. حصلنا على الترجمات من موقع Tanzil.net، ولا "
-"نضمن صحتها أو دقتها. يرجى استخدامها على مسؤوليتك الخاصة."
+"استخدامها كبديل عن نص القرآن. حصلنا على الترجمات من موقعي Tanzil.net و"
+"QuranEnc.com، ولا نضمن صحتها أو دقتها. يرجى استخدامها على مسؤوليتك الخاصة."
 
 # =============================================================================
 # SECTION 13: ADKAR - CATEGORIES
@@ -1399,7 +1408,7 @@ msgid "translator-credits"
 msgstr "جلال وكيد"
 
 #: src/main.rs:402
-msgid "Auto mode: GeoClue (system). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic."
+msgid "Auto mode: XDG Desktop Portal (GeoClue). City search: Nominatim (OpenStreetMap). Manual mode: zero network traffic."
 msgstr "الوضع التلقائي: GeoClue (النظام). البحث عن المدن: Nominatim (OpenStreetMap). الوضع اليدوي: بدون استهلاك بيانات."
 
 #: src/main.rs:408
@@ -1457,6 +1466,10 @@ msgstr "الإسبانية"
 #: src/pages.rs:271 src/pages.rs:401 src/welcome.rs:304
 msgid "Turkish"
 msgstr "التركية"
+
+#: src/settings_ui.rs:254 src/settings_ui.rs:1649 src/welcome.rs:122 src/welcome.rs:393
+msgid "Indonesian"
+msgstr "الإندونيسية"
 
 #: src/pages.rs:275 src/pages.rs:393 src/welcome.rs:293 src/welcome.rs:294
 msgid "Language"

@@ -251,6 +251,7 @@ pub fn setup_settings_ui<'a>(
         &tr("French", &lang_val),
         &tr("Spanish", &lang_val),
         &tr("Turkish", &lang_val),
+        &tr("Indonesian", &lang_val),
     ]);
     let lang_row = ComboRow::builder()
         .title(tr("Language", &lang_val))
@@ -263,6 +264,7 @@ pub fn setup_settings_ui<'a>(
         "fr" => lang_row.set_selected(3),
         "es" => lang_row.set_selected(4),
         "tr" => lang_row.set_selected(5),
+        "id" => lang_row.set_selected(6),
         _ => lang_row.set_selected(0),
     }
 
@@ -1644,6 +1646,7 @@ pub fn update_settings_ui_lang(ctx: &SettingsUiContext, lang: &str) {
         tr("French", lang),
         tr("Spanish", lang),
         tr("Turkish", lang),
+        tr("Indonesian", lang),
     ];
     let lang_refs: Vec<&str> = lang_items.iter().map(|s| s.as_str()).collect();
     ctx.lang_model
